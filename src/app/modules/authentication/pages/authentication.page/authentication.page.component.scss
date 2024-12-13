@@ -1,0 +1,19 @@
+:host {
+	display: block;
+}
+
+.auth-box {
+	width: 30%;
+	margin: 10% auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	.header {
+		width: 100%;
+		margin-bottom: 1em;
+	}
+	.input {
+		width: 100%;
+	}
+}
