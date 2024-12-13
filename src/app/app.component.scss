@@ -1,5 +1,33 @@
 #main {
 	width: 100vw;
-	height: 95vh;
+	height: 100vh;
 	overflow-y: auto;
+	.toolbar {
+		background-color: rgb(64, 64, 167);
+		color: white;
+	}
+	.sidenav {
+		width: 15%;
+		height: 100%;
+		background-color: gainsboro;
+		border-radius: 0.5em;
+		overflow-y: auto;
+	}
+	.link-item {
+		width: 90%;
+		text-align: left;
+		margin: 0.5em auto;
+		background: none;
+		border-radius: 0.3em;
+		.link {
+			text-decoration: none;
+			color: rgb(46, 46, 46);
+		}
+	}
+	.link-item:hover {
+		background-color: rgb(64, 64, 167);
+		.link {
+			color: white;
+		}
+	}
 }

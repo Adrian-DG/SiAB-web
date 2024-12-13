@@ -1,5 +1,35 @@
 <div id="main">
-	<header></header>
-	<aside></aside>
-	<main><router-outlet /></main>
+	<mat-toolbar class="toolbar">
+		<button mat-icon-button (click)="sidenav.toggle()">
+			<mat-icon style="color: white">menu</mat-icon>
+		</button>
+		<span>SiAB</span>
+		<span></span>
+	</mat-toolbar>
+	<mat-sidenav-container
+		class="sidenav-container"
+		style="height: 85%; margin: 1em 0.5em"
+	>
+		<mat-sidenav
+			#sidenav
+			mode="side"
+			[(opened)]="isVisible"
+			class="sidenav"
+			[autoFocus]="true"
+			[position]="'start'"
+		>
+			<mat-list>
+				@for (item of modules; track $index) {
+				<mat-list-item class="link-item">
+					<a [routerLink]="item.url" class="link">
+						<span>{{ item.name }}</span>
+					</a>
+				</mat-list-item>
+				}
+			</mat-list>
+		</mat-sidenav>
+		<mat-sidenav-content style="position: static">
+			<router-outlet></router-outlet>
+		</mat-sidenav-content>
+	</mat-sidenav-container>
 </div>
