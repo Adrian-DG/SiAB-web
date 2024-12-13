@@ -2,6 +2,13 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
 	{
+		path: 'mantenimientos',
+		loadComponent: () =>
+			import('./Shared/pages/miscelaneo/miscelaneo.component').then(
+				(c) => c.MiscelaneoComponent
+			),
+	},
+	{
 		path: 'authentication',
 		loadChildren: () =>
 			import('./modules/authentication/authentication.routes').then(

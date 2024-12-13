@@ -1,0 +1,28 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { IUrlOption } from '../../Models/IUrlOption.model';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
+
+@Component({
+	selector: 'app-miscelaneo',
+	standalone: true,
+	imports: [RouterModule, MatButtonModule],
+	templateUrl: './miscelaneo.component.html',
+	styleUrl: './miscelaneo.component.scss',
+	changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class MiscelaneoComponent {
+	modules: IUrlOption[] = [
+		{ url: 'articulos', name: 'Articulos', icon: '' },
+		{ url: 'categorias', name: 'Categorias', icon: '' },
+		{ url: 'tipos', name: 'Tipos', icon: '' },
+		{ url: 'subtipos', name: 'Subtipos', icon: '' },
+		{ url: 'series', name: 'Series', icon: '' },
+		{ url: 'marcas', name: 'Marcas', icon: '' },
+		{ url: 'modelos', name: 'Modelos', icon: '' },
+		{ url: 'calibres', name: 'Calibres', icon: '' },
+		{ url: 'propiedades', name: 'Propiedades', icon: '' },
+		{ url: 'estado-armas', name: 'Estado de Armas', icon: '' },
+		{ url: 'depositos', name: 'Depositos', icon: '' },
+	];
+}
