@@ -1,0 +1,24 @@
+<div class="title-group">
+	<div class="top">
+		<div class="left">
+			<mat-card-title-group>
+				<mat-card-title>
+					<h1 class="title">{{ title }}</h1>
+				</mat-card-title>
+				<mat-card-subtitle>
+					<p class="description">A continuación, {{ description }}</p>
+				</mat-card-subtitle>
+			</mat-card-title-group>
+		</div>
+		<div class="right">
+			<button mat-flat-button>
+				<mat-icon>add</mat-icon>
+				<span>Agregar</span>
+			</button>
+		</div>
+	</div>
+	<mat-form-field class="search">
+		<mat-label>Buscar</mat-label>
+		<input type="text" matInput [formControl]="searchForm" />
+	</mat-form-field>
+</div>

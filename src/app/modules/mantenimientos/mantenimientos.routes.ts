@@ -2,6 +2,13 @@ import { Route } from '@angular/router';
 
 export const mantenimientosRoutes: Route[] = [
 	{
+		path: 'marcas',
+		loadComponent: () =>
+			import('./pages/marcas/marcas.page.component').then(
+				(c) => c.MarcasPageComponent
+			),
+	},
+	{
 		path: '',
 		pathMatch: 'full',
 		loadComponent: () =>

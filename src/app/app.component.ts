@@ -25,7 +25,7 @@ import { MatMenuModule } from '@angular/material/menu';
 	styleUrl: './app.component.scss',
 })
 export class AppComponent {
-	isVisible: boolean = false;
+	isVisible: boolean = true;
 	modules: IUrlOption[] = [
 		{ url: 'link', name: 'Estadisticas', icon: 'chevron_right' },
 		{ url: 'link', name: 'Procesos', icon: 'chevron_right' },

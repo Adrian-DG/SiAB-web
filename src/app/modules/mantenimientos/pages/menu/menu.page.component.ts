@@ -25,4 +25,8 @@ export class MenuPageComponent {
 		{ url: 'estado-armas', name: 'Estado de Armas', icon: '' },
 		{ url: 'depositos', name: 'Depositos', icon: '' },
 	];
+
+	search(event: Event): void {
+		console.log(event);
+	}
 }

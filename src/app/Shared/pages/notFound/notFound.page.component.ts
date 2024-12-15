@@ -10,4 +10,4 @@ import { MatCardModule } from '@angular/material/card';
 	styleUrl: './notFound.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotFoundComponent {}
+export class NotFoundPageComponent {}

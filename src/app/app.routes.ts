@@ -19,7 +19,7 @@ export const routes: Routes = [
 		path: '404',
 		loadComponent: () =>
 			import('./Shared/pages/notFound/notFound.page.component').then(
-				(c) => c.NotFoundComponent
+				(c) => c.NotFoundPageComponent
 			),
 	},
 	{
