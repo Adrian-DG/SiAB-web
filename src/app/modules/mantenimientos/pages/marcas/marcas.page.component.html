@@ -8,9 +8,40 @@
 		</app-page-intro>
 	</card-header>
 	<card-content>
-		<h1>Contenido de la página</h1>
+		<table mat-table [dataSource]="[]">
+			<ng-container matColumnDef="id">
+				<th mat-header-cell *matHeaderCellDef>Id</th>
+				<td mat-cell *matCellDef="let element">{{ element.Id }}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="marca">
+				<th mat-header-cell *matHeaderCellDef>Marca</th>
+				<td mat-cell *matCellDef="let element">{{ element.Id }}</td>
+			</ng-container>
+
+			<ng-container matColumnDef="acciones">
+				<th mat-header-cell *matHeaderCellDef>Acciones</th>
+				<td mat-cell *matCellDef="let element"></td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr
+				mat-row
+				*matRowDef="let element; columns: displayedColumns"
+			></tr>
+
+			<tr class="mat-row" *matNoDataRow>
+				<td class="mat-cell" colspan="3">
+					<h4 style="text-align: center">No hay datos</h4>
+				</td>
+			</tr>
+		</table>
 	</card-content>
 	<card-footer>
-		<h1>Footer de la página</h1>
-	</card-footer>
+		<app-page-paginator
+			[length]="10"
+			[pageSize]="1"
+			(page)="loadData($event)"
+		></app-page-paginator
+	></card-footer>
 </app-module-index>
