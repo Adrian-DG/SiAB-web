@@ -3,9 +3,9 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
 	{
 		path: 'mantenimientos',
-		loadComponent: () =>
-			import('./Shared/pages/miscelaneo/miscelaneo.component').then(
-				(c) => c.MiscelaneoComponent
+		loadChildren: () =>
+			import('./modules/mantenimientos/mantenimientos.routes').then(
+				(m) => m.mantenimientosRoutes
 			),
 	},
 	{

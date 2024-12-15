@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IUrlOption } from '../../Models/IUrlOption.model';
-import { MatButtonModule } from '@angular/material/button';
+import { IUrlOption } from '../../../../Shared/Models/IUrlOption.model';
 import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-	selector: 'app-miscelaneo',
+	selector: 'app-menu.page',
 	standalone: true,
 	imports: [RouterModule, MatButtonModule],
-	templateUrl: './miscelaneo.component.html',
-	styleUrl: './miscelaneo.component.scss',
+	templateUrl: './menu.page.component.html',
+	styleUrl: './menu.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MiscelaneoComponent {
+export class MenuPageComponent {
 	modules: IUrlOption[] = [
 		{ url: 'articulos', name: 'Articulos', icon: '' },
 		{ url: 'categorias', name: 'Categorias', icon: '' },
