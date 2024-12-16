@@ -29,9 +29,9 @@ export class MarcasPageComponent
 	extends BaseListResource<INamedEntity>
 	implements AfterViewInit
 {
-	title = 'Marcas';
-	description = 'mantenimiento de marcas.';
-	displayedColumns: string[] = ['id', 'marca', 'acciones'];
+	override title: string = 'Marcas';
+	override description: string = 'Listado de marcas';
+	override displayedColumns: string[] = ['id', 'nombre', 'acciones'];
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -43,33 +43,13 @@ export class MarcasPageComponent
 		this.onLoadData();
 	}
 
-	override onSearch(event: string): void {
-		this.filters$.set({
-			page: 1,
-			size: 10,
-			searchTerm: event,
-		});
-
-		this.onLoadData();
-	}
-
-	override onPaginate(event: PageEvent): void {
-		this.filters$.set({
-			page: event.pageIndex + 1,
-			size: event.pageSize,
-			searchTerm: this.filters$().searchTerm,
-		});
-
-		this.onLoadData();
-	}
-
 	override onDelete(event: any): void {
 		throw new Error('Method not implemented.');
 	}
 
 	override onLoadData(): void {
 		this._marcasService
-			.get(this.filters$())
+			.get<INamedEntity>(this.filters$())
 			.subscribe((response: IPagedData<INamedEntity>) => {
 				this.records$.set(response.rows);
 				this.totalCount$.set(response.totalCount);

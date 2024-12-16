@@ -8,6 +8,9 @@ import {
 import { PageEvent } from '@angular/material/paginator';
 
 export abstract class BaseListResource<T> {
+	abstract title: string;
+	abstract description: string;
+	abstract displayedColumns: string[];
 	protected filters$ = signal<IPaginationFilter>({
 		page: 1,
 		size: 10,
@@ -36,9 +39,23 @@ export abstract class BaseListResource<T> {
 	// 	);
 	// }
 
-	abstract onSearch(event: string): void;
+	onSearch(event: string): void {
+		this.filters$.set({
+			page: 1,
+			size: 10,
+			searchTerm: event,
+		});
 
-	abstract onPaginate(event: PageEvent): void;
+		this.onLoadData();
+	}
+
+	onPaginate(event: PageEvent): void {
+		this.filters$.set({
+			page: event.pageIndex + 1,
+			size: event.pageSize,
+			searchTerm: this.filters$().searchTerm,
+		});
+	}
 
 	abstract onDelete(event: any): void;
 

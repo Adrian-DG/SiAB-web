@@ -39,8 +39,8 @@
 	</card-content>
 	<card-footer>
 		<app-page-paginator
-			[length]="10"
-			[pageSize]="1"
+			[length]="totalCount$()"
+			[pageSize]="filters$().size"
 			(page)="onPaginate($event)"
 		></app-page-paginator
 	></card-footer>

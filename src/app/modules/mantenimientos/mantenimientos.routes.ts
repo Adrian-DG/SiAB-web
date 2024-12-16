@@ -9,6 +9,13 @@ export const mantenimientosRoutes: Route[] = [
 			),
 	},
 	{
+		path: 'modelos',
+		loadComponent: () =>
+			import('./pages/modelos/modelos.page.component').then(
+				(c) => c.ModelosPageComponent
+			),
+	},
+	{
 		path: '',
 		pathMatch: 'full',
 		loadComponent: () =>

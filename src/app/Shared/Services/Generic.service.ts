@@ -26,8 +26,8 @@ export abstract class GenericService {
 			.set('searchTerm', filters.searchTerm ?? '');
 	}
 
-	get(filters: IPaginationFilter) {
-		return this.$http.get<IPagedData<INamedEntity>>(this.endPoint, {
+	get<T>(filters: IPaginationFilter) {
+		return this.$http.get<IPagedData<T>>(this.endPoint, {
 			params: this.getPaginationParams(filters),
 		});
 	}
