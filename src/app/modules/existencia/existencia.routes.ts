@@ -4,7 +4,7 @@ export const existenciaRoutes: Route[] = [
 	{
 		path: 'existencia',
 		loadComponent: () =>
-			import('./pages/index/index.component').then(
+			import('./pages/index/index.page.component').then(
 				(m) => m.IndexComponent
 			),
 	},

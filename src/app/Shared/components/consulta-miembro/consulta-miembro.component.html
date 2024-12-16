@@ -1,0 +1,67 @@
+<mat-card class="container">
+	<div class="row">
+		<div class="picture">
+			<img
+				[src]="fotoMiembro"
+				alt="Foto de perfil"
+				style="width: 100%; height: auto"
+			/>
+		</div>
+		<div class="info">
+			<div class="row">
+				<div class="col">
+					<mat-form-field class="input">
+						<mat-label>Cédula</mat-label>
+						<input
+							matInput
+							[value]="miembro?.cedula"
+							[readonly]="true"
+						/>
+					</mat-form-field>
+					<mat-form-field class="input">
+						<mat-label>Rango</mat-label>
+						<input
+							matInput
+							[value]="rangoProfoseion"
+							[readonly]="true"
+						/>
+					</mat-form-field>
+					<mat-form-field class="input">
+						<mat-label>Nombre completo</mat-label>
+						<input
+							matInput
+							[value]="miembro?.nombreApellidoCompleto"
+							[readonly]="true"
+						/>
+					</mat-form-field>
+				</div>
+				<div class="col">
+					<mat-form-field class="input">
+						<mat-label>Institución</mat-label>
+						<input
+							matInput
+							[value]="miembro?.institucion"
+							[readonly]="true"
+						/>
+					</mat-form-field>
+					<mat-form-field class="input">
+						<mat-label>Departamento</mat-label>
+						<input
+							matInput
+							[value]="miembro?.departamento"
+							[readonly]="true"
+						/>
+					</mat-form-field>
+					<mat-form-field class="input">
+						<mat-label>Cargo</mat-label>
+						<input
+							matInput
+							[value]="miembro?.cargo"
+							[readonly]="true"
+						/>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+	</div>
+</mat-card>
