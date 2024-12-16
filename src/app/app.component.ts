@@ -28,6 +28,7 @@ export class AppComponent {
 	isVisible: boolean = true;
 	modules: IUrlOption[] = [
 		{ url: 'link', name: 'Estadisticas', icon: 'chevron_right' },
+		{ url: 'existencia', name: 'Existencia', icon: 'chevron_right' },
 		{ url: 'link', name: 'Procesos', icon: 'chevron_right' },
 		{
 			url: 'mantenimientos',

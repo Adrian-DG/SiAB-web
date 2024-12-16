@@ -2,6 +2,13 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
 	{
+		path: 'existencia',
+		loadChildren: () =>
+			import('./modules/existencia/existencia.routes').then(
+				(m) => m.existenciaRoutes
+			),
+	},
+	{
 		path: 'mantenimientos',
 		loadChildren: () =>
 			import('./modules/mantenimientos/mantenimientos.routes').then(
