@@ -31,4 +31,8 @@ export abstract class GenericService {
 			params: this.getPaginationParams(filters),
 		});
 	}
+
+	delete(id: number) {
+		return this.$http.delete(`${this.endPoint}/${id}`);
+	}
 }

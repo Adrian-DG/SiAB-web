@@ -13,6 +13,8 @@ import { PageIntroComponent } from '../../../../Shared/components/page-intro/pag
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
 
 @Component({
 	selector: 'app-modelos.page',
@@ -20,6 +22,7 @@ import { MatTableModule } from '@angular/material/table';
 	imports: [
 		PageIntroComponent,
 		PagePaginatorComponent,
+		CrudActionsComponent,
 		MatCardModule,
 		MatTableModule,
 	],
@@ -37,8 +40,11 @@ export class ModelosPageComponent
 	override description: string = 'Listado de modelos';
 	override displayedColumns: string[] = ['id', 'nombre', 'marca', 'acciones'];
 
-	constructor(private _modelosService: ModelosService) {
-		super();
+	constructor(
+		protected override _confirmDialog: MatDialog,
+		private _modelosService: ModelosService
+	) {
+		super(_confirmDialog);
 	}
 
 	ngAfterViewInit(): void {
@@ -46,6 +52,17 @@ export class ModelosPageComponent
 	}
 
 	override onDelete(event: any): void {
+		this.showConfirmDialog('Se eliminará el registro seleccionado');
+		this.confirmDialogRef.afterClosed().subscribe((result) => {
+			if (result) {
+				this._modelosService.delete(event as number).subscribe(() => {
+					this.onLoadData();
+				});
+			}
+		});
+	}
+
+	override onEdit(event: any): void {
 		throw new Error('Method not implemented.');
 	}
 

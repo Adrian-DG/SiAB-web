@@ -14,6 +14,7 @@ import { BaseListResource } from '../../../../Shared/helpers/base-list-resource.
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { MarcaService } from '../../services/marca.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
 	selector: 'app-marcas',
@@ -35,8 +36,11 @@ export class MarcasPageComponent
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 
-	constructor(private _marcasService: MarcaService) {
-		super();
+	constructor(
+		protected override _confirmDialog: MatDialog,
+		private _marcasService: MarcaService
+	) {
+		super(_confirmDialog);
 	}
 
 	ngAfterViewInit(): void {
@@ -44,6 +48,10 @@ export class MarcasPageComponent
 	}
 
 	override onDelete(event: any): void {
+		throw new Error('Method not implemented.');
+	}
+
+	override onEdit(event: any): void {
 		throw new Error('Method not implemented.');
 	}
 

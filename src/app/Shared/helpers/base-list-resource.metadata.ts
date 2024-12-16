@@ -6,6 +6,7 @@ import {
 	MatDialogRef,
 } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 
 export abstract class BaseListResource<T> {
 	abstract title: string;
@@ -26,18 +27,19 @@ export abstract class BaseListResource<T> {
 		role: 'alertdialog',
 	};
 
-	// protected confirmDialogRef!: MatDialogRef<ConfirmDialogComponent>;
+	protected confirmDialogRef!: MatDialogRef<ConfirmDialogComponent>;
 
-	// constructor(protected _confirmDialog: MatDialog) {}
+	constructor(protected _confirmDialog: MatDialog) {}
 
-	// showConfirmDialog(): void {
-	// 	this.confirmDialogRef = this._confirmDialog.open(
-	// 		ConfirmDialogComponent,
-	// 		{
-	// 			...this.dialogConfig,
-	// 		}
-	// 	);
-	// }
+	protected showConfirmDialog(info: string): void {
+		this.confirmDialogRef = this._confirmDialog.open(
+			ConfirmDialogComponent,
+			{
+				...this.dialogConfig,
+				data: { action: info },
+			}
+		);
+	}
 
 	onSearch(event: string): void {
 		this.filters$.set({
@@ -56,6 +58,8 @@ export abstract class BaseListResource<T> {
 			searchTerm: this.filters$().searchTerm,
 		});
 	}
+
+	abstract onEdit(event: any): void;
 
 	abstract onDelete(event: any): void;
 

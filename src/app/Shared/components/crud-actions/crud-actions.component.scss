@@ -1,0 +1,12 @@
+:host {
+	display: block;
+}
+
+.crud-actions {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-bottom: 20px;
+}
