@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IUrlOption } from '../../../../Shared/Models/IUrlOption.model';
+import { IUrlOption } from '../../../../Shared/Models/iurl-option.model';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
