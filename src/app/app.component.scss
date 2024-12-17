@@ -1,7 +1,6 @@
 #main {
 	width: 100vw;
 	height: 100vh;
-	overflow-y: auto;
 	.toolbar {
 		background-color: rgb(64, 64, 167);
 		color: white;
@@ -11,7 +10,6 @@
 		height: 100%;
 		background-color: gainsboro;
 		border-radius: 0.5em;
-		overflow-y: auto;
 	}
 	.link-item {
 		width: 90%;

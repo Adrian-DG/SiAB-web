@@ -1,12 +1,25 @@
 <div class="container">
-	<h1>Cargo / Descargo de Armas</h1>
-	<mat-divider></mat-divider>
+	<div style="width: 100%">
+		<h1><mat-icon></mat-icon>Cargo y Descargo de Artículos</h1>
+		<mat-divider></mat-divider>
+	</div>
 
 	<!-- Formulario 53 -->
-
 	<fieldset>
 		<legend>Formulario 53 : (colocar secuencia)</legend>
 		<div class="column">
+			<div class="row">
+				<mat-radio-group>
+					<mat-radio-button value="1">Miembro</mat-radio-button>
+					<mat-radio-button value="2">Depósito</mat-radio-button>
+					<mat-radio-button value="3">Civil</mat-radio-button>
+				</mat-radio-group>
+				<mat-radio-group>
+					<mat-radio-button value="1">Miembro</mat-radio-button>
+					<mat-radio-button value="2">Depósito</mat-radio-button>
+					<mat-radio-button value="3">Civil</mat-radio-button>
+				</mat-radio-group>
+			</div>
 			<div class="row">
 				<mat-form-field class="input">
 					<mat-label>Débito (recibe)</mat-label>
@@ -117,6 +130,54 @@
 					<mat-label>Cantidad</mat-label>
 					<input matInput type="number" />
 				</mat-form-field>
+			</div>
+			<div
+				style="
+					width: 100%;
+					min-height: 8em;
+					max-height: 10em;
+					height: auto;
+					overflow-y: auto;
+				"
+			>
+				<app-cargo-descargo-articulos-table
+					[data]="articulosSelected"
+					(delete)="onDeleteItem($event)"
+				></app-cargo-descargo-articulos-table>
+			</div>
+
+			<div class="row">
+				<mat-form-field class="input">
+					<mat-label>Encargado de Armas</mat-label>
+					<input matInput type="text" />
+				</mat-form-field>
+				<mat-form-field class="input">
+					<mat-label>Encargado de Depósitos</mat-label>
+					<input matInput type="text" />
+				</mat-form-field>
+			</div>
+
+			<div class="row">
+				<mat-form-field class="input">
+					<mat-label>Entrega</mat-label>
+					<input matInput type="text" />
+				</mat-form-field>
+				<mat-form-field class="input">
+					<mat-label>Recibe</mat-label>
+					<input matInput type="text" />
+				</mat-form-field>
+				<mat-form-field class="input">
+					<mat-label>Firma</mat-label>
+					<input matInput type="text" />
+				</mat-form-field>
+				<button
+					mat-flat-button
+					color="primary"
+					style="width: 30%; top: -0.8em"
+				>
+					<mat-icon>save</mat-icon>
+					Guardar
+				</button>
 			</div>
 		</div>
 	</fieldset>

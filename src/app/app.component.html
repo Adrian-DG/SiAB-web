@@ -22,7 +22,7 @@
 	</mat-toolbar>
 	<mat-sidenav-container
 		class="sidenav-container"
-		style="height: 85%; margin: 1em 0.5em"
+		style="height: 90%; margin: 1em 0.5em"
 	>
 		<mat-sidenav
 			#sidenav
@@ -42,7 +42,9 @@
 				}
 			</mat-list>
 		</mat-sidenav>
-		<mat-sidenav-content style="padding: 1em 2em">
+		<mat-sidenav-content
+			style="padding: 1em 2em; height: 95%; overflow-y: auto"
+		>
 			<router-outlet></router-outlet>
 		</mat-sidenav-content>
 	</mat-sidenav-container>
