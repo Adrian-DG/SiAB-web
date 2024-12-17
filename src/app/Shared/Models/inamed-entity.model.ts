@@ -1,4 +1,4 @@
 export interface INamedEntity {
 	id: number;
-	name: string;
+	nombre: string;
 }
