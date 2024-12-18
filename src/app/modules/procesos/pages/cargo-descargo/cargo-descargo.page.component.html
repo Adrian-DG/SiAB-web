@@ -8,35 +8,58 @@
 	<fieldset>
 		<legend>Formulario 53 : (colocar secuencia)</legend>
 		<div class="column">
+			<!-- Tipo cargo-descargo -->
+
 			<div class="row">
-				<mat-radio-group>
-					<mat-radio-button value="1">Miembro</mat-radio-button>
-					<mat-radio-button value="2">Depósito</mat-radio-button>
-					<mat-radio-button value="3">Civil</mat-radio-button>
+				<mat-radio-group
+					style="width: 100%"
+					[required]="true"
+					[(ngModel)]="cargoDescargoObj.debito"
+				>
+					<mat-radio-button [value]="tipoCargoDescargo.MIEMBRO"
+						>Miembro</mat-radio-button
+					>
+					<mat-radio-button [value]="tipoCargoDescargo.S4"
+						>Depósito</mat-radio-button
+					>
+					<mat-radio-button [value]="tipoCargoDescargo.CIVIL"
+						>Civil</mat-radio-button
+					>
 				</mat-radio-group>
-				<mat-radio-group>
-					<mat-radio-button value="1">Miembro</mat-radio-button>
-					<mat-radio-button value="2">Depósito</mat-radio-button>
-					<mat-radio-button value="3">Civil</mat-radio-button>
+				<mat-radio-group
+					style="width: 100%"
+					[required]="true"
+					[(ngModel)]="cargoDescargoObj.credito"
+				>
+					<mat-radio-button [value]="tipoCargoDescargo.MIEMBRO"
+						>Miembro</mat-radio-button
+					>
+					<mat-radio-button [value]="tipoCargoDescargo.S4"
+						>Depósito</mat-radio-button
+					>
+					<mat-radio-button [value]="tipoCargoDescargo.CIVIL"
+						>Civil</mat-radio-button
+					>
 				</mat-radio-group>
 			</div>
+
 			<div class="row">
 				<mat-form-field class="input">
 					<mat-label>Débito (recibe)</mat-label>
 					<input
 						type="text"
-						placeholder="Pick one"
 						matInput
 						[formControl]="debitoControl"
-						[matAutocomplete]="auto"
+						[matAutocomplete]="debito"
 					/>
 					<mat-autocomplete
 						autoActiveFirstOption
-						#auto="matAutocomplete"
+						#debito="matAutocomplete"
+						[displayWith]="displayDebitoCreditoString"
 					>
-						@for (item of debitosList(); track item.id) {
+						@for (item of debitosList(); track $index) {
 						<mat-option [value]="item">{{
-							item.nombre
+							item.param2
 						}}</mat-option>
 						}
 					</mat-autocomplete>
@@ -46,18 +69,18 @@
 					<mat-label>Crébito (entrega)</mat-label>
 					<input
 						type="text"
-						placeholder="Pick one"
 						matInput
-						[formControl]="debitoControl"
-						[matAutocomplete]="auto"
+						[formControl]="creditosControl"
+						[matAutocomplete]="credito"
 					/>
 					<mat-autocomplete
 						autoActiveFirstOption
-						#auto="matAutocomplete"
+						#credito="matAutocomplete"
+						[displayWith]="displayDebitoCreditoString"
 					>
-						@for (item of creditosList(); track item.id) {
+						@for (item of creditosList(); track $index) {
 						<mat-option [value]="item">{{
-							item.nombre
+							item.param2
 						}}</mat-option>
 						}
 					</mat-autocomplete>
@@ -174,6 +197,7 @@
 					mat-flat-button
 					color="primary"
 					style="width: 30%; top: -0.8em"
+					(click)="createCargoDescargo()"
 				>
 					<mat-icon>save</mat-icon>
 					Guardar
