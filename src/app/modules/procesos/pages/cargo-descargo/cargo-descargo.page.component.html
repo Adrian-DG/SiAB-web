@@ -1,4 +1,4 @@
-<div class="container">
+<form class="container" [formGroup]="cargoDescargoForm">
 	<div style="width: 100%">
 		<h1><mat-icon></mat-icon>Cargo y Descargo de Artículos</h1>
 		<mat-divider></mat-divider>
@@ -14,7 +14,7 @@
 				<mat-radio-group
 					style="width: 100%"
 					[required]="true"
-					[(ngModel)]="cargoDescargoObj.debito"
+					formControlName="tipoCargoDebito"
 				>
 					<mat-radio-button [value]="tipoCargoDescargo.MIEMBRO"
 						>Miembro</mat-radio-button
@@ -29,7 +29,7 @@
 				<mat-radio-group
 					style="width: 100%"
 					[required]="true"
-					[(ngModel)]="cargoDescargoObj.credito"
+					formControlName="tipoCargoCredito"
 				>
 					<mat-radio-button [value]="tipoCargoDescargo.MIEMBRO"
 						>Miembro</mat-radio-button
@@ -49,13 +49,13 @@
 					<input
 						type="text"
 						matInput
-						[formControl]="debitoControl"
+						formControlName="debito"
 						[matAutocomplete]="debito"
 					/>
 					<mat-autocomplete
 						autoActiveFirstOption
 						#debito="matAutocomplete"
-						[displayWith]="displayDebitoCreditoString"
+						[displayWith]="displaySelectedFormated"
 					>
 						@for (item of debitosList(); track $index) {
 						<mat-option [value]="item">{{
@@ -70,13 +70,13 @@
 					<input
 						type="text"
 						matInput
-						[formControl]="creditosControl"
+						formControlName="credito"
 						[matAutocomplete]="credito"
 					/>
 					<mat-autocomplete
 						autoActiveFirstOption
 						#credito="matAutocomplete"
-						[displayWith]="displayDebitoCreditoString"
+						[displayWith]="displaySelectedFormated"
 					>
 						@for (item of creditosList(); track $index) {
 						<mat-option [value]="item">{{
@@ -90,25 +90,50 @@
 				<div class="row">
 					<mat-form-field class="input">
 						<mat-label>Oficio</mat-label>
-						<input matInput type="text" />
+						<input matInput type="text" formControlName="oficio" />
 					</mat-form-field>
 					<mat-form-field class="input">
 						<mat-label>No. Documento</mat-label>
-						<input matInput type="text" />
+						<input
+							matInput
+							type="text"
+							formControlName="noDocumento"
+						/>
 					</mat-form-field>
 					<mat-form-field class="input">
 						<mat-label>Fecha</mat-label>
 						<input matInput type="text" />
 					</mat-form-field>
 				</div>
-				<mat-form-field class="input">
+
+				<mat-form-field style="width: 50%">
 					<mat-label>Intendente</mat-label>
-					<input matInput type="text" [readonly]="true" />
+					<input
+						type="text"
+						matInput
+						formControlName="intendente"
+						[matAutocomplete]="intendente"
+					/>
+					<mat-autocomplete
+						autoActiveFirstOption
+						#intendente="matAutocomplete"
+						[displayWith]="displaySelectedFormated"
+					>
+						@for (item of intendentesList(); track $index) {
+						<mat-option [value]="item">{{
+							item.param2
+						}}</mat-option>
+						}
+					</mat-autocomplete>
 				</mat-form-field>
 			</div>
 			<mat-form-field style="width: 100%">
 				<mat-label>Observaciones</mat-label>
-				<textarea matInput type="text"></textarea>
+				<textarea
+					matInput
+					type="text"
+					formControlName="observacion"
+				></textarea>
 			</mat-form-field>
 		</div>
 	</fieldset>
@@ -119,7 +144,7 @@
 		<legend>Detalles de Artículos</legend>
 		<div class="column">
 			<div class="row">
-				<mat-form-field class="input">
+				<!-- <mat-form-field class="input">
 					<mat-label>Artículo</mat-label>
 					<input
 						type="text"
@@ -138,6 +163,11 @@
 						}}</mat-option>
 						}
 					</mat-autocomplete>
+				</mat-form-field> -->
+
+				<mat-form-field class="input">
+					<mat-label>Articulo</mat-label>
+					<input matInput type="number" />
 				</mat-form-field>
 
 				<mat-form-field class="input">
@@ -205,4 +235,4 @@
 			</div>
 		</div>
 	</fieldset>
-</div>
+</form>

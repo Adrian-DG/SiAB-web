@@ -26,8 +26,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { TipoCargoDescargoEnum } from '../../enums/tipo-cargo.enum';
 import { MiembroService } from '../../../existencia/services/miembro.service';
-import { IFilterDebitoCreditoResult } from '../../models/ifilter-debito-credito-result.model';
+import { IFilterMiembroResult } from '../../models/ifilter-miembro-result.model';
 import { IMiembroListDetail } from '../../../existencia/models/imiembro-list-deatil.model';
+import { DepositosService } from '../../../mantenimientos/services/depositos.service';
 
 @Component({
 	selector: 'app-cargo-descargo.page',
@@ -48,106 +49,132 @@ import { IMiembroListDetail } from '../../../existencia/models/imiembro-list-dea
 	templateUrl: './cargo-descargo.page.component.html',
 	styleUrl: './cargo-descargo.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	providers: [MiembroService, DepositosService],
 	schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CargoDescargoPageComponent implements AfterViewInit {
-	debitoControl = new FormControl('', Validators.required);
-	creditosControl = new FormControl('', Validators.required);
-	articuloControl = new FormControl('');
+	// Variables de control
 
-	cargoDescargoObj = {
-		tipoCargoDebito: this.tipoCargoDescargo.MIEMBRO,
-		tipoCargoCredito: this.tipoCargoDescargo.MIEMBRO,
-		debito: '',
-		credito: '',
-	};
+	debitosList = signal<IFilterMiembroResult[]>([]);
+	creditosList = signal<IFilterMiembroResult[]>([]);
+	intendentesList = signal<IFilterMiembroResult[]>([]);
+	//  Formulario de cargo descargo
 
-	debitosList = signal<IFilterDebitoCreditoResult[]>([]);
-	creditosList = signal<IFilterDebitoCreditoResult[]>([]);
+	cargoDescargoForm: FormGroup = new FormGroup({
+		tipoCargoDebito: new FormControl(
+			this.tipoCargoDescargo.MIEMBRO,
+			Validators.required
+		),
+		tipoCargoCredito: new FormControl(
+			this.tipoCargoDescargo.MIEMBRO,
+			Validators.required
+		),
+		debito: new FormControl('', Validators.required),
+		credito: new FormControl('', Validators.required),
+		oficio: new FormControl('', Validators.required),
+		noDocumento: new FormControl('', Validators.required),
+		intendente: new FormControl('', Validators.required),
+		observacion: new FormControl(''),
+	});
+
 	articulosList = signal<any[]>([]);
 	articulosSelected: IArticuloCargoDescargoInfo[] = [
 		{ id: 1, cantidad: 1, embalaje: 'Caja', articulo: 'Articulo 1' },
 	];
 
-	constructor(private _miembrosController: MiembroService) {}
+	constructor(
+		private _miembrosService: MiembroService,
+		private _depositosService: DepositosService
+	) {}
 
 	ngAfterViewInit(): void {
 		// TODO: Implementar busqueda de debitos y creditos
 
-		this.debitoControl.valueChanges.subscribe((value: string | null) => {
-			if (value && value !== '' && value.length > 5) {
-				this.getInfoDebito(
-					this.cargoDescargoObj.tipoCargoDebito,
-					value
-				);
+		this.cargoDescargoForm.controls['debito'].valueChanges.subscribe(
+			(value: string | null) => {
+				if (value && value !== '' && value.length > 5) {
+					const tipoDebito =
+						this.cargoDescargoForm.controls['tipoCargoDebito']
+							.value;
+					this.getInfoTipoCargo(tipoDebito, 'debito', value);
+				}
 			}
-		});
+		);
 
-		this.creditosControl.valueChanges.subscribe((value: string | null) => {
-			if (value && value !== '' && value.length > 5) {
-				this.getInfoCredito(
-					this.cargoDescargoObj.tipoCargoCredito,
-					value
-				);
+		this.cargoDescargoForm.controls['credito'].valueChanges.subscribe(
+			(value: string | null) => {
+				if (value && value !== '' && value.length > 5) {
+					const tipoCargo =
+						this.cargoDescargoForm.controls['tipoCargoCredito']
+							.value;
+					this.getInfoTipoCargo(tipoCargo, 'credito', value);
+				}
 			}
-		});
+		);
 
-		this.articuloControl.valueChanges.subscribe((value) => {
-			console.log(value);
-		});
+		this.cargoDescargoForm.controls['intendente'].valueChanges.subscribe(
+			(value: string | null) => {
+				if (value && value !== '' && value.length > 5) {
+					this._miembrosService
+						.getMiembrosByCedula(value)
+						.subscribe((miembros: IMiembroListDetail[]) => {
+							this.intendentesList.set(
+								miembros.map((miembro) => {
+									return {
+										param1: miembro.cedula,
+										param2: miembro.nombreApellidoCompleto,
+									};
+								})
+							);
+						});
+				}
+			}
+		);
+
+		// this.cargoDescargoForm.controls[''].valueChanges.subscribe((value) => {
+		// 	console.log(value);
+		// });
 	}
 
 	get tipoCargoDescargo() {
 		return TipoCargoDescargoEnum;
 	}
 
-	displayDebitoCreditoString(result: IFilterDebitoCreditoResult): string {
+	displaySelectedFormated(result: IFilterMiembroResult): string {
 		return result.param2;
 	}
 
-	getInfoDebito(tipo: TipoCargoDescargoEnum, value: string) {
+	getInfoTipoCargo(
+		tipo: TipoCargoDescargoEnum,
+		forType: 'debito' | 'credito',
+		value: string
+	) {
 		switch (tipo) {
 			case TipoCargoDescargoEnum.MIEMBRO:
-				this._miembrosController
+				this._miembrosService
 					.getMiembrosByCedula(value)
 					.subscribe((miembros: IMiembroListDetail[]) => {
-						this.debitosList.set(
-							miembros.map((miembro) => {
-								return {
-									param1: miembro.cedula,
-									param2: miembro.nombreApellidoCompleto,
-								};
-							})
-						);
+						let data = miembros.map((miembro) => ({
+							param1: miembro.cedula,
+							param2: miembro.nombreApellidoCompleto,
+						}));
+						forType === 'debito'
+							? this.debitosList.set(data)
+							: this.creditosList.set(data);
 					});
 				break;
 			case TipoCargoDescargoEnum.S4:
-				// Buscar el deposito
-				break;
-			case TipoCargoDescargoEnum.CIVIL:
-				// Buscar el civil por cedula
-				break;
-		}
-	}
-
-	getInfoCredito(tipo: TipoCargoDescargoEnum, value: string) {
-		switch (tipo) {
-			case TipoCargoDescargoEnum.MIEMBRO:
-				this._miembrosController
-					.getMiembrosByCedula(value)
-					.subscribe((miembros: IMiembroListDetail[]) => {
-						this.creditosList.set(
-							miembros.map((miembro) => {
-								return {
-									param1: miembro.cedula,
-									param2: miembro.nombreApellidoCompleto,
-								};
-							})
-						);
+				this._depositosService
+					.getFilterDepositos(value)
+					.subscribe((depositos: INamedEntity[]) => {
+						let data = depositos.map((deposito) => ({
+							param1: deposito.id.toString(),
+							param2: deposito.nombre,
+						}));
+						forType === 'debito'
+							? this.debitosList.set(data)
+							: this.creditosList.set(data);
 					});
-				break;
-			case TipoCargoDescargoEnum.S4:
-				// Buscar el deposito
 				break;
 			case TipoCargoDescargoEnum.CIVIL:
 				// Buscar el civil por cedula
@@ -160,22 +187,6 @@ export class CargoDescargoPageComponent implements AfterViewInit {
 	}
 
 	createCargoDescargo() {
-		const debito = this.debitoControl.value;
-		const credito = this.creditosControl.value;
-
-		if (!debito || !credito) {
-			return;
-		}
-
-		console.log(debito, credito);
-
-		this.cargoDescargoObj.debito = (
-			debito as unknown as IFilterDebitoCreditoResult
-		).param1;
-		this.cargoDescargoObj.credito = (
-			credito as unknown as IFilterDebitoCreditoResult
-		).param1;
-
-		console.log(this.cargoDescargoObj);
+		console.log(this.cargoDescargoForm.value);
 	}
 }
