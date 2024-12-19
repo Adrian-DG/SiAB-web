@@ -27,8 +27,15 @@
 		</mat-form-field>
 
 		<mat-radio-group [(ngModel)]="tipoFiltro">
-			<mat-radio-button [value]="1">Cedula o Nombre</mat-radio-button>
-			<mat-radio-button [value]="2">Funcion</mat-radio-button>
+			<mat-radio-button [value]="tipoBusqueda.MIEMBRO"
+				>Militar</mat-radio-button
+			>
+			<mat-radio-button [value]="tipoBusqueda.FUNCION"
+				>Función</mat-radio-button
+			>
+			<mat-radio-button [value]="tipoBusqueda.CIVIL"
+				>Civil</mat-radio-button
+			>
 		</mat-radio-group>
 	</div>
 	@if(miembro()!==null) {
