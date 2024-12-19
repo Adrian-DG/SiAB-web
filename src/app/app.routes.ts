@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './Guards/auth.guard';
 
 export const routes: Routes = [
 	{
@@ -7,6 +8,7 @@ export const routes: Routes = [
 			import('./modules/procesos/procesos.routes').then(
 				(m) => m.procesosRoutes
 			),
+		canActivate: [authGuard],
 	},
 	{
 		path: 'existencia',
@@ -14,6 +16,7 @@ export const routes: Routes = [
 			import('./modules/existencia/existencia.routes').then(
 				(m) => m.existenciaRoutes
 			),
+		canActivate: [authGuard],
 	},
 	{
 		path: 'mantenimientos',
@@ -21,6 +24,7 @@ export const routes: Routes = [
 			import('./modules/mantenimientos/mantenimientos.routes').then(
 				(m) => m.mantenimientosRoutes
 			),
+		canActivate: [authGuard],
 	},
 	{
 		path: 'authentication',
