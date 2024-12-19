@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { AuthenticationService } from './modules/authentication/services/authentication.service';
 
 @Component({
 	selector: 'app-root',
@@ -23,9 +24,9 @@ import { MatMenuModule } from '@angular/material/menu';
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
+	providers: [AuthenticationService],
 })
 export class AppComponent {
-	isVisible: boolean = true;
 	modules: IUrlOption[] = [
 		{ url: 'link', name: 'Estadisticas', icon: 'chevron_right' },
 		{ url: 'existencia', name: 'Existencia', icon: 'chevron_right' },
@@ -36,4 +37,10 @@ export class AppComponent {
 			icon: 'chevron_right',
 		},
 	];
+
+	constructor(public _authService: AuthenticationService) {}
+
+	get isVisible(): boolean {
+		return this._authService.isAuthenticated();
+	}
 }

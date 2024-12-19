@@ -1,11 +1,16 @@
 <div id="main">
 	<mat-toolbar class="toolbar">
 		<mat-toolbar-row>
+			@if (isVisible) {
 			<button mat-icon-button (click)="sidenav.toggle()">
 				<mat-icon style="color: white">menu</mat-icon>
 			</button>
+			}
+
 			<span>SiAB</span>
 			<span style="width: 90%"></span>
+
+			@if (isVisible) {
 			<button mat-button [matMenuTriggerFor]="menu" style="color: white">
 				<span
 					>Username
@@ -18,6 +23,7 @@
 			<mat-menu #menu="matMenu" yPosition="below">
 				<button mat-menu-item>Cerrar Sesión</button>
 			</mat-menu>
+			}
 		</mat-toolbar-row>
 	</mat-toolbar>
 	<mat-sidenav-container
