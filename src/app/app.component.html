@@ -21,7 +21,9 @@
 				></span>
 			</button>
 			<mat-menu #menu="matMenu" yPosition="below">
-				<button mat-menu-item>Cerrar Sesión</button>
+				<button mat-menu-item (click)="onLogout()">
+					Cerrar Sesión
+				</button>
 			</mat-menu>
 			}
 		</mat-toolbar-row>

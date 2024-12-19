@@ -47,4 +47,8 @@ export class AppComponent {
 	get showUsername(): string {
 		return this._authService.showUsername();
 	}
+
+	onLogout() {
+		this._authService.logout();
+	}
 }

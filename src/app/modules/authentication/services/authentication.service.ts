@@ -64,4 +64,9 @@ export class AuthenticationService extends GenericService {
 				this.$router.navigateByUrl('/existencia');
 			});
 	}
+
+	logout() {
+		localStorage.removeItem('token');
+		this.$router.navigateByUrl('/authentication');
+	}
 }
