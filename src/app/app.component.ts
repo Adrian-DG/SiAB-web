@@ -43,4 +43,8 @@ export class AppComponent {
 	get isVisible(): boolean {
 		return this._authService.isAuthenticated();
 	}
+
+	get showUsername(): string {
+		return this._authService.showUsername();
+	}
 }
