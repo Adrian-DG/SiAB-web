@@ -18,6 +18,13 @@ import { MiembroService } from '../../services/miembro.service';
 import { IMiembroView } from '../../models/imiembro-view.model';
 import { IMiembroListDetail } from '../../models/imiembro-list-deatil.model';
 import { ConsultaMiembroComponent } from '../../../../Shared/components/consulta-miembro/consulta-miembro.component';
+import { JCEService } from '../../../../Shared/Services/JCE.service';
+
+export enum TipoBusqueda {
+	MIEMBRO = 1,
+	FUNCION = 2,
+	CIVIL = 3,
+}
 
 @Component({
 	selector: 'app-index',
@@ -34,7 +41,7 @@ import { ConsultaMiembroComponent } from '../../../../Shared/components/consulta
 	templateUrl: './index.page.component.html',
 	styleUrl: './index.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [MiembroService],
+	providers: [MiembroService, JCEService],
 })
 export class IndexComponent implements OnInit {
 	tipoFiltro: number = 1;
@@ -42,20 +49,36 @@ export class IndexComponent implements OnInit {
 	miembrosList = signal<IMiembroListDetail[]>([]);
 	miembro = signal<IMiembroView | null>(null);
 
-	constructor(private _miembroService: MiembroService) {}
+	constructor(
+		private _miembroService: MiembroService,
+		private _jceService: JCEService
+	) {}
 
 	ngOnInit(): void {
 		this.filtro.valueChanges.subscribe((value: string | null) => {
-			if (value && value !== '' && value.length >= 5) {
-				this.tipoFiltro === 1
-					? this.getMiembrosByCedula(value)
-					: this.getMiembrosByCargo(value);
+			if (this.tipoFiltro === this.tipoBusqueda.CIVIL) {
+				if (value && value !== '' && value.length >= 13)
+					this.geCivilByCedula(value);
+			} else {
+				if (value && value !== '' && value.length >= 5) {
+					this.tipoFiltro === 1
+						? this.getMiembrosByCedula(value)
+						: this.getMiembrosByCargo(value);
+				}
 			}
 		});
 	}
 
+	get tipoBusqueda() {
+		return TipoBusqueda;
+	}
+
 	get tipoFiltroPlaceholder(): string {
-		return this.tipoFiltro === 1 ? 'cédula o nombre' : 'cargo o función';
+		return this.tipoFiltro === this.tipoBusqueda.MIEMBRO
+			? 'cédula o nombre'
+			: this.tipoFiltro === this.tipoBusqueda.FUNCION
+			? 'cargo o función'
+			: 'cédula civil';
 	}
 
 	getMiembrosByCedula(cedula: string) {
@@ -75,6 +98,26 @@ export class IndexComponent implements OnInit {
 			.getMiembroByCedula(this.filtro.value as string)
 			.subscribe((miembro: IMiembroView) => {
 				this.miembro.set(miembro);
+			});
+	}
+
+	geCivilByCedula(event: any) {
+		this._jceService
+			.getCivilByCedula(this.filtro.value as string)
+			.subscribe((civil) => {
+				console.log(civil);
+				const obj = {
+					foto: civil.foto,
+					cedula: civil.cedula,
+					nombreApellidoCompleto: civil.nombreCompleto,
+					rango: 'Civil',
+					profesion: '',
+					institucion: '',
+					departamento: '',
+					cargo: '',
+				};
+
+				this.miembro.set({ ...obj } as IMiembroView);
 			});
 	}
 }
