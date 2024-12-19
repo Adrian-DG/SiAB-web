@@ -67,6 +67,7 @@ export class AuthenticationService extends GenericService {
 
 	logout() {
 		localStorage.removeItem('token');
+		this.isAuthenticated();
 		this.$router.navigateByUrl('/authentication');
 	}
 }
