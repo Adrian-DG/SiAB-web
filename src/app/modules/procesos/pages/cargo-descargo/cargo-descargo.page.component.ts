@@ -19,16 +19,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
-import { CargoDescargoArticulosTableComponent } from '../../components/cargo-descargo-articulos-table/cargo-descargo-articulos-table.component';
-import { IArticuloCargoDescargoInfo } from '../../models/iarticulo-cargo-descargo-info.model';
+import { IRegistroDebitoArticulo } from '../../models/iregistro-debito-articulo.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
-import { TipoCargoDescargoEnum } from '../../enums/tipo-cargo.enum';
+import { TipoDebitoCreditoEnum } from '../../enums/tipo-debito-credito.enum';
 import { MiembroService } from '../../../existencia/services/miembro.service';
 import { IFilterMiembroResult } from '../../models/ifilter-miembro-result.model';
 import { IMiembroListDetail } from '../../../existencia/models/imiembro-list-deatil.model';
 import { DepositosService } from '../../../mantenimientos/services/depositos.service';
+import { RDCService } from '../../services/RDC.service';
+import { DebitoArticulosTableComponent } from '../../components/debito-articulos-table/debito-articulos-table.component';
 
 @Component({
 	selector: 'app-cargo-descargo.page',
@@ -44,23 +45,28 @@ import { DepositosService } from '../../../mantenimientos/services/depositos.ser
 		MatRadioModule,
 		FormsModule,
 		ReactiveFormsModule,
-		CargoDescargoArticulosTableComponent,
+		DebitoArticulosTableComponent,
 	],
 	templateUrl: './cargo-descargo.page.component.html',
 	styleUrl: './cargo-descargo.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [MiembroService, DepositosService],
+	providers: [MiembroService, DepositosService, RDCService],
 	schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CargoDescargoPageComponent implements AfterViewInit {
+	private readonly MINIMUN_FILTER_LENGTH = 5;
+
 	// Variables de control
 
 	debitosList = signal<IFilterMiembroResult[]>([]);
 	creditosList = signal<IFilterMiembroResult[]>([]);
 	intendentesList = signal<IFilterMiembroResult[]>([]);
+	articulosList = signal<IRegistroDebitoArticulo[]>([]);
+	articulosSelected: IRegistroDebitoArticulo[] = [];
+
 	//  Formulario de cargo descargo
 
-	cargoDescargoForm: FormGroup = new FormGroup({
+	registroDebitoCreditoForm: FormGroup = new FormGroup({
 		tipoCargoDebito: new FormControl(
 			this.tipoCargoDescargo.MIEMBRO,
 			Validators.required
@@ -75,82 +81,93 @@ export class CargoDescargoPageComponent implements AfterViewInit {
 		noDocumento: new FormControl('', Validators.required),
 		intendente: new FormControl('', Validators.required),
 		observacion: new FormControl(''),
-	});
 
-	articulosList = signal<any[]>([]);
-	articulosSelected: IArticuloCargoDescargoInfo[] = [
-		{ id: 1, cantidad: 1, embalaje: 'Caja', articulo: 'Articulo 1' },
-	];
+		// Articulos
+		articulo: new FormControl(''),
+	});
 
 	constructor(
 		private _miembrosService: MiembroService,
-		private _depositosService: DepositosService
+		private _depositosService: DepositosService,
+		private _rdcService: RDCService
 	) {}
 
 	ngAfterViewInit(): void {
 		// TODO: Implementar busqueda de debitos y creditos
 
-		this.cargoDescargoForm.controls['debito'].valueChanges.subscribe(
-			(value: string | null) => {
-				if (value && value !== '' && value.length > 5) {
-					const tipoDebito =
-						this.cargoDescargoForm.controls['tipoCargoDebito']
-							.value;
-					this.getInfoTipoCargo(tipoDebito, 'debito', value);
-				}
+		this.registroDebitoCreditoForm.controls[
+			'debito'
+		].valueChanges.subscribe((value: string | null) => {
+			if (
+				value &&
+				value !== '' &&
+				value.length > this.MINIMUN_FILTER_LENGTH
+			) {
+				const tipoDebito =
+					this.registroDebitoCreditoForm.controls['tipoCargoDebito']
+						.value;
+				this.getInfoTipoCargo(tipoDebito, 'debito', value);
 			}
-		);
+		});
 
-		this.cargoDescargoForm.controls['credito'].valueChanges.subscribe(
-			(value: string | null) => {
-				if (value && value !== '' && value.length > 5) {
-					const tipoCargo =
-						this.cargoDescargoForm.controls['tipoCargoCredito']
-							.value;
-					this.getInfoTipoCargo(tipoCargo, 'credito', value);
-				}
+		this.registroDebitoCreditoForm.controls[
+			'credito'
+		].valueChanges.subscribe((value: string | null) => {
+			if (
+				value &&
+				value !== '' &&
+				value.length > this.MINIMUN_FILTER_LENGTH
+			) {
+				const tipoCargo =
+					this.registroDebitoCreditoForm.controls['tipoCargoCredito']
+						.value;
+				this.getInfoTipoCargo(tipoCargo, 'credito', value);
 			}
-		);
+		});
 
-		this.cargoDescargoForm.controls['intendente'].valueChanges.subscribe(
-			(value: string | null) => {
-				if (value && value !== '' && value.length > 5) {
-					this._miembrosService
-						.getMiembrosByCedula(value)
-						.subscribe((miembros: IMiembroListDetail[]) => {
-							this.intendentesList.set(
-								miembros.map((miembro) => {
-									return {
-										param1: miembro.cedula,
-										param2: miembro.nombreApellidoCompleto,
-									};
-								})
-							);
-						});
-				}
+		this.registroDebitoCreditoForm.controls[
+			'intendente'
+		].valueChanges.subscribe((value: string | null) => {
+			if (
+				value &&
+				value !== '' &&
+				value.length > this.MINIMUN_FILTER_LENGTH
+			) {
+				this._miembrosService
+					.getMiembrosByCedula(value)
+					.subscribe((miembros: IMiembroListDetail[]) => {
+						this.intendentesList.set(
+							miembros.map((miembro) => {
+								return {
+									param1: miembro.cedula,
+									param2: miembro.nombreApellidoCompleto,
+								};
+							})
+						);
+					});
 			}
-		);
-
-		// this.cargoDescargoForm.controls[''].valueChanges.subscribe((value) => {
-		// 	console.log(value);
-		// });
+		});
 	}
 
 	get tipoCargoDescargo() {
-		return TipoCargoDescargoEnum;
+		return TipoDebitoCreditoEnum;
 	}
 
 	displaySelectedFormated(result: IFilterMiembroResult): string {
 		return result.param2;
 	}
 
+	displaySelectedArticulo(result: IRegistroDebitoArticulo): string {
+		return result.nombre;
+	}
+
 	getInfoTipoCargo(
-		tipo: TipoCargoDescargoEnum,
+		tipo: TipoDebitoCreditoEnum,
 		forType: 'debito' | 'credito',
 		value: string
 	) {
 		switch (tipo) {
-			case TipoCargoDescargoEnum.MIEMBRO:
+			case TipoDebitoCreditoEnum.MIEMBRO:
 				this._miembrosService
 					.getMiembrosByCedula(value)
 					.subscribe((miembros: IMiembroListDetail[]) => {
@@ -163,7 +180,7 @@ export class CargoDescargoPageComponent implements AfterViewInit {
 							: this.creditosList.set(data);
 					});
 				break;
-			case TipoCargoDescargoEnum.S4:
+			case TipoDebitoCreditoEnum.S4:
 				this._depositosService
 					.getFilterDepositos(value)
 					.subscribe((depositos: INamedEntity[]) => {
@@ -176,10 +193,20 @@ export class CargoDescargoPageComponent implements AfterViewInit {
 							: this.creditosList.set(data);
 					});
 				break;
-			case TipoCargoDescargoEnum.CIVIL:
+			case TipoDebitoCreditoEnum.CIVIL:
 				// Buscar el civil por cedula
 				break;
 		}
+	}
+
+	onSelectedCredito(event: any) {
+		const debitadoA =
+			this.registroDebitoCreditoForm.controls['credito'].value;
+		this._rdcService
+			.getArticulosDebito(debitadoA)
+			.subscribe((value: IRegistroDebitoArticulo[]) => {
+				this.articulosList.set(value);
+			});
 	}
 
 	onDeleteItem(event: any) {
@@ -187,6 +214,6 @@ export class CargoDescargoPageComponent implements AfterViewInit {
 	}
 
 	createCargoDescargo() {
-		console.log(this.cargoDescargoForm.value);
+		console.log(this.registroDebitoCreditoForm.value);
 	}
 }
