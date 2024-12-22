@@ -79,6 +79,7 @@ export class CargoDescargoPageComponent implements AfterViewInit {
 		credito: new FormControl('', Validators.required),
 		oficio: new FormControl('', Validators.required),
 		noDocumento: new FormControl('', Validators.required),
+		fecha: new FormControl('', Validators.required),
 		intendente: new FormControl('', Validators.required),
 		observacion: new FormControl(''),
 
