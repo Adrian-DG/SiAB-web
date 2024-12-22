@@ -12,6 +12,7 @@ import { PageIntroComponent } from '../../../../Shared/components/page-intro/pag
 import { MatTableModule } from '@angular/material/table';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
 import { MatCardModule } from '@angular/material/card';
+import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 
 @Component({
 	selector: 'app-depositos',
@@ -58,9 +59,10 @@ export class DepositosPageComponent
 
 	override onLoadData(): void {
 		this._depositosService
-			.getDepositosPaginated(this.filters$())
-			.subscribe((response: IDepositoDetailModel[]) => {
-				this.records$.set(response);
+			.get<IDepositoDetailModel>(this.filters$())
+			.subscribe((response: IPagedData<IDepositoDetailModel>) => {
+				this.records$.set(response.rows);
+				this.totalCount$.set(response.totalCount);
 			});
 	}
 }

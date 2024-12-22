@@ -8,32 +8,37 @@ import { MatTableModule } from '@angular/material/table';
 import { PageIntroComponent } from '../../../../Shared/components/page-intro/page-intro.component';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
 import { BaseListResource } from '../../../../Shared/helpers/base-list-resource.metadata';
-import { ISubtipoDetail } from '../../models/isubtipo-detail.model';
 import { MatDialog } from '@angular/material/dialog';
-import { SubtipoService } from '../../services/subtipo.service';
+import { IFuncionDetail } from '../../models/ifuncion-detail.model';
+import { FuncionesService } from '../../services/funciones.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 
 @Component({
-	selector: 'app-subtipos.page',
+	selector: 'app-funciones.page',
 	standalone: true,
 	imports: [MatTableModule, PageIntroComponent, PagePaginatorComponent],
-	templateUrl: './subtipos.page.component.html',
-	styleUrl: './subtipos.page.component.scss',
+	templateUrl: './funciones.page.component.html',
+	styleUrl: './funciones.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [SubtipoService],
+	providers: [FuncionesService],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SubtiposPageComponent
-	extends BaseListResource<ISubtipoDetail>
+export class FuncionesPageComponent
+	extends BaseListResource<IFuncionDetail>
 	implements AfterViewInit
 {
-	override title: string = 'Subtipos';
-	override description: string = 'Listado de subtipos';
-	override displayedColumns: string[] = ['id', 'nombre', 'tipo', 'acciones'];
+	override title: string = 'Funciones';
+	override description: string = 'Listado de funciones';
+	override displayedColumns: string[] = [
+		'id',
+		'nombre',
+		'dependencia',
+		'acciones',
+	];
 
 	constructor(
 		protected override _confirmDialog: MatDialog,
-		private _subTipoService: SubtipoService
+		private _funcionesService: FuncionesService
 	) {
 		super(_confirmDialog);
 	}
@@ -51,9 +56,9 @@ export class SubtiposPageComponent
 	}
 
 	override onLoadData(): void {
-		this._subTipoService
-			.get<ISubtipoDetail>(this.filters$())
-			.subscribe((response: IPagedData<ISubtipoDetail>) => {
+		this._funcionesService
+			.get<IFuncionDetail>(this.filters$())
+			.subscribe((response: IPagedData<IFuncionDetail>) => {
 				this.records$.set(response.rows);
 				this.totalCount$.set(response.totalCount);
 			});

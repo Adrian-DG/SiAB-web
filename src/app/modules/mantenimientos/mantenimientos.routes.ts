@@ -2,6 +2,20 @@ import { Route } from '@angular/router';
 
 export const mantenimientosRoutes: Route[] = [
 	{
+		path: 'series',
+		loadComponent: () =>
+			import('./pages/series/series.page.component').then(
+				(c) => c.SeriePageComponent
+			),
+	},
+	{
+		path: 'funciones',
+		loadComponent: () =>
+			import('./pages/funciones/funciones.page.component').then(
+				(c) => c.FuncionesPageComponent
+			),
+	},
+	{
 		path: 'subtipos',
 		loadComponent: () =>
 			import('./pages/subtipos/subtipos.page.component').then(

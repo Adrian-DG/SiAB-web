@@ -4,36 +4,43 @@ import {
 	Component,
 	CUSTOM_ELEMENTS_SCHEMA,
 } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { BaseListResource } from '../../../../Shared/helpers/base-list-resource.metadata';
+import { ISerieDetail } from '../../models/iserie-detail.model';
+import { MatDialog } from '@angular/material/dialog';
+import { SerieService } from '../../services/serie.service';
+import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { PageIntroComponent } from '../../../../Shared/components/page-intro/page-intro.component';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
-import { BaseListResource } from '../../../../Shared/helpers/base-list-resource.metadata';
-import { ISubtipoDetail } from '../../models/isubtipo-detail.model';
-import { MatDialog } from '@angular/material/dialog';
-import { SubtipoService } from '../../services/subtipo.service';
-import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
-	selector: 'app-subtipos.page',
+	selector: 'app-serie.page',
 	standalone: true,
 	imports: [MatTableModule, PageIntroComponent, PagePaginatorComponent],
-	templateUrl: './subtipos.page.component.html',
-	styleUrl: './subtipos.page.component.scss',
+	templateUrl: './series.page.component.html',
+	styleUrl: './series.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [SubtipoService],
+	providers: [SerieService],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SubtiposPageComponent
-	extends BaseListResource<ISubtipoDetail>
+export class SeriePageComponent
+	extends BaseListResource<ISerieDetail>
 	implements AfterViewInit
 {
-	override title: string = 'Subtipos';
-	override description: string = 'Listado de subtipos';
-	override displayedColumns: string[] = ['id', 'nombre', 'tipo', 'acciones'];
+	override title: string = 'Series';
+	override description: string = 'Listado de series';
+	override displayedColumns: string[] = [
+		'id',
+		'serie',
+		'articulo',
+		'propiedad',
+		'comentario',
+		'acciones',
+	];
 
 	constructor(
 		protected override _confirmDialog: MatDialog,
-		private _subTipoService: SubtipoService
+		private _serieService: SerieService
 	) {
 		super(_confirmDialog);
 	}
@@ -51,9 +58,9 @@ export class SubtiposPageComponent
 	}
 
 	override onLoadData(): void {
-		this._subTipoService
-			.get<ISubtipoDetail>(this.filters$())
-			.subscribe((response: IPagedData<ISubtipoDetail>) => {
+		this._serieService
+			.get<ISerieDetail>(this.filters$())
+			.subscribe((response: IPagedData<ISerieDetail>) => {
 				this.records$.set(response.rows);
 				this.totalCount$.set(response.totalCount);
 			});
