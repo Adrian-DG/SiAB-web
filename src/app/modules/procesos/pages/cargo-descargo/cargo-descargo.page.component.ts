@@ -82,9 +82,6 @@ export class CargoDescargoPageComponent implements AfterViewInit {
 		fecha: new FormControl('', Validators.required),
 		intendente: new FormControl('', Validators.required),
 		observacion: new FormControl(''),
-
-		// Articulos
-		articulo: new FormControl(''),
 	});
 
 	constructor(

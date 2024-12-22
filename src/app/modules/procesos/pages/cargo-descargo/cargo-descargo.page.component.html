@@ -1,143 +1,154 @@
-<form class="container" [formGroup]="registroDebitoCreditoForm">
+<div class="container">
 	<div style="width: 100%">
 		<h1><mat-icon></mat-icon>Cargo y Descargo de Artículos</h1>
 		<mat-divider></mat-divider>
 	</div>
 
 	<!-- Formulario 53 -->
-	<fieldset>
-		<legend>Formulario 53 : (colocar secuencia)</legend>
-		<div class="column">
-			<!-- Tipo cargo-descargo -->
 
-			<div class="row">
-				<mat-radio-group
-					style="width: 100%"
-					[required]="true"
-					formControlName="tipoCargoDebito"
-				>
-					<mat-radio-button [value]="tipoCargoDescargo.MIEMBRO"
-						>Miembro</mat-radio-button
-					>
-					<mat-radio-button [value]="tipoCargoDescargo.S4"
-						>Depósito</mat-radio-button
-					>
-					<mat-radio-button [value]="tipoCargoDescargo.CIVIL"
-						>Civil</mat-radio-button
-					>
-				</mat-radio-group>
-				<mat-radio-group
-					style="width: 100%"
-					[required]="true"
-					formControlName="tipoCargoCredito"
-				>
-					<mat-radio-button [value]="tipoCargoDescargo.MIEMBRO"
-						>Miembro</mat-radio-button
-					>
-					<mat-radio-button [value]="tipoCargoDescargo.S4"
-						>Depósito</mat-radio-button
-					>
-					<mat-radio-button [value]="tipoCargoDescargo.CIVIL"
-						>Civil</mat-radio-button
-					>
-				</mat-radio-group>
-			</div>
+	<form [formGroup]="registroDebitoCreditoForm">
+		<fieldset>
+			<legend>Formulario 53 : (colocar secuencia)</legend>
+			<div class="column">
+				<!-- Tipo cargo-descargo -->
 
-			<div class="row">
-				<mat-form-field class="input">
-					<mat-label>Débito (recibe)</mat-label>
-					<input
-						type="text"
-						matInput
-						formControlName="debito"
-						[matAutocomplete]="debito"
-					/>
-					<mat-autocomplete
-						autoActiveFirstOption
-						#debito="matAutocomplete"
-						[displayWith]="displaySelectedFormated"
-					>
-						@for (item of debitosList(); track $index) {
-						<mat-option [value]="item">{{
-							item.param2
-						}}</mat-option>
-						}
-					</mat-autocomplete>
-				</mat-form-field>
-
-				<mat-form-field class="input">
-					<mat-label>Crébito (entrega)</mat-label>
-					<input
-						type="text"
-						matInput
-						formControlName="credito"
-						[matAutocomplete]="credito"
-					/>
-					<mat-autocomplete
-						autoActiveFirstOption
-						#credito="matAutocomplete"
-						[displayWith]="displaySelectedFormated"
-						(ngModelChange)="onSelectedCredito($event)"
-					>
-						@for (item of creditosList(); track $index) {
-						<mat-option [value]="item">{{
-							item.param2
-						}}</mat-option>
-						}
-					</mat-autocomplete>
-				</mat-form-field>
-			</div>
-			<div class="row">
 				<div class="row">
-					<mat-form-field class="input">
-						<mat-label>Oficio</mat-label>
-						<input matInput type="text" formControlName="oficio" />
-					</mat-form-field>
-					<mat-form-field class="input">
-						<mat-label>No. Documento</mat-label>
-						<input
-							matInput
-							type="text"
-							formControlName="noDocumento"
-						/>
-					</mat-form-field>
-					<mat-form-field class="input">
-						<mat-label>Fecha</mat-label>
-						<input matInput type="date" formControlName="fecha" />
-					</mat-form-field>
+					<mat-radio-group
+						style="width: 100%"
+						[required]="true"
+						formControlName="tipoCargoDebito"
+					>
+						<mat-radio-button [value]="tipoCargoDescargo.MIEMBRO"
+							>Miembro</mat-radio-button
+						>
+						<mat-radio-button [value]="tipoCargoDescargo.S4"
+							>Depósito</mat-radio-button
+						>
+						<mat-radio-button [value]="tipoCargoDescargo.CIVIL"
+							>Civil</mat-radio-button
+						>
+					</mat-radio-group>
+					<mat-radio-group
+						style="width: 100%"
+						[required]="true"
+						formControlName="tipoCargoCredito"
+					>
+						<mat-radio-button [value]="tipoCargoDescargo.MIEMBRO"
+							>Miembro</mat-radio-button
+						>
+						<mat-radio-button [value]="tipoCargoDescargo.S4"
+							>Depósito</mat-radio-button
+						>
+						<mat-radio-button [value]="tipoCargoDescargo.CIVIL"
+							>Civil</mat-radio-button
+						>
+					</mat-radio-group>
 				</div>
 
-				<mat-form-field style="width: 50%">
-					<mat-label>Intendente</mat-label>
-					<input
-						type="text"
+				<div class="row">
+					<mat-form-field class="input">
+						<mat-label>Débito (recibe)</mat-label>
+						<input
+							type="text"
+							matInput
+							formControlName="debito"
+							[matAutocomplete]="debito"
+						/>
+						<mat-autocomplete
+							autoActiveFirstOption
+							#debito="matAutocomplete"
+							[displayWith]="displaySelectedFormated"
+						>
+							@for (item of debitosList(); track $index) {
+							<mat-option [value]="item">{{
+								item.param2
+							}}</mat-option>
+							}
+						</mat-autocomplete>
+					</mat-form-field>
+
+					<mat-form-field class="input">
+						<mat-label>Crébito (entrega)</mat-label>
+						<input
+							type="text"
+							matInput
+							formControlName="credito"
+							[matAutocomplete]="credito"
+						/>
+						<mat-autocomplete
+							autoActiveFirstOption
+							#credito="matAutocomplete"
+							[displayWith]="displaySelectedFormated"
+							(ngModelChange)="onSelectedCredito($event)"
+						>
+							@for (item of creditosList(); track $index) {
+							<mat-option [value]="item">{{
+								item.param2
+							}}</mat-option>
+							}
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="row">
+					<div class="row">
+						<mat-form-field class="input">
+							<mat-label>Oficio</mat-label>
+							<input
+								matInput
+								type="text"
+								formControlName="oficio"
+							/>
+						</mat-form-field>
+						<mat-form-field class="input">
+							<mat-label>No. Documento</mat-label>
+							<input
+								matInput
+								type="text"
+								formControlName="noDocumento"
+							/>
+						</mat-form-field>
+						<mat-form-field class="input">
+							<mat-label>Fecha</mat-label>
+							<input
+								matInput
+								type="date"
+								formControlName="fecha"
+							/>
+						</mat-form-field>
+					</div>
+
+					<mat-form-field style="width: 50%">
+						<mat-label>Intendente</mat-label>
+						<input
+							type="text"
+							matInput
+							formControlName="intendente"
+							[matAutocomplete]="intendente"
+						/>
+						<mat-autocomplete
+							autoActiveFirstOption
+							#intendente="matAutocomplete"
+							[displayWith]="displaySelectedFormated"
+						>
+							@for (item of intendentesList(); track $index) {
+							<mat-option [value]="item">{{
+								item.param2
+							}}</mat-option>
+							}
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<mat-form-field style="width: 100%">
+					<mat-label>Observaciones</mat-label>
+					<textarea
 						matInput
-						formControlName="intendente"
-						[matAutocomplete]="intendente"
-					/>
-					<mat-autocomplete
-						autoActiveFirstOption
-						#intendente="matAutocomplete"
-						[displayWith]="displaySelectedFormated"
-					>
-						@for (item of intendentesList(); track $index) {
-						<mat-option [value]="item">{{
-							item.param2
-						}}</mat-option>
-						}
-					</mat-autocomplete>
+						type="text"
+						formControlName="observacion"
+					></textarea>
 				</mat-form-field>
 			</div>
-			<mat-form-field style="width: 100%">
-				<mat-label>Observaciones</mat-label>
-				<textarea
-					matInput
-					type="text"
-					formControlName="observacion"
-				></textarea>
-			</mat-form-field>
-		</div>
-	</fieldset>
+		</fieldset>
+	</form>
 
 	<!-- Detalles de articulos -->
 
@@ -228,4 +239,4 @@
 			</div>
 		</div>
 	</fieldset>
-</form>
+</div>
