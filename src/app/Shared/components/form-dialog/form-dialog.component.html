@@ -1,0 +1,8 @@
+<h2>Formulario</h2>
+<div mat-dialog-content [innerHTML]="safeInnerHtml"></div>
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close>Cancelar</button>
+	<button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+		Guardar
+	</button>
+</div>

@@ -3,6 +3,8 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	CUSTOM_ELEMENTS_SCHEMA,
+	TemplateRef,
+	ViewChild,
 } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { PageIntroComponent } from '../../../../Shared/components/page-intro/page-intro.component';
@@ -12,6 +14,8 @@ import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { MatDialog } from '@angular/material/dialog';
 import { CalibreService } from '../../services/calibre.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
+import { FormDialogComponent } from '../../../../Shared/components/form-dialog/form-dialog.component';
+import { CalibreFormDialogComponent } from '../../components/calibre-form-dialog/calibre-form-dialog.component';
 
 @Component({
 	selector: 'app-calibres',
@@ -29,7 +33,7 @@ export class CalibresPageComponent
 {
 	override title: string = 'Calibres';
 	override description: string = 'Listado de calibres';
-	override displayedColumns: string[] = ['id', 'nombre', 'actions'];
+	override displayedColumns: string[] = ['id', 'nombre', 'acciones'];
 
 	constructor(
 		protected override _confirmDialog: MatDialog,
@@ -48,6 +52,13 @@ export class CalibresPageComponent
 
 	override onDelete(event: any): void {
 		throw new Error('Method not implemented.');
+	}
+
+	override onCreate(event: any): void {
+		this._confirmDialog.open(CalibreFormDialogComponent, {
+			...this.dialogConfig,
+			width: '500px',
+		});
 	}
 
 	override onLoadData(): void {

@@ -22,7 +22,7 @@ export abstract class GenericService {
 	protected getPaginationParams(filters: IPaginationFilter): HttpParams {
 		return new HttpParams()
 			.set('page', filters.page)
-			.set('pageSize', filters.size)
+			.set('size', filters.size)
 			.set('searchTerm', filters.searchTerm ?? '');
 	}
 

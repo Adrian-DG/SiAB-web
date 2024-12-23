@@ -57,6 +57,10 @@ export class DepositosPageComponent
 		throw new Error('Method not implemented.');
 	}
 
+	override onCreate(event: any): void {
+		throw new Error('Method not implemented.');
+	}
+
 	override onLoadData(): void {
 		this._depositosService
 			.get<IDepositoDetailModel>(this.filters$())

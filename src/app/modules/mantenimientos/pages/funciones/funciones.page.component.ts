@@ -55,6 +55,10 @@ export class FuncionesPageComponent
 		throw new Error('Method not implemented.');
 	}
 
+	override onCreate(event: any): void {
+		throw new Error('Method not implemented.');
+	}
+
 	override onLoadData(): void {
 		this._funcionesService
 			.get<IFuncionDetail>(this.filters$())

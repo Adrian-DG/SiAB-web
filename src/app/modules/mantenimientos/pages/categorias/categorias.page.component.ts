@@ -50,6 +50,10 @@ export class CategoriasPageComponent
 		throw new Error('Method not implemented.');
 	}
 
+	override onCreate(event: any): void {
+		throw new Error('Method not implemented.');
+	}
+
 	override onLoadData(): void {
 		this._categoriaService
 			.get<INamedEntity>(this.filters$())

@@ -13,4 +13,8 @@ export class CalibreService extends GenericService {
 	constructor(protected override $http: HttpClient) {
 		super($http);
 	}
+
+	create(calibre: string) {
+		return this.$http.post(this.endPoint, { nombre: calibre });
+	}
 }

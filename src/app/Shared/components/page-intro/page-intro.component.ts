@@ -34,12 +34,18 @@ export class PageIntroComponent implements OnInit {
 	@Output('onSearch') searchEvent = new EventEmitter<string>();
 	searchForm = new FormControl('');
 
+	@Output('onCreate') addEvent = new EventEmitter<void>();
+
 	ngOnInit(): void {
 		this.searchForm.valueChanges.subscribe((value) => {
 			let search = value as string;
-			if (search.length > 0 && search !== '') {
+			if (search.length > 2 && search !== '') {
 				setTimeout(() => this.searchEvent.emit(value as string), 2000);
 			}
 		});
+	}
+
+	onAddClick() {
+		this.addEvent.emit();
 	}
 }

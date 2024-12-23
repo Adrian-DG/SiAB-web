@@ -63,5 +63,7 @@ export abstract class BaseListResource<T> {
 
 	abstract onDelete(event: any): void;
 
+	abstract onCreate(event: any): void;
+
 	abstract onLoadData(): void;
 }
