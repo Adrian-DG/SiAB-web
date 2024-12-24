@@ -1,5 +1,5 @@
 {
-	"name": "siab-web",
+	"name": "siab-web-app",
 	"version": "0.0.0",
 	"scripts": {
 		"ng": "ng",
