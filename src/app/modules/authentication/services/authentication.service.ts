@@ -37,7 +37,7 @@ export class AuthenticationService extends GenericService {
 		const token = localStorage.getItem('token');
 		if (token) {
 			const decodedToken = jwtDecode<IJwtCustomSquema>(token);
-			return decodedToken.name;
+			return decodedToken.username;
 		}
 		return '';
 	});
