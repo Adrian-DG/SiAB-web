@@ -32,10 +32,10 @@ export class CategoriasPageComponent
 	override displayedColumns: string[] = ['id', 'nombre', 'acciones'];
 
 	constructor(
-		protected override _confirmDialog: MatDialog,
+		protected override _dialog: MatDialog,
 		private _categoriaService: CategoriaService
 	) {
-		super(_confirmDialog);
+		super(_dialog);
 	}
 
 	ngAfterViewInit(): void {

@@ -39,10 +39,10 @@ export class SeriePageComponent
 	];
 
 	constructor(
-		protected override _confirmDialog: MatDialog,
+		protected override _dialog: MatDialog,
 		private _serieService: SerieService
 	) {
-		super(_confirmDialog);
+		super(_dialog);
 	}
 
 	ngAfterViewInit(): void {

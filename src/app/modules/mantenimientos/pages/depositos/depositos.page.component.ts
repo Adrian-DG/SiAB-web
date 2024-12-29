@@ -39,10 +39,10 @@ export class DepositosPageComponent
 	];
 
 	constructor(
-		protected override _confirmDialog: MatDialog,
+		protected override _dialog: MatDialog,
 		private _depositosService: DepositosService
 	) {
-		super(_confirmDialog);
+		super(_dialog);
 	}
 
 	ngAfterViewInit(): void {

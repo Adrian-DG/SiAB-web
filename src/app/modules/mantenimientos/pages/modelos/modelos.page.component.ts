@@ -41,10 +41,10 @@ export class ModelosPageComponent
 	override displayedColumns: string[] = ['id', 'nombre', 'marca', 'acciones'];
 
 	constructor(
-		protected override _confirmDialog: MatDialog,
+		protected override _dialog: MatDialog,
 		private _modelosService: ModelosService
 	) {
-		super(_confirmDialog);
+		super(_dialog);
 	}
 
 	ngAfterViewInit(): void {

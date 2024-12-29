@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CalibreService } from '../../services/calibre.service';
 import { FormsModule } from '@angular/forms';
+import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata';
 
 @Component({
 	selector: 'app-calibre-form',
@@ -21,10 +22,13 @@ import { FormsModule } from '@angular/forms';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [CalibreService],
 })
-export class CalibreFormDialogComponent {
+export class CalibreFormDialogComponent extends FormularyMetadata {
 	calibre: string = '';
-	constructor(private _calibreService: CalibreService) {}
-	save(): void {
+	constructor(private _calibreService: CalibreService) {
+		super();
+	}
+
+	override onSave(): void {
 		this._calibreService.create(this.calibre).subscribe(() => {
 			this.calibre = '';
 		});

@@ -36,10 +36,10 @@ export class CalibresPageComponent
 	override displayedColumns: string[] = ['id', 'nombre', 'acciones'];
 
 	constructor(
-		protected override _confirmDialog: MatDialog,
+		protected override _dialog: MatDialog,
 		private _calibreService: CalibreService
 	) {
-		super(_confirmDialog);
+		super(_dialog);
 	}
 
 	ngAfterViewInit(): void {
@@ -55,7 +55,7 @@ export class CalibresPageComponent
 	}
 
 	override onCreate(event: any): void {
-		this._confirmDialog
+		this._dialog
 			.open(CalibreFormDialogComponent, {
 				...this.dialogConfig,
 				width: '500px',

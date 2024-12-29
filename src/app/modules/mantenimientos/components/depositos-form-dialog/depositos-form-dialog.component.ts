@@ -14,6 +14,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { FuncionesService } from '../../services/funciones.service';
 import { IFuncionDetail } from '../../models/ifuncion-detail.model';
+import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata';
 
 @Component({
 	selector: 'app-depositos-form-dialog',
@@ -31,7 +32,10 @@ import { IFuncionDetail } from '../../models/ifuncion-detail.model';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [DepositosService, FuncionesService],
 })
-export class DepositosFormDialogComponent implements OnInit {
+export class DepositosFormDialogComponent
+	extends FormularyMetadata
+	implements OnInit
+{
 	depositoObj = { nombre: '', funcionId: 0 };
 	funcionControl = new FormControl('');
 	funciones = signal<IFuncionDetail[]>([]);
@@ -39,7 +43,9 @@ export class DepositosFormDialogComponent implements OnInit {
 	constructor(
 		private depositosService: DepositosService,
 		private _funcionesService: FuncionesService
-	) {}
+	) {
+		super();
+	}
 
 	ngOnInit(): void {
 		this.funcionControl.valueChanges.subscribe((value) => {
@@ -51,5 +57,9 @@ export class DepositosFormDialogComponent implements OnInit {
 					});
 			}
 		});
+	}
+
+	override onSave(): void {
+		throw new Error('Method not implemented.');
 	}
 }

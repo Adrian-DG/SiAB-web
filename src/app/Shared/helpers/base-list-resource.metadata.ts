@@ -29,16 +29,13 @@ export abstract class BaseListResource<T> {
 
 	protected confirmDialogRef!: MatDialogRef<ConfirmDialogComponent>;
 
-	constructor(protected _confirmDialog: MatDialog) {}
+	constructor(protected _dialog: MatDialog) {}
 
 	protected showConfirmDialog(info: string): void {
-		this.confirmDialogRef = this._confirmDialog.open(
-			ConfirmDialogComponent,
-			{
-				...this.dialogConfig,
-				data: { action: info },
-			}
-		);
+		this.confirmDialogRef = this._dialog.open(ConfirmDialogComponent, {
+			...this.dialogConfig,
+			data: { action: info },
+		});
 	}
 
 	onSearch(event: string): void {

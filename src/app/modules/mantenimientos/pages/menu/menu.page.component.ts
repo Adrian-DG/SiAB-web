@@ -24,7 +24,6 @@ export class MenuPageComponent {
 		{ url: 'propiedades', name: 'Propiedades', icon: '' },
 		{ url: 'estado-armas', name: 'Estado de Armas', icon: '' },
 		{ url: 'depositos', name: 'Depositos', icon: '' },
-		{ url: 'funciones', name: 'Funciones', icon: '' },
 		{ url: 'dependencias', name: 'Dependencias', icon: '' },
 	];
 

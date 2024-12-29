@@ -30,13 +30,6 @@ export const mantenimientosRoutes: Route[] = [
 			),
 	},
 	{
-		path: 'funciones',
-		loadComponent: () =>
-			import('./pages/funciones/funciones.page.component').then(
-				(c) => c.FuncionesPageComponent
-			),
-	},
-	{
 		path: 'subtipos',
 		loadComponent: () =>
 			import('./pages/subtipos/subtipos.page.component').then(

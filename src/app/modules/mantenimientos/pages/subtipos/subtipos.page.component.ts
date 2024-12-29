@@ -32,10 +32,10 @@ export class SubtiposPageComponent
 	override displayedColumns: string[] = ['id', 'nombre', 'tipo', 'acciones'];
 
 	constructor(
-		protected override _confirmDialog: MatDialog,
+		protected override _dialog: MatDialog,
 		private _subTipoService: SubtipoService
 	) {
-		super(_confirmDialog);
+		super(_dialog);
 	}
 
 	ngAfterViewInit(): void {

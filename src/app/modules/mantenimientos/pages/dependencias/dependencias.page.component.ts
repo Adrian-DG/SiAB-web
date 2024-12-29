@@ -12,6 +12,7 @@ import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DependenciasService } from '../../services/dependencias.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
+import { DependenciasFormDialogComponent } from '../../components/dependencias-form-dialog/dependencias-form-dialog.component';
 
 @Component({
 	selector: 'app-dependencias.page',
@@ -31,10 +32,10 @@ export class DependenciasPageComponent
 	override displayedColumns: string[] = ['id', 'nombre', 'acciones'];
 
 	constructor(
-		protected override _confirmDialog: MatDialog,
+		protected override _dialog: MatDialog,
 		private _service: DependenciasService
 	) {
-		super(_confirmDialog);
+		super(_dialog);
 	}
 
 	ngAfterViewInit(): void {
@@ -50,7 +51,12 @@ export class DependenciasPageComponent
 	}
 
 	override onCreate(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(DependenciasFormDialogComponent, { ...this.dialogConfig })
+			.afterClosed()
+			.subscribe(() => {
+				this.onLoadData();
+			});
 	}
 
 	override onLoadData(): void {

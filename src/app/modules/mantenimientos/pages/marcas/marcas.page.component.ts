@@ -37,10 +37,10 @@ export class MarcasPageComponent
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 
 	constructor(
-		protected override _confirmDialog: MatDialog,
+		protected override _dialog: MatDialog,
 		private _marcasService: MarcaService
 	) {
-		super(_confirmDialog);
+		super(_dialog);
 	}
 
 	ngAfterViewInit(): void {
