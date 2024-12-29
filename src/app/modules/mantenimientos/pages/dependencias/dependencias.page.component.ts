@@ -3,8 +3,6 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	CUSTOM_ELEMENTS_SCHEMA,
-	TemplateRef,
-	ViewChild,
 } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { PageIntroComponent } from '../../../../Shared/components/page-intro/page-intro.component';
@@ -12,32 +10,29 @@ import { PagePaginatorComponent } from '../../../../Shared/components/page-pagin
 import { BaseListResource } from '../../../../Shared/helpers/base-list-resource.metadata';
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { MatDialog } from '@angular/material/dialog';
-import { CalibreService } from '../../services/calibre.service';
+import { DependenciasService } from '../../services/dependencias.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
-import { FormDialogComponent } from '../../../../Shared/components/form-dialog/form-dialog.component';
-import { CalibreFormDialogComponent } from '../../components/calibre-form-dialog/calibre-form-dialog.component';
 
 @Component({
-	selector: 'app-calibres',
+	selector: 'app-dependencias.page',
 	standalone: true,
 	imports: [MatTableModule, PageIntroComponent, PagePaginatorComponent],
-	templateUrl: './calibres.page.component.html',
-	styleUrl: './calibres.page.component.scss',
+	templateUrl: './dependencias.page.component.html',
+	styleUrl: './dependencias.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [CalibreService],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class CalibresPageComponent
+export class DependenciasPageComponent
 	extends BaseListResource<INamedEntity>
 	implements AfterViewInit
 {
-	override title: string = 'Calibres';
-	override description: string = 'Listado de calibres';
+	override title: string = 'Dependencias';
+	override description: string = 'Listado de dependencias';
 	override displayedColumns: string[] = ['id', 'nombre', 'acciones'];
 
 	constructor(
 		protected override _confirmDialog: MatDialog,
-		private _calibreService: CalibreService
+		private _service: DependenciasService
 	) {
 		super(_confirmDialog);
 	}
@@ -55,23 +50,15 @@ export class CalibresPageComponent
 	}
 
 	override onCreate(event: any): void {
-		this._confirmDialog
-			.open(CalibreFormDialogComponent, {
-				...this.dialogConfig,
-				width: '500px',
-			})
-			.afterClosed()
-			.subscribe(() => {
-				this.onLoadData();
-			});
+		throw new Error('Method not implemented.');
 	}
 
 	override onLoadData(): void {
-		this._calibreService
+		this._service
 			.get<INamedEntity>(this.filters$())
-			.subscribe((response: IPagedData<INamedEntity>) => {
-				this.records$.set(response.rows);
-				this.totalCount$.set(response.totalCount);
+			.subscribe((data: IPagedData<INamedEntity>) => {
+				this.records$.set(data.rows);
+				this.totalCount$.set;
 			});
 	}
 }

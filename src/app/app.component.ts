@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { IUrlOption } from './Shared/Models/iurl-option.model';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -26,7 +26,7 @@ import { AuthenticationService } from './modules/authentication/services/authent
 	styleUrl: './app.component.scss',
 	providers: [AuthenticationService],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 	modules: IUrlOption[] = [
 		{ url: 'link', name: 'Estadisticas', icon: 'chevron_right' },
 		{ url: 'existencia', name: 'Existencia', icon: 'chevron_right' },
@@ -39,6 +39,10 @@ export class AppComponent {
 	];
 
 	constructor(public _authService: AuthenticationService) {}
+
+	ngOnInit(): void {
+		throw new Error('Method not implemented.');
+	}
 
 	get isVisible(): boolean {
 		return this._authService.isAuthenticated();
