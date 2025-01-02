@@ -11,7 +11,6 @@ import { DepositosService } from '../../services/depositos.service';
 import { PageIntroComponent } from '../../../../Shared/components/page-intro/page-intro.component';
 import { MatTableModule } from '@angular/material/table';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
-import { MatCardModule } from '@angular/material/card';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 
 @Component({

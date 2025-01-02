@@ -1,18 +1,32 @@
 import { Route } from '@angular/router';
 
 export const mantenimientosRoutes: Route[] = [
-	{
-		path: 'propiedades',
-		loadComponent: () =>
-			import('./pages/propiedades/propiedades.page.component').then(
-				(c) => c.PropiedadesPageComponent
-			),
-	},
+	// {
+	// 	path: 'estado-armas',
+	// 	loadComponent: () =>
+	// 		import('./pages/estado-armas/estado-armas.page.component').then(
+	// 			(c) => c.EstadoArmasPageComponent
+	// 		),
+	// },
 	{
 		path: 'dependencias',
 		loadComponent: () =>
 			import('./pages/dependencias/dependencias.page.component').then(
 				(c) => c.DependenciasPageComponent
+			),
+	},
+	{
+		path: 'depositos',
+		loadComponent: () =>
+			import('./pages/depositos/depositos.page.component').then(
+				(c) => c.DepositosPageComponent
+			),
+	},
+	{
+		path: 'propiedades',
+		loadComponent: () =>
+			import('./pages/propiedades/propiedades.page.component').then(
+				(c) => c.PropiedadesPageComponent
 			),
 	},
 	{
@@ -48,13 +62,6 @@ export const mantenimientosRoutes: Route[] = [
 		loadComponent: () =>
 			import('./pages/tipos/tipos.page.component').then(
 				(c) => c.TiposPageComponent
-			),
-	},
-	{
-		path: 'depositos',
-		loadComponent: () =>
-			import('./pages/depositos/depositos.page.component').then(
-				(c) => c.DepositosPageComponent
 			),
 	},
 	{

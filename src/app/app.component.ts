@@ -28,13 +28,29 @@ import { AuthenticationService } from './modules/authentication/services/authent
 })
 export class AppComponent implements OnInit {
 	modules: IUrlOption[] = [
-		{ url: 'link', name: 'Estadisticas', icon: 'chevron_right' },
-		{ url: 'existencia', name: 'Existencia', icon: 'chevron_right' },
-		{ url: 'procesos', name: 'Procesos', icon: 'chevron_right' },
+		{
+			url: 'link',
+			name: 'Estadisticas',
+			icon: 'chevron_right',
+			permissions: [],
+		},
+		{
+			url: 'existencia',
+			name: 'Existencia',
+			icon: 'chevron_right',
+			permissions: [],
+		},
+		{
+			url: 'procesos',
+			name: 'Procesos',
+			icon: 'chevron_right',
+			permissions: [],
+		},
 		{
 			url: 'mantenimientos',
 			name: 'Mantenimientos',
 			icon: 'chevron_right',
+			permissions: ['ADMIN'],
 		},
 	];
 
@@ -48,8 +64,14 @@ export class AppComponent implements OnInit {
 		return this._authService.isAuthenticated();
 	}
 
-	get showUsername(): string {
-		return this._authService.showUsername();
+	hasPermission(permissions: string[]): boolean {
+		if (!permissions || permissions.length === 0) return true;
+
+		const userRoles = this._authService.userData()?.Roles ?? [];
+
+		return Array.isArray(userRoles)
+			? userRoles.some((role) => permissions.includes(role))
+			: userRoles.split(',').some((role) => permissions.includes(role));
 	}
 
 	onLogout() {

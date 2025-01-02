@@ -4,35 +4,36 @@ import {
 	Component,
 	CUSTOM_ELEMENTS_SCHEMA,
 } from '@angular/core';
-import { BaseListResource } from '../../../../Shared/helpers/base-list-resource.metadata';
-import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { PageIntroComponent } from '../../../../Shared/components/page-intro/page-intro.component';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
-import { PropiedadesService } from '../../services/propiedades.service';
+import { EstadoArmasService } from '../../services/estado-armas.service';
+import { BaseListResource } from '../../../../Shared/helpers/base-list-resource.metadata';
+import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
+import { MatDialog } from '@angular/material/dialog';
+import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 
 @Component({
-	selector: 'app-propiedades.page',
+	selector: 'app-estado-armas.page',
 	standalone: true,
 	imports: [MatTableModule, PageIntroComponent, PagePaginatorComponent],
-	templateUrl: './propiedades.page.component.html',
-	styleUrl: './propiedades.page.component.scss',
+	templateUrl: './estado-armas.page.component.html',
+	styleUrl: './estado-armas.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [PropiedadesService],
+	providers: [EstadoArmasService],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class PropiedadesPageComponent
+export class EstadoArmasPageComponent
 	extends BaseListResource<INamedEntity>
 	implements AfterViewInit
 {
-	override title: string = 'Propiedades';
-	override description: string = 'Listado de propiedades';
-	override displayedColumns: string[] = ['id', 'nombre', 'acciones'];
+	override title: string = 'Estado de Armas';
+	override description: string = 'Listado de los estados de las armas';
+	override displayedColumns: string[] = ['id', 'name', 'actions'];
 
 	constructor(
 		protected override _dialog: MatDialog,
-		private _service: PropiedadesService
+		private _estadoArmasService: EstadoArmasService
 	) {
 		super(_dialog);
 	}
@@ -54,8 +55,10 @@ export class PropiedadesPageComponent
 	}
 
 	override onLoadData(): void {
-		this._service.get<INamedEntity>(this.filters$()).subscribe((data) => {
-			this.records$.set(data.rows);
-		});
+		this._estadoArmasService
+			.get<INamedEntity>(this.filters$())
+			.subscribe((data: IPagedData<INamedEntity>) => {
+				this.records$.set(data.rows);
+			});
 	}
 }

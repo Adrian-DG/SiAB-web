@@ -35,13 +35,14 @@ export class AuthenticationService extends GenericService {
 		return false;
 	});
 
-	showUsername = computed<string>(() => {
+	userData = computed<IJwtCustomSquema | null>(() => {
 		const token = localStorage.getItem('token');
 		if (token) {
 			const decodedToken = jwtDecode<IJwtCustomSquema>(token);
-			return decodedToken.username;
+			console.log(decodedToken);
+			return decodedToken;
 		}
-		return '';
+		return null;
 	});
 
 	constructor(protected override $http: HttpClient, private $router: Router) {

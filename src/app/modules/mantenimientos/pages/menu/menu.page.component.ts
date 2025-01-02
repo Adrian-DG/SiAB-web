@@ -22,7 +22,7 @@ export class MenuPageComponent {
 		{ url: 'modelos', name: 'Modelos', icon: '' },
 		{ url: 'calibres', name: 'Calibres', icon: '' },
 		{ url: 'propiedades', name: 'Propiedades', icon: '' },
-		{ url: 'estado-armas', name: 'Estado de Armas', icon: '' },
+		// { url: 'estado-armas', name: 'Estado de Armas', icon: '' },
 		{ url: 'depositos', name: 'Depositos', icon: '' },
 		{ url: 'dependencias', name: 'Dependencias', icon: '' },
 	];
