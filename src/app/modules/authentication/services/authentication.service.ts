@@ -72,7 +72,7 @@ export class AuthenticationService extends GenericService {
 			)
 			.subscribe((response: IAuthenticatedResponse) => {
 				localStorage.setItem('token', response.token);
-				this.$router.navigate(['existencia']);
+				this.$router.navigateByUrl('/existencia');
 			});
 	}
 
