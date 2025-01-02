@@ -4,6 +4,8 @@ import { environment as development } from '../../../../environment/environment.
 import { HttpClient } from '@angular/common/http';
 import { IMiembroView } from '../models/imiembro-view.model';
 import { IMiembroListDetail } from '../models/imiembro-list-deatil.model';
+import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,14 +20,23 @@ export class MiembroService {
 	}
 
 	getMiembrosByCedula(cedula: string) {
-		return this.$http.get<IMiembroListDetail[]>(
-			`${this.endPoint}/filtrar-miembros-por-cedula/${cedula}`
-		);
+		return this.$http
+			.get<IApiResponse<IMiembroListDetail[]>>(
+				`${this.endPoint}/filtro-cedula/${cedula}`
+			)
+			.pipe(
+				map(
+					(response: IApiResponse<IMiembroListDetail[]>) =>
+						response.data
+				)
+			);
 	}
 
 	getMiembroByCedula(cedula: string) {
-		return this.$http.get<IMiembroView>(
-			`${this.endPoint}/filtro-cedula/${cedula}`
-		);
+		return this.$http
+			.get<IApiResponse<IMiembroView>>(
+				`${this.endPoint}/filtro-cedula/${cedula}`
+			)
+			.pipe(map((response: IApiResponse<IMiembroView>) => response.data));
 	}
 }

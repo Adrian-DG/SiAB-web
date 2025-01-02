@@ -12,6 +12,8 @@ import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { PageIntroComponent } from '../../../../Shared/components/page-intro/page-intro.component';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
 import { MatTableModule } from '@angular/material/table';
+import { map } from 'rxjs';
+import { IApiResponse } from '../../../../Shared/Models/iapi-response.model';
 
 @Component({
 	selector: 'app-serie.page',

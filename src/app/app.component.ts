@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
 	constructor(public _authService: AuthenticationService) {}
 
 	ngOnInit(): void {
-		throw new Error('Method not implemented.');
+		this._authService.isAuthenticated();
 	}
 
 	get isVisible(): boolean {

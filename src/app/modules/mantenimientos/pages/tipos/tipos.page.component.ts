@@ -13,6 +13,8 @@ import { MatTableModule } from '@angular/material/table';
 import { PageIntroComponent } from '../../../../Shared/components/page-intro/page-intro.component';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
 import { ITipoDetail } from '../../models/itipo-detail.model';
+import { map } from 'rxjs';
+import { IApiResponse } from '../../../../Shared/Models/iapi-response.model';
 
 @Component({
 	selector: 'app-tipos.page',

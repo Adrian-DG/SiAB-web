@@ -51,7 +51,7 @@ import { DebitoArticulosTableComponent } from '../../components/debito-articulos
 	styleUrl: './cargo-descargo.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [MiembroService, DepositosService, RDCService],
-	schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
+	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CargoDescargoPageComponent implements AfterViewInit {
 	private readonly MINIMUN_FILTER_LENGTH = 5;

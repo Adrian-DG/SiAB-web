@@ -12,6 +12,8 @@ import { ISubtipoDetail } from '../../models/isubtipo-detail.model';
 import { MatDialog } from '@angular/material/dialog';
 import { SubtipoService } from '../../services/subtipo.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
+import { map } from 'rxjs';
+import { IApiResponse } from '../../../../Shared/Models/iapi-response.model';
 
 @Component({
 	selector: 'app-subtipos.page',

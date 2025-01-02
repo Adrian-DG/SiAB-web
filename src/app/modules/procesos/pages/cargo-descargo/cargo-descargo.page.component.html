@@ -164,11 +164,11 @@
 						formControlName="articulo"
 						#articulo
 						[matAutocomplete]="auto"
-						[displayWith]="displaySelectedArticulo"
 					/>
 					<mat-autocomplete
 						autoActiveFirstOption
 						#auto="matAutocomplete"
+						[displayWith]="displaySelectedArticulo"
 					>
 						@for (item of articulosList(); track item.id) {
 						<mat-option [value]="item">{{

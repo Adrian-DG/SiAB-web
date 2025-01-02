@@ -15,6 +15,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
+import { map } from 'rxjs';
+import { IApiResponse } from '../../../../Shared/Models/iapi-response.model';
 
 @Component({
 	selector: 'app-modelos.page',

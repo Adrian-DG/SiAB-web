@@ -2,10 +2,12 @@ import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import { GenericService } from '../../../Shared/Services/Generic.service';
 import { HttpClient } from '@angular/common/http';
 import { IAuthenticatedResponse } from '../models/iauthenticated-response.model';
+import { map } from 'rxjs/operators';
 import { IUsuarioLoginDto } from '../dto/iusuario-login.dto';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { IJwtCustomSquema } from '../models/ijwt-custom-squema.model';
+import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -49,19 +51,28 @@ export class AuthenticationService extends GenericService {
 	// register
 
 	register(registerDto: IUsuarioLoginDto) {
-		this.$http.post<boolean>(`${this.endPoint}/register-user`, registerDto);
+		this.$http.post<IApiResponse<boolean>>(
+			`${this.endPoint}/register-user`,
+			registerDto
+		);
 	}
 
 	// Login
 	login(loginDto: IUsuarioLoginDto) {
 		this.$http
-			.post<IAuthenticatedResponse>(
+			.post<IApiResponse<IAuthenticatedResponse>>(
 				`${this.endPoint}/login-user`,
 				loginDto
 			)
+			.pipe(
+				map(
+					(response: IApiResponse<IAuthenticatedResponse>) =>
+						response.data
+				)
+			)
 			.subscribe((response: IAuthenticatedResponse) => {
 				localStorage.setItem('token', response.token);
-				this.$router.navigateByUrl('/existencia');
+				this.$router.navigate(['existencia']);
 			});
 	}
 

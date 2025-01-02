@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GenericService } from '../../../Shared/Services/Generic.service';
 import { HttpClient } from '@angular/common/http';
+import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -15,6 +16,8 @@ export class CalibreService extends GenericService {
 	}
 
 	create(calibre: string) {
-		return this.$http.post(this.endPoint, { nombre: calibre });
+		return this.$http.post<IApiResponse<any>>(this.endPoint, {
+			nombre: calibre,
+		});
 	}
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { GenericService } from '../../../Shared/Services/Generic.service';
 import { HttpClient } from '@angular/common/http';
 import { ICreateDependenciaDto } from '../dtos/icreate-dependencia.dto';
+import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -16,6 +17,6 @@ export class DependenciasService extends GenericService {
 	}
 
 	create(dependencia: ICreateDependenciaDto) {
-		return this.$http.post(this.endPoint, dependencia);
+		return this.$http.post<IApiResponse<any>>(this.endPoint, dependencia);
 	}
 }
