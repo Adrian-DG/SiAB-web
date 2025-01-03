@@ -41,8 +41,8 @@
 			[position]="'start'"
 		>
 			<mat-list>
-				@for (item of modules; track $index) { @if
-				(hasPermission(item.permissions ?? [])) {
+				@for (item of modules; track $index) {
+				@if(hasPermission(item.permissions ?? [])) {
 				<mat-list-item class="link-item">
 					<a [routerLink]="item.url" class="link" routerLinkActive>
 						<span>{{ item.name }}</span>
