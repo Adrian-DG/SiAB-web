@@ -19,6 +19,7 @@ import { IMiembroView } from '../../models/imiembro-view.model';
 import { IMiembroListDetail } from '../../models/imiembro-list-deatil.model';
 import { ConsultaMiembroComponent } from '../../../../Shared/components/consulta-miembro/consulta-miembro.component';
 import { JCEService } from '../../../../Shared/Services/JCE.service';
+import { IJCEModel } from '../../../../Shared/Models/ijce-model';
 
 export enum TipoBusqueda {
 	MIEMBRO = 1,
@@ -104,7 +105,7 @@ export class IndexComponent implements OnInit {
 	geCivilByCedula(event: any) {
 		this._jceService
 			.getCivilByCedula(this.filtro.value as string)
-			.subscribe((civil) => {
+			.subscribe((civil: IJCEModel) => {
 				console.log(civil);
 				const obj = {
 					foto: civil.foto,

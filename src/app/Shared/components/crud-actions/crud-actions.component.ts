@@ -15,11 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
 	template: `
 		<div class="crud-actions">
 			<button mat-icon-button color="primary" (click)="onEdit(id)">
-				)>
 				<mat-icon>edit</mat-icon>
 			</button>
 			<button mat-icon-button color="warn" (click)="onDelete(id)">
-				)>
 				<mat-icon>delete</mat-icon>
 			</button>
 		</div>

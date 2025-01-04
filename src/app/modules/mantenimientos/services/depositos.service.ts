@@ -19,19 +19,19 @@ export class DepositosService extends GenericService {
 		super($http);
 	}
 
-	getDepositosPaginated(filter: IPaginationFilter) {
-		const params = this.getPaginationParams(filter);
-		return this.$http
-			.get<IApiResponse<IDepositoDetailModel[]>>(this.endPoint, {
-				params: params,
-			})
-			.pipe(
-				map(
-					(response: IApiResponse<IDepositoDetailModel[]>) =>
-						response.data
-				)
-			);
-	}
+	// getDepositosPaginated(filter: IPaginationFilter) {
+	// 	const params = this.getPaginationParams(filter);
+	// 	return this.$http
+	// 		.get<IApiResponse<IDepositoDetailModel[]>>(this.endPoint, {
+	// 			params: params,
+	// 		})
+	// 		.pipe(
+	// 			map(
+	// 				(response: IApiResponse<IDepositoDetailModel[]>) =>
+	// 					response.data
+	// 			)
+	// 		);
+	// }
 
 	getFilterDepositos(filter: string) {
 		const params = new HttpParams().set('nombre', filter);
