@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>Formulario Modelos</h2>
+<mat-dialog-content class="content">
+	<div>
+		<label for="foto">Elige foto modelo</label><br />
+		<input
+			id="foto"
+			type="file"
+			(change)="onFileSelected($event)"
+			placeholder="Foto"
+			class="file-input"
+			accept="image/*"
+			[multiple]="false"
+		/>
+
+		@if (fotoModelo) {
+		<img id="modelo-preview" [src]="fotoModelo" alt="Foto" />
+		}
+	</div>
+	<form class="row" [formGroup]="modeloForm">
+		<mat-form-field class="input">
+			<input matInput placeholder="Modelo" formControlName="nombre" />
+		</mat-form-field>
+		<mat-form-field class="select">
+			<mat-label>Marca</mat-label>
+			<input
+				matInput
+				placeholder="Marca"
+				formControlName="marca"
+				[matAutocomplete]="auto"
+			/>
+			<mat-autocomplete
+				#auto="matAutocomplete"
+				[displayWith]="displayMarca"
+			>
+				@for (marca of marcas$(); track marca.id) {
+				<mat-option [value]="marca">{{ marca.nombre }}</mat-option>
+				}
+			</mat-autocomplete>
+		</mat-form-field>
+	</form>
+</mat-dialog-content>
+<mat-dialog-actions>
+	<button mat-button mat-dialog-close>Close</button>
+	<button
+		mat-button
+		mat-dialog-close
+		(click)="create()"
+		[disabled]="!modeloForm.valid"
+	>
+		Guardar
+	</button>
+</mat-dialog-actions>

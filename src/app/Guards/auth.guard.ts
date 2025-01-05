@@ -22,7 +22,10 @@ export const authGuard: CanActivateFn = (route, state) => {
 				data: { message: 'El usuario no ha sido validado' },
 			})
 			.afterClosed()
-			.subscribe(() => router.navigate(['authentication']));
+			.subscribe(() => {
+				localStorage.clear();
+				router.navigate(['authentication']);
+			});
 		return false;
 	}
 

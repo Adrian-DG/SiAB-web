@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
 import { map } from 'rxjs';
 import { IApiResponse } from '../../../../Shared/Models/iapi-response.model';
+import { ModeloFormDialogComponent } from '../../components/modelo-form-dialog/modelo-form-dialog.component';
 
 @Component({
 	selector: 'app-modelos.page',
@@ -40,7 +41,13 @@ export class ModelosPageComponent
 {
 	override title: string = 'Modelos';
 	override description: string = 'Listado de modelos';
-	override displayedColumns: string[] = ['id', 'nombre', 'marca', 'acciones'];
+	override displayedColumns: string[] = [
+		'id',
+		'foto',
+		'nombre',
+		'marca',
+		'acciones',
+	];
 
 	constructor(
 		protected override _dialog: MatDialog,
@@ -69,7 +76,11 @@ export class ModelosPageComponent
 	}
 
 	override onCreate(event: any): void {
-		throw new Error('Method not implemented.');
+		console.log('Create');
+		this._dialog
+			.open(ModeloFormDialogComponent, { ...this.dialogConfig })
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onLoadData(): void {

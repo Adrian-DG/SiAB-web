@@ -1,0 +1,22 @@
+:host {
+	display: block;
+}
+
+.content,
+.row {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	.file-input {
+		background: none;
+		border: none;
+	}
+	.input,
+	.select {
+		flex-grow: 1;
+	}
+}

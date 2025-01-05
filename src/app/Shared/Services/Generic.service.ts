@@ -41,4 +41,12 @@ export abstract class GenericService {
 	delete(id: number) {
 		return this.$http.delete<IApiResponse<any>>(`${this.endPoint}/${id}`);
 	}
+
+	getFilter<T>(filter: string) {
+		return this.$http
+			.get<IApiResponse<T[]>>(`${this.endPoint}/filter`, {
+				params: new HttpParams().set('nombre', filter),
+			})
+			.pipe(map((response: IApiResponse<T[]>) => response.data));
+	}
 }
