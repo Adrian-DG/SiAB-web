@@ -91,6 +91,15 @@
 						</mat-autocomplete>
 					</mat-form-field>
 				</div>
+
+				<div style="width: 100%; padding: 1em">
+					<app-file-input
+						[title]="'Archivo de soporte  (PDF)'"
+						[fileType]="'application/pdf'"
+						(on-file-upluoded)="onFileUploaded($event)"
+					></app-file-input>
+				</div>
+
 				<div class="row">
 					<div class="row">
 						<mat-form-field class="input">

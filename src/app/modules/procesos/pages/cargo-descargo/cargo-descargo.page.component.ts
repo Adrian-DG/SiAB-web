@@ -32,6 +32,7 @@ import { DepositosService } from '../../../mantenimientos/services/depositos.ser
 import { RDCService } from '../../services/RDC.service';
 import { DebitoArticulosTableComponent } from '../../components/debito-articulos-table/debito-articulos-table.component';
 import { SecuenciasService } from '../../services/Secuencias.service';
+import { FileInputComponent } from '../../../../Shared/components/file-input/file-input.component';
 
 @Component({
 	selector: 'app-cargo-descargo.page',
@@ -48,6 +49,7 @@ import { SecuenciasService } from '../../services/Secuencias.service';
 		FormsModule,
 		ReactiveFormsModule,
 		DebitoArticulosTableComponent,
+		FileInputComponent,
 	],
 	templateUrl: './cargo-descargo.page.component.html',
 	styleUrl: './cargo-descargo.page.component.scss',
@@ -223,6 +225,10 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	}
 
 	onDeleteItem(event: any) {
+		console.log(event);
+	}
+
+	onFileUploaded(event: string) {
 		console.log(event);
 	}
 

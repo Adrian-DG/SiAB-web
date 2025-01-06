@@ -1,0 +1,31 @@
+<div class="file-input-container">
+	<h4 style="color: rgb(122, 122, 122)">{{ title }}:</h4>
+	<label
+		for="fileInput"
+		[class.file-input-label]="!file"
+		[class.uploaded]="file"
+	>
+		<span style="margin-right: 0.3em"
+			><mat-icon>cloud_upload</mat-icon></span
+		>
+		Subir archivo
+	</label>
+	<input
+		id="fileInput"
+		type="file"
+		(change)="onFileSelected($event)"
+		[accept]="fileType"
+		class="file-input"
+		hidden
+		[disabled]="file"
+	/>
+	@if(!file){
+	<div class="message error" style="width: 100%">
+		<mat-icon>error_outline</mat-icon> archivo es obligatorio
+	</div>
+	} @else {
+	<div class="message success" style="width: 100%">
+		<mat-icon>check_circle_outline</mat-icon> archivo cargado
+	</div>
+	}
+</div>
