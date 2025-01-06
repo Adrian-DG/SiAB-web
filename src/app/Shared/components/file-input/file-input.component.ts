@@ -12,26 +12,31 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
 	selector: 'app-file-input',
 	standalone: true,
-	imports: [MatIconModule],
+	imports: [MatIconModule, MatButtonModule],
 	templateUrl: './file-input.component.html',
 	styleUrl: './file-input.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileInputComponent {
 	@Input() title!: string;
-	@Input() fileType: string = 'application/pdf';
+	@Input() fileType!: string;
 	@Output('on-file-upluoded') fileEvent = new EventEmitter<string>();
 	file: File | null = null;
 
 	onFileSelected(event: Event): void {
 		const input = event.target as HTMLInputElement;
 		if (input.files && input.files.length > 0) {
-			const file = input.files[0];
+			this.file = input.files[0];
 			const reader = new FileReader();
 			reader.onload = () => {
 				this.fileEvent.emit(reader.result as string);
 			};
-			reader.readAsDataURL(file);
+			reader.readAsDataURL(this.file);
 		}
+	}
+
+	removeFile(): void {
+		this.file = null;
+		this.fileEvent.emit('');
 	}
 }

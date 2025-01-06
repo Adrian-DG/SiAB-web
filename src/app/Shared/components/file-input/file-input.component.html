@@ -24,6 +24,13 @@
 		<mat-icon>error_outline</mat-icon> archivo es obligatorio
 	</div>
 	} @else {
+	<button
+		mat-flat-button
+		(click)="removeFile()"
+		style="background-color: rgb(240, 120, 120) !important"
+	>
+		borrar
+	</button>
 	<div class="message success" style="width: 100%">
 		<mat-icon>check_circle_outline</mat-icon> archivo cargado
 	</div>
