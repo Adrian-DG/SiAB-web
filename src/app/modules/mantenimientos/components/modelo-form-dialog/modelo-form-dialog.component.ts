@@ -16,6 +16,7 @@ import { MarcaService } from '../../services/marca.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { ICreateModeloDto } from '../../dtos/icreate-modelo.dto';
+import { FileInputComponent } from '../../../../Shared/components/file-input/file-input.component';
 
 @Component({
 	selector: 'app-modelo-form-dialog',
@@ -27,6 +28,7 @@ import { ICreateModeloDto } from '../../dtos/icreate-modelo.dto';
 		MatButtonModule,
 		MatAutocompleteModule,
 		ReactiveFormsModule,
+		FileInputComponent,
 	],
 	templateUrl: './modelo-form-dialog.component.html',
 	styleUrls: ['./modelo-form-dialog.component.scss'],
@@ -68,17 +70,8 @@ export class ModeloFormDialogComponent implements OnInit {
 		return marca?.nombre || '';
 	}
 
-	onFileSelected(event: Event): void {
-		const input = event.target as HTMLInputElement;
-		if (input.files && input.files.length > 0) {
-			const file = input.files[0];
-			const reader = new FileReader();
-			reader.onload = () => {
-				this.fotoModelo = reader.result as string;
-				console.log(this.fotoModelo); // Base64 string
-			};
-			reader.readAsDataURL(file);
-		}
+	onFileUploaded(event: any): void {
+		this.fotoModelo = event;
 	}
 
 	create(): void {
@@ -89,8 +82,6 @@ export class ModeloFormDialogComponent implements OnInit {
 			marcaId: marca.id,
 			foto: this.fotoModelo ?? null,
 		};
-
-		console.log(modeloObj);
 
 		this.modeloService.create(modeloObj).subscribe(() => {
 			this.dialogRef.close();

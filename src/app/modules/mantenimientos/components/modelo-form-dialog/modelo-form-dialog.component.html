@@ -1,20 +1,18 @@
 <h2 mat-dialog-title>Formulario Modelos</h2>
 <mat-dialog-content class="content">
-	<div>
-		<label for="foto">Elige foto modelo</label><br />
-		<input
-			id="foto"
-			type="file"
-			(change)="onFileSelected($event)"
-			placeholder="Foto"
-			class="file-input"
-			accept="image/*"
-			[multiple]="false"
-		/>
-
-		@if (fotoModelo) {
-		<img id="modelo-preview" [src]="fotoModelo" alt="Foto" />
-		}
+	<div class="file-input-container">
+		<div class="file-input">
+			<app-file-input
+				[title]="'Foto'"
+				[fileType]="'image/*'"
+				(on-file-upluoded)="onFileUploaded($event)"
+			/>
+		</div>
+		<div class="preview">
+			@if (fotoModelo){
+			<img class="preview-img" [src]="fotoModelo" alt="Foto" />
+			}
+		</div>
 	</div>
 	<form class="row" [formGroup]="modeloForm">
 		<mat-form-field class="input">
