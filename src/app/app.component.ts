@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, OnInit, signal, Signal } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { IUrlOption } from './Shared/Models/iurl-option.model';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -54,14 +54,14 @@ export class AppComponent implements OnInit {
 		},
 	];
 
+	isVisible$ = computed<boolean>(() =>
+		this._authService.isAuthenticated().valueOf()
+	);
+
 	constructor(public _authService: AuthenticationService) {}
 
 	ngOnInit(): void {
-		this._authService.isAuthenticated();
-	}
-
-	get isVisible(): boolean {
-		return this._authService.isAuthenticated();
+		throw new Error('Method not implemented.');
 	}
 
 	hasPermission(permissions: string[]): boolean {

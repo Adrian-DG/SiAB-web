@@ -4,6 +4,7 @@ import {
 	Component,
 	CUSTOM_ELEMENTS_SCHEMA,
 	NO_ERRORS_SCHEMA,
+	OnInit,
 	signal,
 } from '@angular/core';
 import {
@@ -30,6 +31,7 @@ import { IMiembroListDetail } from '../../../existencia/models/imiembro-list-dea
 import { DepositosService } from '../../../mantenimientos/services/depositos.service';
 import { RDCService } from '../../services/RDC.service';
 import { DebitoArticulosTableComponent } from '../../components/debito-articulos-table/debito-articulos-table.component';
+import { SecuenciasService } from '../../services/Secuencias.service';
 
 @Component({
 	selector: 'app-cargo-descargo.page',
@@ -50,19 +52,25 @@ import { DebitoArticulosTableComponent } from '../../components/debito-articulos
 	templateUrl: './cargo-descargo.page.component.html',
 	styleUrl: './cargo-descargo.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [MiembroService, DepositosService, RDCService],
+	providers: [
+		MiembroService,
+		DepositosService,
+		RDCService,
+		SecuenciasService,
+	],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class CargoDescargoPageComponent implements AfterViewInit {
+export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	private readonly MINIMUN_FILTER_LENGTH = 5;
 
 	// Variables de control
-
 	debitosList = signal<IFilterMiembroResult[]>([]);
 	creditosList = signal<IFilterMiembroResult[]>([]);
 	intendentesList = signal<IFilterMiembroResult[]>([]);
 	articulosList = signal<IRegistroDebitoArticulo[]>([]);
 	articulosSelected: IRegistroDebitoArticulo[] = [];
+
+	secuencia_53 = signal<string>('');
 
 	//  Formulario de cargo descargo
 
@@ -87,8 +95,15 @@ export class CargoDescargoPageComponent implements AfterViewInit {
 	constructor(
 		private _miembrosService: MiembroService,
 		private _depositosService: DepositosService,
-		private _rdcService: RDCService
+		private _rdcService: RDCService,
+		private _secuenciasService: SecuenciasService
 	) {}
+
+	ngOnInit(): void {
+		this._secuenciasService
+			.GetSecuenciaInstitucion()
+			.subscribe((value: string) => this.secuencia_53.set(value));
+	}
 
 	ngAfterViewInit(): void {
 		// TODO: Implementar busqueda de debitos y creditos
