@@ -64,13 +64,9 @@ export class AppComponent implements OnInit {
 	}
 
 	hasPermission(url: string): boolean {
-		console.log('Checking permission for URL:', url);
 		const routeData = AppRoutes.find((route) => route.path === url)
 			?.data as { expectedRoles: string[] };
 		const permissions = routeData?.expectedRoles ?? [];
-
-		console.log('User Roles:', this.userRoles);
-		console.log('Expected Roles:', permissions);
 
 		if (permissions.length === 0) return true;
 
@@ -83,7 +79,6 @@ export class AppComponent implements OnInit {
 					.split(',')
 					.some((role) => permissions.includes(role));
 
-		console.log('Has Permission:', hasPermission);
 		return hasPermission;
 	}
 
