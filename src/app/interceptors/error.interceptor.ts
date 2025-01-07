@@ -1,34 +1,39 @@
-import { Injectable } from '@angular/core';
 import {
-	HttpEvent,
-	HttpInterceptor,
-	HttpHandler,
-	HttpRequest,
 	HttpErrorResponse,
+	HttpHandlerFn,
+	HttpInterceptorFn,
+	HttpRequest,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { catchError, throwError } from 'rxjs';
+import { ErrorDialogComponent } from '../Shared/components/error-dialog/error-dialog.component';
 
-@Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
-	intercept(
-		req: HttpRequest<any>,
-		next: HttpHandler
-	): Observable<HttpEvent<any>> {
-		return next.handle(req).pipe(
-			catchError((error: HttpErrorResponse) => {
-				let errorMessage = '';
-				if (error.error instanceof ErrorEvent) {
-					// Client-side error
-					errorMessage = `Client-side error: ${error.error.message}`;
-				} else {
-					// Server-side error
-					errorMessage = `Server-side error: ${error.status} ${error.message}`;
-				}
-				// Here you can add more logic to format the error message as needed
-				console.error({ errorMessage: errorMessage });
-				return throwError(errorMessage);
-			})
-		);
-	}
-}
+export const ErrorInterceptor: HttpInterceptorFn = (
+	req: HttpRequest<any>,
+	next: HttpHandlerFn
+) => {
+	const dialog = inject(MatDialog);
+
+	return next(req).pipe(
+		catchError((error: HttpErrorResponse) => {
+			console.log('Enter ErrorInterceptor: ', req);
+			let errorMessage = '';
+			if (error.error instanceof ErrorEvent) {
+				// Client-side error
+				errorMessage = `Client-side error: ${error.message}`;
+			} else {
+				// Server-side error
+				errorMessage = `Server-side error: ${error.status} ${error.message}`;
+			}
+			// Here you can add more logic to format the error message as needed
+
+			// Open a dialog to show the error message
+			dialog.open(ErrorDialogComponent, {
+				data: { message: 'Error al realizar solicitud/proceso.' },
+			});
+
+			return throwError(errorMessage);
+		})
+	);
+};
