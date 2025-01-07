@@ -9,8 +9,8 @@
 					<mat-label>Cédula</mat-label>
 					<input
 						matInput
-						placeholder="Nombre"
-						formControlName="nombre"
+						placeholder="cedula"
+						formControlName="cedula"
 					/>
 				</mat-form-field>
 				<mat-form-field class="col">
@@ -60,11 +60,26 @@
 				</mat-form-field>
 			</div>
 		</form>
+
+		<app-permissions-selector
+			[permissions]="permissions$()"
+			(on-permission-saved)="onPermissionSaved($event)"
+		></app-permissions-selector>
 	</mat-card-content>
 	<mat-card-footer>
 		<mat-card-actions>
-			<button mat-raised-button color="primary">Guardar</button>
-			<button mat-raised-button color="warn">Cancelar</button>
+			<button mat-raised-button color="warn" style="width: 50%">
+				Cancelar
+			</button>
+			<button
+				style="width: 50%"
+				mat-flat-button
+				color="primary"
+				(click)="onCreate()"
+				[disabled]="!usuarioForm.valid"
+			>
+				Guardar
+			</button>
 		</mat-card-actions>
 	</mat-card-footer>
 </mat-card>
