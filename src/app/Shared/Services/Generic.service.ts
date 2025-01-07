@@ -1,12 +1,18 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { environment as production } from '../../../environment/environment.production';
 import { environment as development } from '../../../environment/environment.development';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {
+	HttpClient,
+	HttpErrorResponse,
+	HttpParams,
+} from '@angular/common/http';
 import { IPaginationFilter } from '../dtos/ipagination-filter.dto';
 import { IPagedData } from '../Models/ipaged-data.model';
 import { INamedEntity } from '../Models/inamed-entity.model';
 import { IApiResponse } from '../Models/iapi-response.model';
-import { map } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorInterceptor } from '../../interceptors/error.interceptor';
 
 @Injectable({
 	providedIn: 'root',
@@ -44,9 +50,17 @@ export abstract class GenericService {
 
 	getFilter<T>(filter: string) {
 		return this.$http
-			.get<IApiResponse<T[]>>(`${this.endPoint}/filter`, {
+			.get<IApiResponse<T[]>>(`${this.endPoint}/filtrar`, {
 				params: new HttpParams().set('nombre', filter),
 			})
 			.pipe(map((response: IApiResponse<T[]>) => response.data));
+	}
+
+	create<T>(model: T) {
+		return this.$http.post<IApiResponse<T>>(this.endPoint, model).pipe(
+			map((response: IApiResponse<T>) => {
+				return response.data;
+			})
+		);
 	}
 }
