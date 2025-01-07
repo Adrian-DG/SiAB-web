@@ -17,10 +17,23 @@
 				</td>
 			</ng-container>
 
-			<ng-container matColumnDef="nombre">
-				<th mat-header-cell *matHeaderCellDef>Nombre</th>
+			<ng-container matColumnDef="personal">
+				<th mat-header-cell *matHeaderCellDef>Datos #1</th>
 				<td mat-cell *matCellDef="let element">
-					{{ element.nombre }}
+					<span><b>Cédula:</b> {{ element.cedula }}</span>
+					<br />
+					<span><b>Nombre:</b> {{ nombreCompleto(element) }}</span>
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="info">
+				<th mat-header-cell *matHeaderCellDef>Datos #2</th>
+				<td mat-cell *matCellDef="let element">
+					<span
+						><b>Inst.:</b> {{ element.institucion ?? 'N/A' }}</span
+					>
+					<br />
+					<span><b>Rango:</b> {{ element.rango ?? 'N/A' }}</span>
 				</td>
 			</ng-container>
 

@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
 		},
 		{
 			url: 'accesos',
-			name: 'accesos',
+			name: 'Accesos',
 			icon: 'chevron_right',
 		},
 	];

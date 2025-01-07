@@ -13,6 +13,7 @@ import { MatCardModule } from '@angular/material/card';
 import { UsuariosService } from '../../services/usuarios.service';
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
+import { IUsuarioDetailModel } from '../../models/iusuario-detail.model';
 
 @Component({
 	selector: 'app-list.page',
@@ -30,12 +31,17 @@ import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 	providers: [UsuariosService],
 })
 export class ListPageComponent
-	extends BaseListResource<INamedEntity>
+	extends BaseListResource<IUsuarioDetailModel>
 	implements AfterViewInit
 {
 	override title: string = 'Usuarios';
 	override description: string = 'Listado de usuarios con acceso al sistema';
-	override displayedColumns: string[] = ['id', 'nombre', 'actions'];
+	override displayedColumns: string[] = [
+		'id',
+		'personal',
+		'info',
+		'acciones',
+	];
 
 	constructor(
 		protected override _dialog: MatDialog,
@@ -46,6 +52,10 @@ export class ListPageComponent
 
 	ngAfterViewInit(): void {
 		this.onLoadData();
+	}
+
+	nombreCompleto(usuario: IUsuarioDetailModel): string {
+		return `${usuario.nombre} ${usuario.apellido}`;
 	}
 
 	override onEdit(event: any): void {
@@ -62,8 +72,8 @@ export class ListPageComponent
 
 	override onLoadData(): void {
 		this._usuariosService
-			.get<INamedEntity>(this.filters$())
-			.subscribe((data: IPagedData<INamedEntity>) => {
+			.get<IUsuarioDetailModel>(this.filters$())
+			.subscribe((data: IPagedData<IUsuarioDetailModel>) => {
 				this.records$.set(data.rows);
 			});
 	}
