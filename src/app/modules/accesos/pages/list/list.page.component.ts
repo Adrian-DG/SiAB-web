@@ -14,6 +14,7 @@ import { UsuariosService } from '../../services/usuarios.service';
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { IUsuarioDetailModel } from '../../models/iusuario-detail.model';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-list.page',
@@ -45,7 +46,8 @@ export class ListPageComponent
 
 	constructor(
 		protected override _dialog: MatDialog,
-		private _usuariosService: UsuariosService
+		private _usuariosService: UsuariosService,
+		private $router: Router
 	) {
 		super(_dialog);
 	}
@@ -67,7 +69,7 @@ export class ListPageComponent
 	}
 
 	override onCreate(event: any): void {
-		throw new Error('Method not implemented.');
+		this.$router.navigate(['/accesos/create']);
 	}
 
 	override onLoadData(): void {

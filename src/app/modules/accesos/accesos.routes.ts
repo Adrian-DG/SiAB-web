@@ -10,6 +10,13 @@ export const accesosRoutes: Route[] = [
 			),
 	},
 	{
+		path: 'create',
+		loadComponent: () =>
+			import('./pages/create/create.page.component').then(
+				(m) => m.CreatePageComponent
+			),
+	},
+	{
 		path: '',
 		redirectTo: 'usuarios',
 		pathMatch: 'full',

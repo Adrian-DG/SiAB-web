@@ -1,0 +1,70 @@
+<mat-card>
+	<mat-card-header>
+		<mat-card-title><h3>Formulario Usuarios</h3></mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<form [formGroup]="usuarioForm">
+			<div class="row">
+				<mat-form-field class="col">
+					<mat-label>Cédula</mat-label>
+					<input
+						matInput
+						placeholder="Nombre"
+						formControlName="nombre"
+					/>
+				</mat-form-field>
+				<mat-form-field class="col">
+					<mat-label>Nombre</mat-label>
+					<input
+						matInput
+						placeholder="Nombre"
+						formControlName="nombre"
+					/>
+				</mat-form-field>
+				<mat-form-field class="col">
+					<mat-label>Apellido</mat-label>
+					<input
+						matInput
+						placeholder="Nombre"
+						formControlName="nombre"
+					/>
+				</mat-form-field>
+			</div>
+			<div class="row">
+				<mat-form-field class="col">
+					<mat-label>Usuario</mat-label>
+					<input
+						matInput
+						placeholder="Nombre de Usuario"
+						formControlName="username"
+					/>
+				</mat-form-field>
+				<mat-form-field class="col">
+					<mat-label>Contraseña</mat-label>
+					<input
+						matInput
+						type="password"
+						placeholder="Contraseña"
+						formControlName="password"
+					/>
+				</mat-form-field>
+				<mat-form-field class="col">
+					<mat-label>Rango</mat-label>
+					<mat-select placeholder="rango" formControlName="rango">
+						<mat-option
+							*ngFor="let rango of rangos$"
+							[value]="rango.id"
+							>{{ rango.nombre }}</mat-option
+						>
+					</mat-select>
+				</mat-form-field>
+			</div>
+		</form>
+	</mat-card-content>
+	<mat-card-footer>
+		<mat-card-actions>
+			<button mat-raised-button color="primary">Guardar</button>
+			<button mat-raised-button color="warn">Cancelar</button>
+		</mat-card-actions>
+	</mat-card-footer>
+</mat-card>
