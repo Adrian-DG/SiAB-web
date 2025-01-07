@@ -3,6 +3,14 @@ import { authGuard } from './Guards/auth.guard';
 
 export const routes: Routes = [
 	{
+		path: 'accesos',
+		loadChildren: () =>
+			import('./modules/accesos/accesos.routes').then(
+				(m) => m.accesosRoutes
+			),
+		canActivate: [authGuard],
+	},
+	{
 		path: 'procesos',
 		loadChildren: () =>
 			import('./modules/procesos/procesos.routes').then(
