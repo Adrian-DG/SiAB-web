@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthenticationService } from './modules/authentication/services/authentication.service';
+import { routes as AppRoutes } from './app.routes';
 
 @Component({
 	selector: 'app-root',
@@ -27,30 +28,27 @@ import { AuthenticationService } from './modules/authentication/services/authent
 	providers: [AuthenticationService],
 })
 export class AppComponent implements OnInit {
+	userRoles: string | string[] = [];
 	modules: IUrlOption[] = [
 		{
 			url: 'link',
 			name: 'Estadisticas',
 			icon: 'chevron_right',
-			permissions: [],
 		},
 		{
 			url: 'existencia',
 			name: 'Existencia',
 			icon: 'chevron_right',
-			permissions: [],
 		},
 		{
 			url: 'procesos',
 			name: 'Procesos',
 			icon: 'chevron_right',
-			permissions: [],
 		},
 		{
 			url: 'mantenimientos',
 			name: 'Mantenimientos',
 			icon: 'chevron_right',
-			permissions: ['ADMIN'],
 		},
 	];
 
@@ -61,17 +59,32 @@ export class AppComponent implements OnInit {
 	constructor(public _authService: AuthenticationService) {}
 
 	ngOnInit(): void {
-		throw new Error('Method not implemented.');
+		this.userRoles = this._authService.userData()?.Roles ?? [];
+		// throw new Error('Method not implemented.');
 	}
 
-	hasPermission(permissions: string[]): boolean {
-		if (!permissions || permissions.length === 0) return true;
+	hasPermission(url: string): boolean {
+		console.log('Checking permission for URL:', url);
+		const routeData = AppRoutes.find((route) => route.path === url)
+			?.data as { expectedRoles: string[] };
+		const permissions = routeData?.expectedRoles ?? [];
 
-		const userRoles = this._authService.userData()?.Roles ?? [];
+		console.log('User Roles:', this.userRoles);
+		console.log('Expected Roles:', permissions);
 
-		return Array.isArray(userRoles)
-			? userRoles.some((role) => permissions.includes(role))
-			: userRoles.split(',').some((role) => permissions.includes(role));
+		if (permissions.length === 0) return true;
+
+		const hasPermission = Array.isArray(this.userRoles)
+			? this.userRoles
+					.map((role) => role.replace(' ', '_'))
+					.some((role) => permissions.includes(role))
+			: this.userRoles
+					.replace(' ', '_')
+					.split(',')
+					.some((role) => permissions.includes(role));
+
+		console.log('Has Permission:', hasPermission);
+		return hasPermission;
 	}
 
 	onLogout() {

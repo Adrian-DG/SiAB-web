@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './Guards/auth.guard';
+import { RolesGuard } from './Guards/roles.guard';
+import { AppPermissions } from './app.permissions';
 
 export const routes: Routes = [
 	{
@@ -8,7 +10,8 @@ export const routes: Routes = [
 			import('./modules/accesos/accesos.routes').then(
 				(m) => m.accesosRoutes
 			),
-		canActivate: [authGuard],
+		canActivate: [authGuard, RolesGuard],
+		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
 	},
 	{
 		path: 'procesos',
@@ -16,7 +19,8 @@ export const routes: Routes = [
 			import('./modules/procesos/procesos.routes').then(
 				(m) => m.procesosRoutes
 			),
-		canActivate: [authGuard],
+		canActivate: [authGuard, RolesGuard],
+		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
 	},
 	{
 		path: 'existencia',
@@ -24,7 +28,13 @@ export const routes: Routes = [
 			import('./modules/existencia/existencia.routes').then(
 				(m) => m.existenciaRoutes
 			),
-		canActivate: [authGuard],
+		canActivate: [authGuard, RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.CONSULTA,
+			],
+		},
 	},
 	{
 		path: 'mantenimientos',
@@ -32,7 +42,13 @@ export const routes: Routes = [
 			import('./modules/mantenimientos/mantenimientos.routes').then(
 				(m) => m.mantenimientosRoutes
 			),
-		canActivate: [authGuard],
+		canActivate: [authGuard, RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.MANTENIMIENTO,
+			],
+		},
 	},
 	{
 		path: 'authentication',
