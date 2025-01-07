@@ -12,6 +12,7 @@ import { PageIntroComponent } from '../../../../Shared/components/page-intro/pag
 import { MatTableModule } from '@angular/material/table';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
+import { DepositosFormDialogComponent } from '../../components/depositos-form-dialog/depositos-form-dialog.component';
 
 @Component({
 	selector: 'app-depositos',
@@ -57,7 +58,10 @@ export class DepositosPageComponent
 	}
 
 	override onCreate(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(DepositosFormDialogComponent, { ...this.dialogConfig })
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onLoadData(): void {

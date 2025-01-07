@@ -6,15 +6,26 @@ import {
 	signal,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DepositosService } from '../../services/depositos.service';
-import { FormControl, FormsModule } from '@angular/forms';
+import {
+	FormControl,
+	FormsModule,
+	ReactiveFormsModule,
+	Validators,
+} from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { FuncionesService } from '../../services/funciones.service';
 import { IFuncionDetail } from '../../models/ifuncion-detail.model';
 import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata';
+import { DependenciasService } from '../../services/dependencias.service';
+import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
+import React from 'react';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ICreateDepositoDto } from '../../dtos/icreate-deposito.dto';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
 	selector: 'app-depositos-form-dialog',
@@ -24,42 +35,62 @@ import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata
 		MatFormFieldModule,
 		MatInputModule,
 		MatButtonModule,
+		MatAutocompleteModule,
+		MatCheckboxModule,
 		FormsModule,
-		MatSelectModule,
+		ReactiveFormsModule,
 	],
 	templateUrl: './depositos-form-dialog.component.html',
 	styleUrl: './depositos-form-dialog.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [DepositosService, FuncionesService],
+	providers: [DepositosService, DependenciasService],
 })
 export class DepositosFormDialogComponent
 	extends FormularyMetadata
 	implements OnInit
 {
-	depositoObj = { nombre: '', funcionId: 0 };
-	funcionControl = new FormControl('');
-	funciones = signal<IFuncionDetail[]>([]);
+	dependencias$ = signal<INamedEntity[]>([]);
+	depositoObj = { nombre: '', esFuncion: false };
+	dependenciaControl = new FormControl<string>('', Validators.required);
 
 	constructor(
-		private depositosService: DepositosService,
-		private _funcionesService: FuncionesService
+		private dialogRef: MatDialogRef<DepositosFormDialogComponent>,
+		private _depositosService: DepositosService,
+		private _dependenciasService: DependenciasService
 	) {
 		super();
 	}
 
 	ngOnInit(): void {
-		this.funcionControl.valueChanges.subscribe((value) => {
-			if (value && value.length > 3) {
-				this._funcionesService
-					.getFunciones(value as string)
-					.subscribe((data) => {
-						this.funciones.set(data);
-					});
+		this.dependenciaControl.valueChanges.subscribe(
+			(value: string | null) => {
+				if (value && value !== '' && value.length > 2) {
+					this._dependenciasService
+						.getFilter<INamedEntity>(value)
+						.subscribe((data: INamedEntity[]) => {
+							this.dependencias$.set(data);
+						});
+				}
 			}
-		});
+		);
+	}
+
+	displayDependenciaFn(dependencia: INamedEntity): string {
+		return dependencia.nombre;
 	}
 
 	override onSave(): void {
-		throw new Error('Method not implemented.');
+		const dependencia = this.dependenciaControl
+			.value as unknown as INamedEntity;
+
+		const newDepositosObj: ICreateDepositoDto = {
+			nombre: this.depositoObj.nombre.trim(),
+			dependenciaId: dependencia.id,
+			esFuncion: this.depositoObj.esFuncion,
+		};
+
+		this._depositosService
+			.create<ICreateDepositoDto>(newDepositosObj)
+			.subscribe(() => this.dialogRef.close());
 	}
 }

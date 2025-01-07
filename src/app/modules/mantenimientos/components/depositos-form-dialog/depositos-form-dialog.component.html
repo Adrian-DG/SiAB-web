@@ -1,17 +1,33 @@
-<h2 mat-dialog-title>Formulario</h2>
+<h2 mat-dialog-title>Formulario Depositos</h2>
 <div mat-dialog-content>
 	<mat-form-field style="width: 100%">
-		<mat-label>Calibre</mat-label>
+		<mat-label>Deposito</mat-label>
 		<input matInput [(ngModel)]="depositoObj.nombre" />
 	</mat-form-field>
 	<mat-form-field style="width: 100%">
-		<mat-label>Función</mat-label>
-		<mat-select [(ngModel)]="depositoObj.funcionId">
-			<mat-option *ngFor="let funcion of funciones" [value]="funcion.id">
-				{{ funcion.nombre }}
-			</mat-option>
-		</mat-select>
+		<mat-label>Dependencia</mat-label>
+		<input
+			type="text"
+			placeholder="Buscar dependencia"
+			matInput
+			[formControl]="dependenciaControl"
+			[matAutocomplete]="dependenciaAuto"
+		/>
+		<mat-autocomplete
+			#dependenciaAuto="matAutocomplete"
+			[displayWith]="displayDependenciaFn"
+		>
+			@for (dependencia of dependencias$(); track dependencia.id) {
+			<mat-option [value]="dependencia">{{
+				dependencia.nombre
+			}}</mat-option>
+			}
+		</mat-autocomplete>
 	</mat-form-field>
+	<mat-checkbox [(ngModel)]="depositoObj.esFuncion"
+		>Es Función ?
+		<b>{{ depositoObj.esFuncion ? 'Si' : 'No' }}</b></mat-checkbox
+	>
 </div>
 <div mat-dialog-actions>
 	<button mat-button mat-dialog-close>Cancelar</button>

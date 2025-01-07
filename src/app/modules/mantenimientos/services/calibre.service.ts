@@ -14,10 +14,4 @@ export class CalibreService extends GenericService {
 	constructor(protected override $http: HttpClient) {
 		super($http);
 	}
-
-	create(calibre: string) {
-		return this.$http.post<IApiResponse<any>>(this.endPoint, {
-			nombre: calibre,
-		});
-	}
 }

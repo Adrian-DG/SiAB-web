@@ -6,6 +6,7 @@ import { IPaginationFilter } from '../../../Shared/dtos/ipagination-filter.dto';
 import { IDepositoDetailModel } from '../models/ideposito-detail.model';
 import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
 import { map } from 'rxjs/operators';
+import { ICreateDepositoDto } from '../dtos/icreate-deposito.dto';
 
 @Injectable({
 	providedIn: 'root',

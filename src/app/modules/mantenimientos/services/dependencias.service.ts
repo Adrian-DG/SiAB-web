@@ -15,8 +15,4 @@ export class DependenciasService extends GenericService {
 	constructor(protected override $http: HttpClient) {
 		super($http);
 	}
-
-	create(dependencia: ICreateDependenciaDto) {
-		return this.$http.post<IApiResponse<any>>(this.endPoint, dependencia);
-	}
 }

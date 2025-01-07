@@ -14,8 +14,4 @@ export class ModelosService extends GenericService {
 	protected override GetResource(): string {
 		return 'modelos';
 	}
-
-	create(modelo: ICreateModeloDto) {
-		return this.$http.post(this.endPoint, modelo);
-	}
 }
