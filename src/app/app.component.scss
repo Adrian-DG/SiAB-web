@@ -22,8 +22,14 @@
 			color: rgb(46, 46, 46);
 		}
 	}
-	.link-item:hover,
-	.active {
+	.link-item:hover {
+		background-color: rgb(64, 64, 167);
+		.link {
+			color: white;
+		}
+	}
+
+	.link-item:active {
 		background-color: rgb(64, 64, 167);
 		.link {
 			color: white;
