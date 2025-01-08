@@ -26,10 +26,13 @@ export class PermissionsSelectorComponent {
 	markedPermissions: number[] = [];
 
 	onMarkPermission(permissionId: number): void {
-		const index = this.markedPermissions.indexOf(permissionId);
-		index === -1
-			? this.markedPermissions.push(permissionId)
-			: this.markedPermissions.splice(index, 1);
+		if (this.markedPermissions.includes(permissionId)) {
+			this.markedPermissions = this.markedPermissions.filter(
+				(id) => id !== permissionId
+			);
+		} else {
+			this.markedPermissions.push(permissionId);
+		}
 		this.markPermissionEvent.emit(this.markedPermissions);
 	}
 }

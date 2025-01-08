@@ -25,8 +25,8 @@
 					<mat-label>Apellido</mat-label>
 					<input
 						matInput
-						placeholder="Nombre"
-						formControlName="nombre"
+						placeholder="Apellido"
+						formControlName="apellido"
 					/>
 				</mat-form-field>
 			</div>
@@ -50,12 +50,12 @@
 				</mat-form-field>
 				<mat-form-field class="col">
 					<mat-label>Rango</mat-label>
-					<mat-select placeholder="rango" formControlName="rango">
-						<mat-option
-							*ngFor="let rango of rangos$"
-							[value]="rango.id"
-							>{{ rango.nombre }}</mat-option
-						>
+					<mat-select placeholder="rango" formControlName="rangoId">
+						@for(rango of rangos$(); track $index){
+						<mat-option [value]="rango.id">{{
+							rango.nombre
+						}}</mat-option>
+						}
 					</mat-select>
 				</mat-form-field>
 			</div>

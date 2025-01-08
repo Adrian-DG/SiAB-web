@@ -1,4 +1,5 @@
 import {
+	AfterViewInit,
 	ChangeDetectionStrategy,
 	Component,
 	OnInit,
@@ -21,6 +22,7 @@ import { PermisosService } from '../../services/permisos.service';
 import { IPermissionModel } from '../../models/ipermission.model';
 import { IUsuarioRegisterDto } from '../../../authentication/dto/iusuario-register.dto';
 import { Router } from '@angular/router';
+import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 
 @Component({
 	selector: 'app-create.page',
@@ -39,7 +41,8 @@ import { Router } from '@angular/router';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [UsuariosService, PermisosService],
 })
-export class CreatePageComponent implements OnInit {
+export class CreatePageComponent implements OnInit, AfterViewInit {
+	rangos$ = signal<INamedEntity[]>([]);
 	permissions$ = signal<IPermissionModel[]>([]);
 	private selectedPermissions: number[] = [];
 	usuarioForm: FormGroup = new FormGroup({
@@ -53,7 +56,7 @@ export class CreatePageComponent implements OnInit {
 		apellido: new FormControl('', [Validators.required]),
 		username: new FormControl('', [Validators.required]),
 		password: new FormControl('', [Validators.required]),
-		rango: new FormControl(''),
+		rangoId: new FormControl(0),
 	});
 
 	constructor(
@@ -68,6 +71,12 @@ export class CreatePageComponent implements OnInit {
 		});
 	}
 
+	ngAfterViewInit(): void {
+		this._usuarioService.getRangos().subscribe((rangos) => {
+			this.rangos$.set(rangos);
+		});
+	}
+
 	onPermissionSaved(permissions: number[]): void {
 		this.selectedPermissions = permissions;
 	}
@@ -77,6 +86,8 @@ export class CreatePageComponent implements OnInit {
 			...this.usuarioForm.value,
 			roles: this.selectedPermissions,
 		};
+
+		console.log(usuario);
 
 		this._usuarioService
 			.create<IUsuarioRegisterDto>(usuario)

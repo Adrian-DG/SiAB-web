@@ -1,10 +1,10 @@
 <mat-list role="list">
 	<h3 mat-subheader>Permisos</h3>
 	<mat-divider></mat-divider>
-	@if(permissions.length >0 ) { @for (permission of permissions; track $index)
-	{
+	@if(permissions.length > 0 ) { @for (permission of permissions; track
+	$index) {
 	<mat-list-item role="listitem">
-		<mat-checkbox (change)="onMarkPermission($index)">
+		<mat-checkbox (change)="onMarkPermission(permission.id)">
 			<b>{{ permission.name }}</b> | {{ permission.descripcion }}
 		</mat-checkbox>
 	</mat-list-item>

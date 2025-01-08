@@ -34,6 +34,14 @@ export abstract class GenericService {
 			.set('searchTerm', filters.searchTerm ?? '');
 	}
 
+	getRangos() {
+		return this.$http
+			.get<IApiResponse<INamedEntity[]>>(`${this.API_URL}/rangos`)
+			.pipe(
+				map((response: IApiResponse<INamedEntity[]>) => response.data)
+			);
+	}
+
 	get<T>(filters: IPaginationFilter) {
 		return this.$http
 			.get<IApiResponse<IPagedData<T>>>(this.endPoint, {
