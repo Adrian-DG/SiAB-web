@@ -62,14 +62,13 @@ export class AppComponent implements OnInit {
 		},
 	];
 
-	isVisible$ = computed<boolean>(() =>
-		this._authService.isAuthenticated().valueOf()
-	);
+	isVisible$ = signal<boolean>(false);
 
 	constructor(public _authService: AuthenticationService) {}
 
 	ngOnInit(): void {
 		this.userRoles = this._authService.userData()?.Roles ?? [];
+		this.isVisible$.set(this._authService.isAuthenticated());
 		// throw new Error('Method not implemented.');
 	}
 
@@ -94,5 +93,6 @@ export class AppComponent implements OnInit {
 
 	onLogout() {
 		this._authService.logout();
+		this.isVisible$.set(false);
 	}
 }
