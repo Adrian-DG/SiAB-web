@@ -27,6 +27,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ICreateDepositoDto } from '../../dtos/icreate-deposito.dto';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { IUpdateEntityDto } from '../../dtos/iupdate-entity.dto';
+import { IDepositoDetailModel } from '../../models/ideposito-detail.model';
+import { UpdateCreateDialogActionsComponent } from '../../../../Shared/components/update-create-dialog-actions/update-create-dialog-actions.component';
 
 @Component({
 	selector: 'app-depositos-form-dialog',
@@ -40,6 +42,7 @@ import { IUpdateEntityDto } from '../../dtos/iupdate-entity.dto';
 		MatCheckboxModule,
 		FormsModule,
 		ReactiveFormsModule,
+		UpdateCreateDialogActionsComponent,
 	],
 	templateUrl: './depositos-form-dialog.component.html',
 	styleUrl: './depositos-form-dialog.component.scss',
@@ -49,7 +52,7 @@ import { IUpdateEntityDto } from '../../dtos/iupdate-entity.dto';
 export class DepositosFormDialogComponent
 	extends FormularyMetadata<
 		DepositosFormDialogComponent,
-		IUpdateEntityDto<INamedEntity>
+		IDepositoDetailModel
 	>
 	implements OnInit
 {
@@ -83,11 +86,11 @@ export class DepositosFormDialogComponent
 		return dependencia.nombre;
 	}
 
-	override onUpdate(): void {
+	override onUpdate(event: any): void {
 		throw new Error('Method not implemented.');
 	}
 
-	override onSave(): void {
+	override onSave(event: any): void {
 		const dependencia = this.dependenciaControl
 			.value as unknown as INamedEntity;
 

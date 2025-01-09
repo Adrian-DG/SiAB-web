@@ -13,11 +13,18 @@ import { MatTableModule } from '@angular/material/table';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { DepositosFormDialogComponent } from '../../components/depositos-form-dialog/depositos-form-dialog.component';
+import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-dialog/confirm-dialog.component';
+import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
 
 @Component({
 	selector: 'app-depositos',
 	standalone: true,
-	imports: [PageIntroComponent, MatTableModule, PagePaginatorComponent],
+	imports: [
+		PageIntroComponent,
+		MatTableModule,
+		PagePaginatorComponent,
+		CrudActionsComponent,
+	],
 	templateUrl: './depositos.page.component.html',
 	styleUrl: './depositos.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,11 +57,29 @@ export class DepositosPageComponent
 	}
 
 	override onEdit(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(DepositosFormDialogComponent, {
+				...this.dialogConfig,
+				data: event,
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onDelete(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(ConfirmDialogComponent, {
+				...this.dialogConfig,
+				data: { action: 'Eliminar' },
+			})
+			.afterClosed()
+			.subscribe((res) => {
+				if (res) {
+					this._depositosService
+						.delete(event.id)
+						.subscribe(() => this.onLoadData());
+				}
+			});
 	}
 
 	override onCreate(event: any): void {

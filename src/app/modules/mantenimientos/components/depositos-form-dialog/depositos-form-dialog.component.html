@@ -1,10 +1,36 @@
-<h2 mat-dialog-title>Formulario Depositos</h2>
+<h2 mat-dialog-title>{{ customTitle }}</h2>
 <div mat-dialog-content>
-	@if(data){
+	@if(isUpdate){
 	<mat-form-field style="width: 100%">
 		<mat-label>Deposito</mat-label>
 		<input matInput [(ngModel)]="data.entity.nombre" />
 	</mat-form-field>
+
+	<p><b>Dependencia actual:</b> <br />{{ data.entity.dependencia }}</p>
+	<mat-form-field style="width: 100%">
+		<mat-label>Dependencia Actual</mat-label>
+		<input
+			type="text"
+			placeholder="Buscar dependencia"
+			matInput
+			[formControl]="dependenciaControl"
+			[matAutocomplete]="dependenciaAuto"
+		/>
+		<mat-autocomplete
+			#dependenciaAuto="matAutocomplete"
+			[displayWith]="displayDependenciaFn"
+		>
+			@for (dependencia of dependencias$(); track dependencia.id) {
+			<mat-option [value]="dependencia">{{
+				dependencia.nombre
+			}}</mat-option>
+			}
+		</mat-autocomplete>
+	</mat-form-field>
+	<mat-checkbox [(ngModel)]="data.entity.esFuncion"
+		>Es Función ?
+		<b>{{ data.entity.esFuncion ? 'Si' : 'No' }}</b></mat-checkbox
+	>
 	} @else {
 	<mat-form-field style="width: 100%">
 		<mat-label>Deposito</mat-label>
@@ -36,25 +62,8 @@
 	>
 	}
 </div>
-<div mat-dialog-actions>
-	<button mat-button mat-dialog-close>Cancelar</button>
-	@if (data) {
-	<button
-		mat-button
-		[mat-dialog-close]="true"
-		cdkFocusInitial
-		(click)="onUpdate()"
-	>
-		Actualizar
-	</button>
-	} @else {
-	<button
-		mat-button
-		[mat-dialog-close]="true"
-		cdkFocusInitial
-		(click)="onSave()"
-	>
-		Guardar
-	</button>
-	}
-</div>
+<app-update-create-dialog-actions
+	[isUpdate]="isUpdate"
+	(on-save)="onSave($event)"
+	(on-update)="onUpdate($event)"
+></app-update-create-dialog-actions>

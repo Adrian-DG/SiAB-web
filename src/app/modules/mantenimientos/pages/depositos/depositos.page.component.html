@@ -36,7 +36,14 @@
 
 			<ng-container matColumnDef="acciones">
 				<th mat-header-cell *matHeaderCellDef>Acciones</th>
-				<td mat-cell *matCellDef="let element"></td>
+				<td mat-cell *matCellDef="let element">
+					<app-crud-actions
+						[id]="element.id"
+						[entity]="element"
+						(on-edit)="onEdit($event)"
+						(on-delete)="onDelete($event)"
+					></app-crud-actions>
+				</td>
 			</ng-container>
 
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
