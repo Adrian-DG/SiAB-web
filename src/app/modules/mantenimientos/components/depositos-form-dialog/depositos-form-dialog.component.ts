@@ -26,6 +26,7 @@ import React from 'react';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ICreateDepositoDto } from '../../dtos/icreate-deposito.dto';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { IUpdateEntityDto } from '../../dtos/iupdate-entity.dto';
 
 @Component({
 	selector: 'app-depositos-form-dialog',
@@ -46,7 +47,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 	providers: [DepositosService, DependenciasService],
 })
 export class DepositosFormDialogComponent
-	extends FormularyMetadata
+	extends FormularyMetadata<
+		DepositosFormDialogComponent,
+		IUpdateEntityDto<INamedEntity>
+	>
 	implements OnInit
 {
 	dependencias$ = signal<INamedEntity[]>([]);
@@ -54,11 +58,11 @@ export class DepositosFormDialogComponent
 	dependenciaControl = new FormControl<string>('', Validators.required);
 
 	constructor(
-		private dialogRef: MatDialogRef<DepositosFormDialogComponent>,
-		private _depositosService: DepositosService,
-		private _dependenciasService: DependenciasService
+		protected dialogRef: MatDialogRef<DepositosFormDialogComponent>,
+		private _dependenciasService: DependenciasService,
+		private _depositosService: DepositosService
 	) {
-		super();
+		super(dialogRef);
 	}
 
 	ngOnInit(): void {
@@ -77,6 +81,10 @@ export class DepositosFormDialogComponent
 
 	displayDependenciaFn(dependencia: INamedEntity): string {
 		return dependencia.nombre;
+	}
+
+	override onUpdate(): void {
+		throw new Error('Method not implemented.');
 	}
 
 	override onSave(): void {

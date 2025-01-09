@@ -6,8 +6,8 @@ export abstract class FormularyMetadata<C, T> {
 	public data: IUpdateEntityDto<T> = inject(MAT_DIALOG_DATA);
 	constructor(protected _dialoRef: MatDialogRef<C>) {}
 
-	abstract onSave(): void;
-	abstract onUpdate(): void;
+	abstract onSave(event: any): void;
+	abstract onUpdate(event: any): void;
 
 	get isUpdate(): boolean {
 		return this.data !== null;
@@ -15,7 +15,7 @@ export abstract class FormularyMetadata<C, T> {
 
 	get customTitle(): string {
 		return this.isUpdate
-			? `Editar registro ${this.data?.id}`
+			? `Editar registro #${this.data?.id}`
 			: 'Formulario';
 	}
 }

@@ -1,5 +1,11 @@
 <h2 mat-dialog-title>Formulario Depositos</h2>
 <div mat-dialog-content>
+	@if(data){
+	<mat-form-field style="width: 100%">
+		<mat-label>Deposito</mat-label>
+		<input matInput [(ngModel)]="data.entity.nombre" />
+	</mat-form-field>
+	} @else {
 	<mat-form-field style="width: 100%">
 		<mat-label>Deposito</mat-label>
 		<input matInput [(ngModel)]="depositoObj.nombre" />
@@ -28,9 +34,20 @@
 		>Es Función ?
 		<b>{{ depositoObj.esFuncion ? 'Si' : 'No' }}</b></mat-checkbox
 	>
+	}
 </div>
 <div mat-dialog-actions>
 	<button mat-button mat-dialog-close>Cancelar</button>
+	@if (data) {
+	<button
+		mat-button
+		[mat-dialog-close]="true"
+		cdkFocusInitial
+		(click)="onUpdate()"
+	>
+		Actualizar
+	</button>
+	} @else {
 	<button
 		mat-button
 		[mat-dialog-close]="true"
@@ -39,4 +56,5 @@
 	>
 		Guardar
 	</button>
+	}
 </div>

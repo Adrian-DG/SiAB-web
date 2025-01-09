@@ -24,7 +24,8 @@ export abstract class BaseListResource<T> {
 	protected dialogConfig: MatDialogConfig = {
 		hasBackdrop: true,
 		minHeight: 200,
-		minWidth: 400,
+		minWidth: 500,
+		maxWidth: 800,
 		role: 'alertdialog',
 	};
 

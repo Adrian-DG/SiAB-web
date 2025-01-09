@@ -1,6 +1,7 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
+	Inject,
 	inject,
 	OnInit,
 } from '@angular/core';
@@ -11,6 +12,10 @@ import {
 	MatDialogModule,
 	MatDialogRef,
 } from '@angular/material/dialog';
+
+export interface IConfirmDialogData {
+	action: 'Eliminar' | 'Actualizar';
+}
 
 @Component({
 	selector: 'app-confirm-dialog',
@@ -36,8 +41,10 @@ import {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDialogComponent {
-	data: { action: 'Eliminar' | 'Actualizar' } = inject(MAT_DIALOG_DATA);
-	constructor(private _dialogRef: MatDialogRef<ConfirmDialogComponent>) {}
+	constructor(
+		private _dialogRef: MatDialogRef<ConfirmDialogComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: IConfirmDialogData
+	) {}
 
 	onOptionSelected(cond: boolean) {
 		this._dialogRef.close(cond);

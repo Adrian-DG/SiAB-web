@@ -14,6 +14,7 @@ import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata
 import { IUpdateEntityDto } from '../../dtos/iupdate-entity.dto';
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-dialog/confirm-dialog.component';
+import { UpdateCreateDialogActionsComponent } from '../../../../Shared/components/update-create-dialog-actions/update-create-dialog-actions.component';
 
 @Component({
 	selector: 'app-calibre-form',
@@ -24,6 +25,7 @@ import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-di
 		MatInputModule,
 		MatButtonModule,
 		FormsModule,
+		UpdateCreateDialogActionsComponent,
 	],
 	templateUrl: './calibre-form-dialog.component.html',
 	styleUrl: './calibre-form-dialog.component.scss',
@@ -43,14 +45,14 @@ export class CalibreFormDialogComponent extends FormularyMetadata<
 		super(_dialoRef);
 	}
 
-	onSave(): void {
+	override onSave(event: any): void {
 		this._calibreService.create(this.calibre).subscribe(() => {
 			this.calibre = '';
 			this._dialoRef.close();
 		});
 	}
 
-	onUpdate(): void {
+	override onUpdate(event: any): void {
 		this._calibreService.update(this.data).subscribe(() => {
 			this._dialoRef.close();
 		});

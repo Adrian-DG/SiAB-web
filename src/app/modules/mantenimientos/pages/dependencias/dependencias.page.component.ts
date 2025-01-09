@@ -13,11 +13,18 @@ import { MatDialog } from '@angular/material/dialog';
 import { DependenciasService } from '../../services/dependencias.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { DependenciasFormDialogComponent } from '../../components/dependencias-form-dialog/dependencias-form-dialog.component';
+import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
+import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
 	selector: 'app-dependencias.page',
 	standalone: true,
-	imports: [MatTableModule, PageIntroComponent, PagePaginatorComponent],
+	imports: [
+		MatTableModule,
+		PageIntroComponent,
+		PagePaginatorComponent,
+		CrudActionsComponent,
+	],
 	templateUrl: './dependencias.page.component.html',
 	styleUrl: './dependencias.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,11 +50,31 @@ export class DependenciasPageComponent
 	}
 
 	override onEdit(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(DependenciasFormDialogComponent, {
+				...this.dialogConfig,
+				data: event,
+			})
+			.afterClosed()
+			.subscribe(() => {
+				this.onLoadData();
+			});
 	}
 
 	override onDelete(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(ConfirmDialogComponent, {
+				...this.dialogConfig,
+				data: { action: 'Eliminar' },
+			})
+			.afterClosed()
+			.subscribe((result) => {
+				if (result) {
+					this._service.delete(event.id).subscribe(() => {
+						this.onLoadData();
+					});
+				}
+			});
 	}
 
 	override onCreate(event: any): void {
