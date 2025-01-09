@@ -13,6 +13,7 @@ import { IApiResponse } from '../Models/iapi-response.model';
 import { catchError, map, throwError } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorInterceptor } from '../../interceptors/error.interceptor';
+import { IUpdateEntityDto } from '../../modules/mantenimientos/dtos/iupdate-entity.dto';
 
 @Injectable({
 	providedIn: 'root',
@@ -70,5 +71,16 @@ export abstract class GenericService {
 				return response.data;
 			})
 		);
+	}
+
+	update<T>(model: IUpdateEntityDto<T>) {
+		console.log(model);
+		return this.$http
+			.put<IApiResponse<T>>(`${this.endPoint}/${model.id}`, model.entity)
+			.pipe(
+				map((response: IApiResponse<T>) => {
+					return response.data;
+				})
+			);
 	}
 }

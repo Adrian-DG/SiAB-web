@@ -7,6 +7,7 @@ import {
 } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
+import { IUpdateEntityDto } from '../../modules/mantenimientos/dtos/iupdate-entity.dto';
 
 export abstract class BaseListResource<T> {
 	abstract title: string;
@@ -56,9 +57,9 @@ export abstract class BaseListResource<T> {
 		});
 	}
 
-	abstract onEdit(event: any): void;
+	abstract onEdit(event: IUpdateEntityDto<any>): void;
 
-	abstract onDelete(event: any): void;
+	abstract onDelete(event: number): void;
 
 	abstract onCreate(event: any): void;
 
