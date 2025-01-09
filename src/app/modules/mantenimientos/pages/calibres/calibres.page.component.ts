@@ -16,11 +16,19 @@ import { CalibreService } from '../../services/calibre.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { FormDialogComponent } from '../../../../Shared/components/form-dialog/form-dialog.component';
 import { CalibreFormDialogComponent } from '../../components/calibre-form-dialog/calibre-form-dialog.component';
+import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
+import { IUpdateEntityDto } from '../../dtos/iupdate-entity.dto';
+import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
 	selector: 'app-calibres',
 	standalone: true,
-	imports: [MatTableModule, PageIntroComponent, PagePaginatorComponent],
+	imports: [
+		MatTableModule,
+		PageIntroComponent,
+		PagePaginatorComponent,
+		CrudActionsComponent,
+	],
 	templateUrl: './calibres.page.component.html',
 	styleUrl: './calibres.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,12 +54,33 @@ export class CalibresPageComponent
 		this.onLoadData();
 	}
 
-	override onEdit(event: any): void {
-		throw new Error('Method not implemented.');
+	override onEdit(event: IUpdateEntityDto<INamedEntity>): void {
+		this._dialog
+			.open(CalibreFormDialogComponent, {
+				...this.dialogConfig,
+				width: '500px',
+				data: { ...event },
+			})
+			.afterClosed()
+			.subscribe(() => {
+				this.onLoadData();
+			});
 	}
 
-	override onDelete(event: any): void {
-		throw new Error('Method not implemented.');
+	override onDelete(event: number): void {
+		this._dialog
+			.open(ConfirmDialogComponent, {
+				...this.dialogConfig,
+				data: { action: 'Eliminar' },
+			})
+			.afterClosed()
+			.subscribe((res: boolean) => {
+				if (res) {
+					this._calibreService.delete(event).subscribe(() => {
+						this.onLoadData();
+					});
+				}
+			});
 	}
 
 	override onCreate(event: any): void {
@@ -59,6 +88,7 @@ export class CalibresPageComponent
 			.open(CalibreFormDialogComponent, {
 				...this.dialogConfig,
 				width: '500px',
+				data: null,
 			})
 			.afterClosed()
 			.subscribe(() => {

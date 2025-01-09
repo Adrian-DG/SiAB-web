@@ -1,11 +1,19 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+	MAT_DIALOG_DATA,
+	MatDialog,
+	MatDialogModule,
+	MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CalibreService } from '../../services/calibre.service';
 import { FormsModule } from '@angular/forms';
 import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata';
+import { IUpdateEntityDto } from '../../dtos/iupdate-entity.dto';
+import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
+import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
 	selector: 'app-calibre-form',
@@ -22,15 +30,29 @@ import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [CalibreService],
 })
-export class CalibreFormDialogComponent extends FormularyMetadata {
+export class CalibreFormDialogComponent extends FormularyMetadata<
+	CalibreFormDialogComponent,
+	INamedEntity
+> {
 	calibre: string = '';
-	constructor(private _calibreService: CalibreService) {
-		super();
+
+	constructor(
+		protected override _dialoRef: MatDialogRef<CalibreFormDialogComponent>,
+		private _calibreService: CalibreService
+	) {
+		super(_dialoRef);
 	}
 
-	override onSave(): void {
+	onSave(): void {
 		this._calibreService.create(this.calibre).subscribe(() => {
 			this.calibre = '';
+			this._dialoRef.close();
+		});
+	}
+
+	onUpdate(): void {
+		this._calibreService.update(this.data).subscribe(() => {
+			this._dialoRef.close();
 		});
 	}
 }
