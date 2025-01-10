@@ -56,17 +56,29 @@ export class MarcasPageComponent
 	}
 
 	override onDelete(event: any): void {
-		this._dialog.open(ConfirmDialogComponent, {
-			...this.dialogConfig,
-			data: { action: 'Eliminar' },
-		});
+		this._dialog
+			.open(ConfirmDialogComponent, {
+				...this.dialogConfig,
+				data: { action: 'Eliminar' },
+			})
+			.afterClosed()
+			.subscribe((res) => {
+				if (res) {
+					this._marcasService
+						.delete(event)
+						.subscribe(() => this.onLoadData());
+				}
+			});
 	}
 
 	override onEdit(event: any): void {
-		this._dialog.open(MarcasFormDialogComponent, {
-			...this.dialogConfig,
-			data: event,
-		});
+		this._dialog
+			.open(MarcasFormDialogComponent, {
+				...this.dialogConfig,
+				data: event,
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onCreate(event: any): void {
