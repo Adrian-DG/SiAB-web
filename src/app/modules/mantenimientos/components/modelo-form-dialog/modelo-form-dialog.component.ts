@@ -17,53 +17,68 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { ICreateModeloDto } from '../../dtos/icreate-modelo.dto';
 import { FileInputComponent } from '../../../../Shared/components/file-input/file-input.component';
+import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata';
+import { IModeloDetail } from '../../models/imodelo-detail.model';
+import { UpdateCreateDialogActionsComponent } from '../../../../Shared/components/update-create-dialog-actions/update-create-dialog-actions.component';
+import { CommonModule } from '@angular/common';
+import { IUpdateEntityDto } from '../../dtos/iupdate-entity.dto';
 
 @Component({
 	selector: 'app-modelo-form-dialog',
 	standalone: true,
 	imports: [
+		CommonModule,
 		MatDialogModule,
 		MatFormFieldModule,
 		MatInputModule,
 		MatButtonModule,
 		MatAutocompleteModule,
+		FormsModule,
 		ReactiveFormsModule,
 		FileInputComponent,
+		UpdateCreateDialogActionsComponent,
 	],
 	templateUrl: './modelo-form-dialog.component.html',
 	styleUrls: ['./modelo-form-dialog.component.scss'],
 	providers: [ModelosService, MarcaService],
 })
-export class ModeloFormDialogComponent implements OnInit {
-	fotoModelo!: string | null;
-	fotoModeloBase64!: string | null;
-	modeloForm: FormGroup = new FormGroup({
-		nombre: new FormControl('', Validators.required),
-		marca: new FormControl(''),
-	});
-
-	marcas$ = signal<INamedEntity[]>([]);
-
+export class ModeloFormDialogComponent
+	extends FormularyMetadata<ModeloFormDialogComponent, IModeloDetail>
+	implements OnInit
+{
 	constructor(
 		private dialogRef: MatDialogRef<ModeloFormDialogComponent>,
 		private modeloService: ModelosService,
 		private marcasService: MarcaService
-	) {}
+	) {
+		super(dialogRef);
+	}
+
+	fotoModelo!: string | null;
+
+	nombreControl = new FormControl('', [Validators.required]);
+	marcaControl = new FormControl('');
+
+	marcas$ = signal<INamedEntity[]>([]);
 
 	ngOnInit(): void {
-		this.modeloForm.controls['marca'].valueChanges.subscribe(
-			(value: string | null) => {
-				if (value && value !== '' && value.length > 2) {
-					setTimeout(() => {
-						this.marcasService
-							.getFilter<INamedEntity>(value)
-							.subscribe((marcas: INamedEntity[]) => {
-								this.marcas$.set(marcas);
-							});
-					}, 2000);
-				}
+		this.marcaControl.valueChanges.subscribe((value: string | null) => {
+			if (value && value !== '' && value.length > 2) {
+				setTimeout(() => {
+					this.marcasService
+						.getFilter<INamedEntity>(value)
+						.subscribe((marcas: INamedEntity[]) => {
+							this.marcas$.set(marcas);
+						});
+				}, 2000);
 			}
-		);
+		});
+
+		if (this.isUpdate) {
+			this.fotoModelo = this.data.entity?.foto || null;
+			this.nombreControl.setValue(this.data.entity?.nombre);
+			this.marcaControl.setValue(this.data.entity?.marca);
+		}
 	}
 
 	displayMarca(marca: INamedEntity): string {
@@ -74,17 +89,51 @@ export class ModeloFormDialogComponent implements OnInit {
 		this.fotoModelo = event;
 	}
 
-	create(): void {
-		const { nombre, marca } = this.modeloForm.value;
+	override onSave(event: any): void {
+		if (this.nombreControl.valid && this.marcaControl.valid) {
+			const marca = this.marcaControl.value as unknown as INamedEntity;
+			const modelo: ICreateModeloDto = {
+				nombre: this.nombreControl.value ?? '',
+				marcaId: marca.id,
+				foto: this.fotoModelo ?? null,
+			};
 
-		const modeloObj: ICreateModeloDto = {
-			nombre: nombre,
-			marcaId: marca.id,
-			foto: this.fotoModelo ?? null,
-		};
+			this.modeloService.create(modelo).subscribe(() => {
+				this.dialogRef.close();
+			});
+		}
+	}
 
-		this.modeloService.create(modeloObj).subscribe(() => {
-			this.dialogRef.close();
-		});
+	override onUpdate(event: any): void {
+		if (this.nombreControl.valid && this.marcaControl.valid) {
+			const marca = this.marcaControl.value;
+
+			let marcaId = 0;
+
+			if (typeof marca === 'string') {
+				console.log('Marca string: ');
+				marcaId = this.data.entity?.marcaId;
+			} else {
+				console.log('Marca Object: ');
+				marcaId = (marca as unknown as INamedEntity).id;
+			}
+
+			const modelo: IUpdateEntityDto<{
+				nombre: string;
+				marcaId: number;
+				foto: string;
+			}> = {
+				id: this.data.entity?.id,
+				entity: {
+					nombre: this.nombreControl.value ?? '',
+					marcaId: marcaId,
+					foto: this.fotoModelo || '',
+				},
+			};
+
+			this.modeloService.update(modelo).subscribe(() => {
+				this.dialogRef.close();
+			});
+		}
 	}
 }

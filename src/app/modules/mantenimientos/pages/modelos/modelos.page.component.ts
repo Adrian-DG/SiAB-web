@@ -72,7 +72,13 @@ export class ModelosPageComponent
 	}
 
 	override onEdit(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(ModeloFormDialogComponent, {
+				...this.dialogConfig,
+				data: event,
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onCreate(event: any): void {
