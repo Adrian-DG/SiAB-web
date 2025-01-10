@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>
+	{{ customTitle }}
+</h2>
+
+<div mat-dialog-content>
+	@if(isUpdate) {
+	<mat-form-field style="width: 100%">
+		<mat-label>Tipo</mat-label>
+		<input matInput [(ngModel)]="data.entity.nombre" />
+	</mat-form-field>
+	} @else {
+	<mat-form-field style="width: 100%">
+		<mat-label>Tipo</mat-label>
+		<input matInput [(ngModel)]="tipo" />
+	</mat-form-field>
+	}
+</div>
+<app-update-create-dialog-actions
+	[isUpdate]="isUpdate"
+	(on-save)="onSave($event)"
+	(on-update)="onUpdate($event)"
+></app-update-create-dialog-actions>

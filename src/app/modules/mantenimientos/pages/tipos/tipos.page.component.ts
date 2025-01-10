@@ -15,11 +15,19 @@ import { PagePaginatorComponent } from '../../../../Shared/components/page-pagin
 import { ITipoDetail } from '../../models/itipo-detail.model';
 import { map } from 'rxjs';
 import { IApiResponse } from '../../../../Shared/Models/iapi-response.model';
+import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
+import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-dialog/confirm-dialog.component';
+import { TiposFormDialogComponent } from '../../components/tipos-form-dialog/tipos-form-dialog.component';
 
 @Component({
 	selector: 'app-tipos.page',
 	standalone: true,
-	imports: [MatTableModule, PageIntroComponent, PagePaginatorComponent],
+	imports: [
+		MatTableModule,
+		PageIntroComponent,
+		PagePaginatorComponent,
+		CrudActionsComponent,
+	],
 	templateUrl: './tipos.page.component.html',
 	styleUrl: './tipos.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,15 +59,30 @@ export class TiposPageComponent
 	}
 
 	override onEdit(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(TiposFormDialogComponent, {
+				...this.dialogConfig,
+				data: event,
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onDelete(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(ConfirmDialogComponent, {
+				...this.dialogConfig,
+				data: { action: 'Eliminar' },
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onCreate(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(TiposFormDialogComponent, this.dialogConfig)
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onLoadData(): void {
