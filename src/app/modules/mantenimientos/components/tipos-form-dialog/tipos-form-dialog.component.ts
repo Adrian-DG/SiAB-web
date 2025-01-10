@@ -38,9 +38,11 @@ export class TiposFormDialogComponent extends FormularyMetadata<
 	}
 
 	override onSave(event: any): void {
-		this._tipoService.create({ nombre: this.tipo }).subscribe((res) => {
-			this.dialogRef.close(res);
-		});
+		this._tipoService
+			.create<{ nombre: string }>({ nombre: this.tipo })
+			.subscribe((res) => {
+				this.dialogRef.close(res);
+			});
 	}
 	override onUpdate(event: any): void {
 		this._tipoService.update<INamedEntity>(this.data).subscribe((res) => {
