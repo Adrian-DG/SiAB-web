@@ -15,11 +15,19 @@ import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { MarcaService } from '../../services/marca.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { MatDialog } from '@angular/material/dialog';
+import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
+import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-dialog/confirm-dialog.component';
+import { MarcasFormDialogComponent } from '../../components/marcas-form-dialog/marcas-form-dialog.component';
 
 @Component({
 	selector: 'app-marcas',
 	standalone: true,
-	imports: [PageIntroComponent, MatTableModule, PagePaginatorComponent],
+	imports: [
+		PageIntroComponent,
+		MatTableModule,
+		PagePaginatorComponent,
+		CrudActionsComponent,
+	],
 	templateUrl: './marcas.page.component.html',
 	styleUrl: './marcas.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,15 +56,23 @@ export class MarcasPageComponent
 	}
 
 	override onDelete(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog.open(ConfirmDialogComponent, {
+			...this.dialogConfig,
+			data: { action: 'Eliminar' },
+		});
 	}
 
 	override onEdit(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog.open(MarcasFormDialogComponent, {
+			...this.dialogConfig,
+			data: event,
+		});
 	}
 
 	override onCreate(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog.open(MarcasFormDialogComponent, {
+			...this.dialogConfig,
+		});
 	}
 
 	override onLoadData(): void {

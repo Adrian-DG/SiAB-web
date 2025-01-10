@@ -56,6 +56,7 @@ export abstract class BaseListResource<T> {
 			size: event.pageSize,
 			searchTerm: this.filters$().searchTerm,
 		});
+		this.onLoadData();
 	}
 
 	abstract onEdit(event: IUpdateEntityDto<any>): void;
