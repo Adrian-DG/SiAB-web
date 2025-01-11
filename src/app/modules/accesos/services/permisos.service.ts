@@ -17,7 +17,7 @@ export class PermisosService extends GenericService {
 		super($http);
 	}
 
-	getAll() {
+	getAllPermisos() {
 		return this.$http
 			.get<IApiResponse<IPermissionModel[]>>(`${this.endPoint}`)
 			.pipe(map((res: IApiResponse<IPermissionModel[]>) => res.data));

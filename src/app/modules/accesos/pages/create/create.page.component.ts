@@ -66,7 +66,7 @@ export class CreatePageComponent implements OnInit, AfterViewInit {
 	) {}
 
 	ngOnInit(): void {
-		this._permisosService.getAll().subscribe((permissions) => {
+		this._permisosService.getAllPermisos().subscribe((permissions) => {
 			this.permissions$.set(permissions);
 		});
 	}

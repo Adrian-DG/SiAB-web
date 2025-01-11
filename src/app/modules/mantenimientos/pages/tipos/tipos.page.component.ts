@@ -75,14 +75,20 @@ export class TiposPageComponent
 				data: { action: 'Eliminar' },
 			})
 			.afterClosed()
-			.subscribe(() => this.onLoadData());
+			.subscribe((res: boolean) => {
+				if (res) {
+					this._tiposService.delete(event).subscribe(() => {
+						this.onLoadData();
+					});
+				}
+			});
 	}
 
 	override onCreate(event: any): void {
 		this._dialog
 			.open(TiposFormDialogComponent, this.dialogConfig)
 			.afterClosed()
-			.subscribe(() => this.onLoadData());
+			.subscribe((res) => this.onLoadData());
 	}
 
 	override onLoadData(): void {

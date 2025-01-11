@@ -14,6 +14,17 @@
 		<input matInput [(ngModel)]="tipo" />
 	</mat-form-field>
 	}
+
+	<mat-form-field style="width: 100%">
+		<mat-label>Descripción</mat-label>
+		<mat-select [(ngModel)]="categoria">
+			@for (categoria of categorias$(); track $index) {
+			<mat-option [value]="categoria.id">{{
+				categoria.nombre
+			}}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
 </div>
 <app-update-create-dialog-actions
 	[isUpdate]="isUpdate"

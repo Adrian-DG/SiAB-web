@@ -65,6 +65,12 @@ export abstract class GenericService {
 			.pipe(map((response: IApiResponse<T[]>) => response.data));
 	}
 
+	getAll<T>() {
+		return this.$http
+			.get<IApiResponse<T[]>>(`${this.endPoint}/filtrar`)
+			.pipe(map((response: IApiResponse<T[]>) => response.data));
+	}
+
 	create<T>(model: T) {
 		return this.$http.post<IApiResponse<T>>(this.endPoint, model).pipe(
 			map((response: IApiResponse<T>) => {
