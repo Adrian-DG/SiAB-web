@@ -65,14 +65,16 @@ export class TiposFormDialogComponent
 	}
 
 	override onSave(event: any): void {
-		this._tipoService
-			.create<ICreateTipoDto>({
-				nombre: this.tipo,
-				categoriaId: this.categoria,
-			})
-			.subscribe((res) => {
-				this.dialogRef.close(res);
-			});
+		if (this.tipo !== '' && this.categoria !== 0) {
+			this._tipoService
+				.create<ICreateTipoDto>({
+					nombre: this.tipo,
+					categoriaId: this.categoria,
+				})
+				.subscribe((res) => {
+					this.dialogRef.close(res);
+				});
+		}
 	}
 
 	override onUpdate(event: any): void {
