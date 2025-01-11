@@ -14,11 +14,19 @@ import { SubtipoService } from '../../services/subtipo.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { map } from 'rxjs';
 import { IApiResponse } from '../../../../Shared/Models/iapi-response.model';
+import { SubtipoFormDialogComponent } from '../../components/subtipo-form-dialog/subtipo-form-dialog.component';
+import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-dialog/confirm-dialog.component';
+import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
 
 @Component({
 	selector: 'app-subtipos.page',
 	standalone: true,
-	imports: [MatTableModule, PageIntroComponent, PagePaginatorComponent],
+	imports: [
+		MatTableModule,
+		PageIntroComponent,
+		PagePaginatorComponent,
+		CrudActionsComponent,
+	],
 	templateUrl: './subtipos.page.component.html',
 	styleUrl: './subtipos.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,15 +53,38 @@ export class SubtiposPageComponent
 	}
 
 	override onEdit(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(SubtipoFormDialogComponent, {
+				...this.dialogConfig,
+				data: event,
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onDelete(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(ConfirmDialogComponent, {
+				...this.dialogConfig,
+				data: { action: 'Eliminar' },
+			})
+			.afterClosed()
+			.subscribe((res: boolean) => {
+				if (res) {
+					this._subTipoService
+						.delete(event.id)
+						.subscribe(() => this.onLoadData());
+				}
+			});
 	}
 
 	override onCreate(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(SubtipoFormDialogComponent, {
+				...this.dialogConfig,
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onLoadData(): void {

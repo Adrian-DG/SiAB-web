@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>
+	{{ customTitle }}
+</h2>
+
+<div mat-dialog-content>
+	<mat-form-field style="width: 100%">
+		<mat-label>Tipo</mat-label>
+		<input matInput [(ngModel)]="subTipo" />
+	</mat-form-field>
+
+	<mat-form-field style="width: 100%">
+		<mat-label>Descripción</mat-label>
+		<mat-select [(ngModel)]="tipo">
+			@for (tipo of tipos$(); track $index) {
+			<mat-option [value]="tipo.id">{{ tipo.nombre }}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+</div>
+<app-update-create-dialog-actions
+	[isUpdate]="isUpdate"
+	(on-save)="onSave($event)"
+	(on-update)="onUpdate($event)"
+></app-update-create-dialog-actions>
