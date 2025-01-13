@@ -12,11 +12,19 @@ import { BaseListResource } from '../../../../Shared/helpers/base-list-resource.
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { MatDialog } from '@angular/material/dialog';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
+import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
+import { CategoriaFormDialogComponent } from '../../components/categoria-form-dialog/categoria-form-dialog.component';
+import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
 	selector: 'app-categorias.page',
 	standalone: true,
-	imports: [MatTableModule, PageIntroComponent, PagePaginatorComponent],
+	imports: [
+		MatTableModule,
+		PageIntroComponent,
+		PagePaginatorComponent,
+		CrudActionsComponent,
+	],
 	templateUrl: './categorias.page.component.html',
 	styleUrl: './categorias.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,15 +51,38 @@ export class CategoriasPageComponent
 	}
 
 	override onEdit(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(CategoriaFormDialogComponent, {
+				...this.dialogConfig,
+				data: event,
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onDelete(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(ConfirmDialogComponent, {
+				...this.dialogConfig,
+				data: { action: 'Eliminar' },
+			})
+			.afterClosed()
+			.subscribe((result: boolean) => {
+				if (result) {
+					this._categoriaService
+						.delete(event.id)
+						.subscribe(() => this.onLoadData());
+				}
+			});
 	}
 
 	override onCreate(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(CategoriaFormDialogComponent, {
+				...this.dialogConfig,
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onLoadData(): void {
