@@ -17,6 +17,7 @@ import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata
 import { ISubtipoDetail } from '../../models/isubtipo-detail.model';
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { ICreateSubtipoDto } from '../../dtos/icreate-subtipo.dto';
+import { IUpdateEntityDto } from '../../dtos/iupdate-entity.dto';
 
 @Component({
 	selector: 'app-subtipo-form-dialog',
@@ -71,8 +72,18 @@ export class SubtipoFormDialogComponent
 	}
 
 	override onUpdate(event: any): void {
+		const data: IUpdateEntityDto<ISubtipoDetail> = {
+			id: this.data.id,
+			entity: {
+				id: this.data.id,
+				nombre: this.subTipo,
+				tipo: this.data.entity.tipo,
+				tipoId: this.tipo,
+			},
+		};
+
 		this.subtipoService
-			.update<{ nombre: string; tipoId: number }>(this.data)
+			.update<{ nombre: string; tipoId: number }>(data)
 			.subscribe(() => this._dialogRef.close());
 	}
 }
