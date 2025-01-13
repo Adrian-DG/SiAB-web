@@ -1,0 +1,18 @@
+:host {
+	display: block;
+}
+
+.table {
+	width: 100%;
+	.thead {
+		background-color: rgb(226, 224, 224);
+		color: rgb(70, 69, 69);
+	}
+	.tbody {
+		max-height: 500px;
+		overflow-y: auto;
+		.row {
+			padding: 0.2em 0;
+		}
+	}
+}

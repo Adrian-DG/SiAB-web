@@ -1,0 +1,21 @@
+<table class="table">
+	<!-- Dynamic Column Definitions -->
+
+	<thead class="thead">
+		<tr>
+			@for(column of tableColumns[0]; track $index) {
+			<th scope="col" class="column">{{ column }}</th>
+			}
+		</tr>
+	</thead>
+
+	<tbody class="tbody">
+		@for(row of tableData; track $index) {
+		<tr class="row">
+			@for(cell of row; track $index) {
+			<td scope="row" class="cell">{{ cell }}</td>
+			}
+		</tr>
+		}
+	</tbody>
+</table>

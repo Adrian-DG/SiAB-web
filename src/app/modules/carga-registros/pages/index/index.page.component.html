@@ -1,0 +1,21 @@
+<mat-card>
+	<mat-card-header class="header">
+		<h2 mat-card-title>Carga Documento</h2>
+		<p mat-card-subtitle>Carga de documentos para inventario</p>
+	</mat-card-header>
+	<mat-card-content>
+		<app-excel-uploader
+			[title]="'Cargar archivo de inventario'"
+			(on-file-upluoded)="onFileSelected($event)"
+		></app-excel-uploader>
+
+		@if(tableData$()) {
+		<app-dynamic-data-table
+			[tableColumns]="tableData$()?.header || []"
+			[tableData]="tableData$()?.rows || []"
+		></app-dynamic-data-table>
+		} @else {
+		<p>Seleccione un archivo para cargar</p>
+		}
+	</mat-card-content>
+</mat-card>

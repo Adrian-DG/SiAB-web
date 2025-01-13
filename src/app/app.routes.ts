@@ -5,6 +5,13 @@ import { AppPermissions } from './app.permissions';
 
 export const routes: Routes = [
 	{
+		path: 'inventario',
+		loadChildren: () =>
+			import('./modules/carga-registros/carga-registros.routes').then(
+				(m) => m.cargaRegistrosRoutes
+			),
+	},
+	{
 		path: 'accesos',
 		loadChildren: () =>
 			import('./modules/accesos/accesos.routes').then(
