@@ -18,6 +18,7 @@ import { ITipoDetail } from '../../models/itipo-detail.model';
 import { ICreateTipoDto } from '../../dtos/icreate-tipo.dto';
 import { CategoriaService } from '../../services/categoria.service';
 import { MatSelectModule } from '@angular/material/select';
+import { IUpdateEntityDto } from '../../dtos/iupdate-entity.dto';
 
 @Component({
 	selector: 'app-tipos-form-dialog',
@@ -78,8 +79,18 @@ export class TiposFormDialogComponent
 	}
 
 	override onUpdate(event: any): void {
+		const data: IUpdateEntityDto<ITipoDetail> = {
+			id: this.data.id,
+			entity: {
+				id: this.data.id,
+				nombre: this.tipo,
+				categoriaId: this.categoria,
+				categoria: this.data.entity.categoria,
+			},
+		};
+
 		this._tipoService
-			.update<{ nombre: string; categoriaId: number }>(this.data)
+			.update<{ nombre: string; categoriaId: number }>(data)
 			.subscribe((res) => {
 				this.dialogRef.close(res);
 			});
