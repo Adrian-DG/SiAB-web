@@ -18,4 +18,18 @@
 		</tr>
 		}
 	</tbody>
+
+	<tfoot class="tfoot">
+		<tr>
+			<th
+				scope="row"
+				[colSpan]="columnsCount"
+				class="footer"
+				style="text-align: left"
+			>
+				Total
+			</th>
+			<td>{{ tableData.length }}</td>
+		</tr>
+	</tfoot>
 </table>

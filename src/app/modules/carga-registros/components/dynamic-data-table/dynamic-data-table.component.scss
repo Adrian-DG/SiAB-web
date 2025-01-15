@@ -12,7 +12,15 @@
 		max-height: 500px;
 		overflow-y: auto;
 		.row {
-			padding: 0.2em 0;
+			padding: 0.3em 0;
+		}
+	}
+	.tfoot {
+		background-color: rgb(226, 224, 224);
+		color: rgb(70, 69, 69);
+		th,
+		td {
+			padding-left: 0.3em;
 		}
 	}
 }

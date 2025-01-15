@@ -23,6 +23,11 @@ export class DynamicDataTableComponent implements OnInit {
 	dataSource = new MatTableDataSource<any>();
 
 	ngOnInit(): void {
+		console.log((this.tableColumns[0] as string).length);
 		this.dataSource.data = this.tableData;
+	}
+
+	get columnsCount() {
+		return (this.tableColumns[0] as string).length - 1;
 	}
 }
