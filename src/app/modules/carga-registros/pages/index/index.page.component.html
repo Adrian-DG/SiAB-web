@@ -10,10 +10,18 @@
 		></app-excel-uploader>
 
 		@if(tableData$()) {
-		<app-dynamic-data-table
-			[tableColumns]="tableData$()?.header || []"
-			[tableData]="tableData$()?.rows || []"
-		></app-dynamic-data-table>
+		<mat-tab-group>
+			@for (item of tableData$(); track $index) {
+
+			<mat-tab [label]="item.sheet">
+				<app-dynamic-data-table
+					[tableColumns]="item.header || []"
+					[tableData]="item.rows || []"
+				></app-dynamic-data-table>
+			</mat-tab>
+
+			}
+		</mat-tab-group>
 		} @else {
 		<p>Seleccione un archivo para cargar</p>
 		}

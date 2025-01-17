@@ -8,6 +8,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import * as XLSX from 'xlsx';
+import { IExcelData } from '../../../modules/carga-registros/pages/index/index.page.component';
 type AOA = any[][];
 @Component({
 	selector: 'app-excel-uploader',
@@ -51,30 +52,56 @@ export class ExcelUploaderComponent {
 				const bstr: string = e.target.result;
 				const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
 
-				// console.log('Workbook: ', wb.SheetNames[0]);
+				let excelData: IExcelData[] = [];
+
+				for (let index = 0; index < wb.SheetNames.length; index++) {
+					const wsname: string = wb.SheetNames[index];
+					const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+					/* save data */
+					this.rows = <any[][]>XLSX.utils.sheet_to_json(ws, {
+						header: 1,
+						raw: false,
+						range: this.START_ROW_INDEX,
+					});
+
+					// console.log('Header:', this.rows.slice(1, 2)); // Log the header
+					this.header = this.rows.slice(1, 2);
+
+					// console.log('Row Data:', this.rows.slice(2)); // Log the row data
+					this.rows = this.rows.slice(2);
+
+					excelData.push({
+						sheet: wsname as string,
+						header: this.header as string[],
+						rows: this.rows as string[],
+					});
+				}
+
+				this.fileEvent.emit(excelData);
 
 				/* grab first sheet */
-				const wsname: string = wb.SheetNames[0];
-				const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+				// const wsname: string = wb.SheetNames[0];
+				// const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
 				/* save data */
-				this.rows = <any[][]>XLSX.utils.sheet_to_json(ws, {
-					header: 1,
-					raw: false,
-					range: this.START_ROW_INDEX,
-				});
+				// this.rows = <any[][]>XLSX.utils.sheet_to_json(ws, {
+				// 	header: 1,
+				// 	raw: false,
+				// 	range: this.START_ROW_INDEX,
+				// });
 
 				// console.log('Header:', this.rows.slice(1, 2)); // Log the header
-				this.header = this.rows.slice(1, 2);
+				// this.header = this.rows.slice(1, 2);
 
 				// console.log('Row Data:', this.rows.slice(2)); // Log the row data
-				this.rows = this.rows.slice(2);
+				// this.rows = this.rows.slice(2);
 
-				this.fileEvent.emit({
-					sheet: wsname as string,
-					header: this.header as string[],
-					rows: this.rows as string[],
-				});
+				// this.fileEvent.emit({
+				// 	sheet: wsname as string,
+				// 	header: this.header as string[],
+				// 	rows: this.rows as string[],
+				// });
 
 				// const ws2: XLSX.WorkSheet = wb.Sheets[wb.SheetNames[1]];
 				// this.readDataSheet(ws2, this.START_ROW_INDEX);

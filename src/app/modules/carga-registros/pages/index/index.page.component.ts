@@ -7,10 +7,16 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ExcelUploaderComponent } from '../../../../Shared/components/excel-uploader/excel-uploader.component';
 import { MatIconModule } from '@angular/material/icon';
 import { DynamicDataTableComponent } from '../../components/dynamic-data-table/dynamic-data-table.component';
+
+export interface IExcelData {
+	sheet: string;
+	header: any[];
+	rows: any[];
+}
 
 @Component({
 	selector: 'app-index.page',
@@ -20,6 +26,7 @@ import { DynamicDataTableComponent } from '../../components/dynamic-data-table/d
 		MatCardModule,
 		MatButtonModule,
 		MatIconModule,
+		MatTabsModule,
 		ExcelUploaderComponent,
 		DynamicDataTableComponent,
 	],
@@ -29,17 +36,9 @@ import { DynamicDataTableComponent } from '../../components/dynamic-data-table/d
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class IndexPageComponent {
-	tableData$ = signal<{
-		sheet: string;
-		header: any[];
-		rows: any[];
-	} | null>(null);
+	tableData$ = signal<IExcelData[]>([]);
 
-	onFileSelected(event: { sheet: string; header: any[]; rows: any[] }) {
-		this.tableData$.set({
-			sheet: event.sheet,
-			header: event.header,
-			rows: event.rows,
-		});
+	onFileSelected(event: IExcelData[]) {
+		this.tableData$.set(event);
 	}
 }
