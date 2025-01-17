@@ -11,6 +11,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ExcelUploaderComponent } from '../../../../Shared/components/excel-uploader/excel-uploader.component';
 import { MatIconModule } from '@angular/material/icon';
 import { DynamicDataTableComponent } from '../../components/dynamic-data-table/dynamic-data-table.component';
+import { ResourceExcelSelectorComponent } from '../../components/resource-excel-selector/resource-excel-selector.component';
 
 export interface IExcelData {
 	sheet: string;
@@ -29,6 +30,7 @@ export interface IExcelData {
 		MatTabsModule,
 		ExcelUploaderComponent,
 		DynamicDataTableComponent,
+		ResourceExcelSelectorComponent,
 	],
 	templateUrl: './index.page.component.html',
 	styleUrl: './index.page.component.scss',
