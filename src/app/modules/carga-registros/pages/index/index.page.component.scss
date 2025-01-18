@@ -9,6 +9,13 @@
 	align-items: flex-start;
 	margin-bottom: 20px;
 	gap: 1em;
+	h2,
+	p {
+		color: rgb(126, 126, 126);
+	}
+	h2 {
+		font-weight: 500;
+	}
 	.actions {
 		width: 60%;
 	}

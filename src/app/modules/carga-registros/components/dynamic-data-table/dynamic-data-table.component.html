@@ -10,11 +10,17 @@
 	</thead>
 
 	<tbody class="tbody">
-		@for(row of tableData; track $index) {
+		@if(tableData.length > 0) { @for(row of tableData; track $index) {
 		<tr class="row">
 			@for(cell of row; track $index) {
 			<td scope="row" class="cell">{{ cell }}</td>
 			}
+		</tr>
+		} } @else {
+		<tr class="row">
+			<td scope="row" class="cell" [colSpan]="columnsCount">
+				No data available
+			</td>
 		</tr>
 		}
 	</tbody>
