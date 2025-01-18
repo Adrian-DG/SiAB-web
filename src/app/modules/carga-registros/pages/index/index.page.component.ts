@@ -12,6 +12,7 @@ import { ExcelUploaderComponent } from '../../../../Shared/components/excel-uplo
 import { MatIconModule } from '@angular/material/icon';
 import { DynamicDataTableComponent } from '../../components/dynamic-data-table/dynamic-data-table.component';
 import { ResourceExcelSelectorComponent } from '../../components/resource-excel-selector/resource-excel-selector.component';
+import { ExcelTemplateService } from '../../services/ExcelTemplate.service';
 
 export interface IExcelData {
 	sheet: string;
@@ -40,7 +41,26 @@ export interface IExcelData {
 export class IndexPageComponent {
 	tableData$ = signal<IExcelData[]>([]);
 
+	constructor(private _excelService: ExcelTemplateService) {}
+
 	onFileSelected(event: IExcelData[]) {
 		this.tableData$.set(event);
+	}
+
+	onTemplateDownload(type: number) {
+		const templateActions: { [key: number]: () => void } = {
+			1: () => {
+				this._excelService.getPlantillaRelacionArmas();
+			},
+			2: () => {},
+		};
+
+		const action = templateActions[type];
+
+		action ? action() : console.error('Invalid template type');
+	}
+
+	onInfoUpload(type: number) {
+		// Upload info
 	}
 }

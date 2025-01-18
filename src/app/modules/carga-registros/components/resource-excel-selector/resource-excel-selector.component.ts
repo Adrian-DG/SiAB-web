@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	EventEmitter,
+	Output,
+	ViewEncapsulation,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,31 +20,22 @@ import { MatSelectModule } from '@angular/material/select';
 		MatSelectModule,
 		MatButtonModule,
 		MatIconModule,
+		FormsModule,
 	],
 	template: `
 		<div class="row">
 			<mat-form-field>
 				<mat-label>Tipo Excel</mat-label>
-				<mat-select>
-					<mat-option [value]="1">Relación de armas</mat-option>
+				<mat-select [(ngModel)]="excelType">
+					<mat-option [value]="1">Relación de Armas</mat-option>
 					<mat-option [value]="2">Excel 2</mat-option>
 				</mat-select>
 			</mat-form-field>
-			<!-- <label
-				class="excel-logo-container"
-				style="display: flex; flex-direction: row; justify-content: center; align-items: center;"
-			>
-				<img
-					src="/excel_logo.png"
-					alt="excel_logo"
-					class="excel-logo"
-				/>
-			</label> -->
-			<button mat-raised-button>
+			<button mat-raised-button (click)="downloadTemplate()">
 				<mat-icon>cloud_download</mat-icon>
 				Descargar plantilla
 			</button>
-			<button mat-flat-button>
+			<button mat-flat-button (click)="uploadInfo()">
 				<mat-icon>cloud_upload</mat-icon>
 				subir informacion
 			</button>
@@ -46,4 +44,20 @@ import { MatSelectModule } from '@angular/material/select';
 	styleUrl: './resource-excel-selector.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ResourceExcelSelectorComponent {}
+export class ResourceExcelSelectorComponent {
+	@Output('on-template-download') templateDownload =
+		new EventEmitter<number>();
+	@Output('on-info-upload') infoUpload = new EventEmitter<number>();
+
+	excelType: number = 1;
+
+	downloadTemplate() {
+		// Download template
+		this.templateDownload.emit(this.excelType);
+	}
+
+	uploadInfo() {
+		// Upload info
+		this.infoUpload.emit(this.excelType);
+	}
+}
