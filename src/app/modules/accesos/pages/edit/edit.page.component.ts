@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsuariosService } from '../../services/usuarios.service';
 import { PermisosService } from '../../services/permisos.service';
 import { IPermissionModel } from '../../models/ipermission.model';
@@ -46,7 +46,7 @@ export class EditPageComponent implements OnInit, AfterViewInit {
 	usuarioData$ = signal<IUsuarioUpdateModel | null>(null);
 	permissions$ = signal<IPermissionModel[]>([]);
 	rangos$ = signal<INamedEntity[]>([]);
-	selectedPermissions: number[] = [];
+	selectedPermissions$ = signal<number[]>([]);
 
 	usuarioForm: FormGroup = new FormGroup({
 		cedula: new FormControl(this.usuarioData$()?.cedula, [
@@ -66,6 +66,7 @@ export class EditPageComponent implements OnInit, AfterViewInit {
 
 	constructor(
 		private $route: ActivatedRoute,
+		private $router: Router,
 		private _permisosService: PermisosService,
 		private _usuarioService: UsuariosService
 	) {
@@ -114,6 +115,15 @@ export class EditPageComponent implements OnInit, AfterViewInit {
 	}
 
 	onPermissionSaved(permissions: number[]): void {
-		this.selectedPermissions = permissions;
+		this.selectedPermissions$.set(permissions);
+	}
+
+	saveChanges(): void {
+		this._usuarioService
+			.updateUsuario(this.usuarioId, {
+				...this.usuarioForm.value,
+				roles: this.selectedPermissions$(),
+			})
+			.subscribe(() => this.$router.navigate(['/accesos/usuarios']));
 	}
 }

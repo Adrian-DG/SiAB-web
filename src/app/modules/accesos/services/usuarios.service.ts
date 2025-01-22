@@ -27,4 +27,11 @@ export class UsuariosService extends GenericService {
 				)
 			);
 	}
+
+	updateUsuario(id: number, data: IUsuarioUpdateModel) {
+		return this.$http.put<IApiResponse<any>>(
+			`${this.endPoint}/${id}`,
+			data
+		);
+	}
 }

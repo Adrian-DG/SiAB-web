@@ -4,8 +4,10 @@ import {
 	Component,
 	EventEmitter,
 	Input,
+	OnChanges,
 	OnInit,
 	Output,
+	SimpleChanges,
 } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
@@ -20,12 +22,27 @@ import { MatDividerModule } from '@angular/material/divider';
 	styleUrl: './permissions-selector.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PermissionsSelectorComponent {
+export class PermissionsSelectorComponent implements OnInit, OnChanges {
 	@Input() permissions: IPermissionModel[] = [];
 	@Output('on-permission-saved') markPermissionEvent = new EventEmitter<
 		number[]
 	>();
 	markedPermissions: number[] = [];
+
+	ngOnInit(): void {
+		console.log(
+			'PermissionsSelectorComponent initialized: ',
+			this.permissions
+		);
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		console.log('PermissionsSelectorComponent changes: ', changes);
+		const checkedPermissions = (
+			changes['permissions'].currentValue as IPermissionModel[]
+		).filter((p) => p.checked);
+		checkedPermissions.forEach((p) => this.onMarkPermission(p.id));
+	}
 
 	onMarkPermission(permissionId: number): void {
 		if (this.markedPermissions.includes(permissionId)) {
