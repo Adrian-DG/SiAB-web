@@ -14,7 +14,10 @@ import { UsuariosService } from '../../services/usuarios.service';
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { IUsuarioDetailModel } from '../../models/iusuario-detail.model';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { accesosRoutes } from '../../accesos.routes';
 
 @Component({
 	selector: 'app-list.page',
@@ -22,8 +25,11 @@ import { Router } from '@angular/router';
 	imports: [
 		MatTableModule,
 		MatCardModule,
+		MatButtonModule,
+		MatIconModule,
 		PageIntroComponent,
 		PagePaginatorComponent,
+		RouterModule,
 	],
 	templateUrl: './list.page.component.html',
 	styleUrl: './list.page.component.scss',
@@ -61,7 +67,7 @@ export class ListPageComponent
 	}
 
 	override onEdit(event: any): void {
-		throw new Error('Method not implemented.');
+		this.$router.navigate(['/accesos/', event as number]);
 	}
 
 	override onDelete(event: any): void {

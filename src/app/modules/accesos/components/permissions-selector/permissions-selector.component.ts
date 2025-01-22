@@ -1,8 +1,10 @@
 import {
+	AfterViewInit,
 	ChangeDetectionStrategy,
 	Component,
 	EventEmitter,
 	Input,
+	OnInit,
 	Output,
 } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';

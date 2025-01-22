@@ -1,0 +1,66 @@
+<mat-card>
+	<mat-card-header>
+		<mat-card-title><h3>Modificar Usuario</h3></mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<form [formGroup]="usuarioForm">
+			<div class="row">
+				<mat-form-field class="col">
+					<mat-label>Cédula</mat-label>
+					<input
+						matInput
+						placeholder="cedula"
+						formControlName="cedula"
+					/>
+				</mat-form-field>
+				<mat-form-field class="col">
+					<mat-label>Nombre</mat-label>
+					<input
+						matInput
+						placeholder="Nombre"
+						formControlName="nombre"
+					/>
+				</mat-form-field>
+				<mat-form-field class="col">
+					<mat-label>Apellido</mat-label>
+					<input
+						matInput
+						placeholder="Apellido"
+						formControlName="apellido"
+					/>
+				</mat-form-field>
+
+				<mat-form-field class="col">
+					<mat-label>Rango</mat-label>
+					<mat-select placeholder="rango" formControlName="rangoId">
+						@for(rango of rangos$(); track $index){
+						<mat-option [value]="rango.id">{{
+							rango.nombre
+						}}</mat-option>
+						}
+					</mat-select>
+				</mat-form-field>
+			</div>
+		</form>
+
+		<app-permissions-selector
+			[permissions]="permissions$()"
+			(on-permission-saved)="onPermissionSaved($event)"
+		></app-permissions-selector>
+	</mat-card-content>
+	<mat-card-footer>
+		<mat-card-actions>
+			<button mat-raised-button color="warn" style="width: 50%">
+				Cancelar
+			</button>
+			<button
+				style="width: 50%"
+				mat-flat-button
+				color="primary"
+				[disabled]="!usuarioForm.valid"
+			>
+				Guardar
+			</button>
+		</mat-card-actions>
+	</mat-card-footer>
+</mat-card>
