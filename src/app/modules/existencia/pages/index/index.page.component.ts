@@ -122,10 +122,10 @@ export class IndexComponent implements OnInit {
 					cedula: civil.cedula,
 					nombreApellidoCompleto: civil.nombreCompleto,
 					rango: 'Civil',
-					profesion: '',
-					institucion: '',
-					departamento: '',
-					cargo: '',
+					profesion: 'N/A',
+					institucion: 'N/A',
+					departamento: 'N/A',
+					cargo: 'N/A',
 				};
 
 				this.miembro.set({ ...obj } as IMiembroView);
