@@ -17,13 +17,15 @@
 			>
 				@for (item of miembrosList(); track $index) {
 				<mat-option [value]="item.cedula">
-					<span
-						>{{ item.rango }} | {{ item.nombreApellidoCompleto }} |
-						{{ item.estadoMiembro }}</span
-					>
+					<app-miembro-list-item
+						[miembro]="item"
+					></app-miembro-list-item>
 				</mat-option>
 				}
 			</mat-autocomplete>
+			<mat-hint
+				><b>{{ searchHelpText }}</b></mat-hint
+			>
 		</mat-form-field>
 
 		<mat-radio-group [(ngModel)]="tipoFiltro">

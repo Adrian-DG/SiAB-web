@@ -149,7 +149,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 				value.length > this.MINIMUN_FILTER_LENGTH
 			) {
 				this._miembrosService
-					.getMiembrosByCedula(value)
+					.getMiembrosByCedulaNombre(value)
 					.subscribe((miembros: IMiembroListDetail[]) => {
 						this.intendentesList.set(
 							miembros.map((miembro) => {
@@ -184,7 +184,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 		switch (tipo) {
 			case TipoDebitoCreditoEnum.MIEMBRO:
 				this._miembrosService
-					.getMiembrosByCedula(value)
+					.getMiembrosByCedulaNombre(value)
 					.subscribe((miembros: IMiembroListDetail[]) => {
 						let data = miembros.map((miembro) => ({
 							param1: miembro.cedula,

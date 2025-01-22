@@ -1,0 +1,49 @@
+:host {
+	display: block;
+}
+
+.miembro-list-item {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	padding: 1em;
+	&:hover {
+		background-color: #f9f9f9;
+	}
+
+	.row {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.5em;
+		.foto {
+			flex-grow: 1;
+			img {
+				width: 100px;
+				height: auto;
+				border: 2px solid gainsboro;
+				border-radius: 0.5em;
+			}
+		}
+		.info {
+			flex-grow: 3;
+		}
+	}
+}
+
+.status {
+	font-weight: 500;
+	padding: 0.3em 0.5em;
+	border-radius: 0.2em;
+	color: white;
+}
+
+.activo {
+	background-color: rgb(93, 207, 102);
+}
+
+.pasivo {
+	background-color: rgb(209, 91, 91);
+}

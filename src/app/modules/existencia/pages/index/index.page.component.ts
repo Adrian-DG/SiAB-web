@@ -20,6 +20,7 @@ import { IMiembroListDetail } from '../../models/imiembro-list-deatil.model';
 import { ConsultaMiembroComponent } from '../../../../Shared/components/consulta-miembro/consulta-miembro.component';
 import { JCEService } from '../../../../Shared/Services/JCE.service';
 import { IJCEModel } from '../../../../Shared/Models/ijce-model';
+import { MiembroListItemComponent } from '../../../../Shared/components/miembro-list-item/miembro-list-item.component';
 
 export enum TipoBusqueda {
 	MIEMBRO = 1,
@@ -38,6 +39,7 @@ export enum TipoBusqueda {
 		FormsModule,
 		ReactiveFormsModule,
 		ConsultaMiembroComponent,
+		MiembroListItemComponent,
 	],
 	templateUrl: './index.page.component.html',
 	styleUrl: './index.page.component.scss',
@@ -63,11 +65,19 @@ export class IndexComponent implements OnInit {
 			} else {
 				if (value && value !== '' && value.length >= 5) {
 					this.tipoFiltro === 1
-						? this.getMiembrosByCedula(value)
+						? this.getMiembrosByCedulaNombre(value)
 						: this.getMiembrosByCargo(value);
 				}
 			}
 		});
+	}
+
+	get searchHelpText() {
+		return this.tipoFiltro === this.tipoBusqueda.MIEMBRO
+			? 'Buscar por cédula o nombre'
+			: this.tipoFiltro === this.tipoBusqueda.FUNCION
+			? 'Buscar por cargo o función'
+			: 'Buscar por cédula civil, favor incluir guiones (-)';
 	}
 
 	get tipoBusqueda() {
@@ -82,9 +92,9 @@ export class IndexComponent implements OnInit {
 			: 'cédula civil';
 	}
 
-	getMiembrosByCedula(cedula: string) {
+	getMiembrosByCedulaNombre(param: string) {
 		this._miembroService
-			.getMiembrosByCedula(cedula)
+			.getMiembrosByCedulaNombre(param)
 			.subscribe((miembros: IMiembroListDetail[]) => {
 				this.miembrosList.set(miembros);
 			});
