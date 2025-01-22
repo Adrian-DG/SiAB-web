@@ -10,17 +10,17 @@ export const accesosRoutes: Route[] = [
 			),
 	},
 	{
-		path: ':id',
-		loadComponent: () =>
-			import('./pages/edit/edit.page.component').then(
-				(m) => m.EditPageComponent
-			),
-	},
-	{
 		path: 'create',
 		loadComponent: () =>
 			import('./pages/create/create.page.component').then(
 				(m) => m.CreatePageComponent
+			),
+	},
+	{
+		path: ':id',
+		loadComponent: () =>
+			import('./pages/edit/edit.page.component').then(
+				(m) => m.EditPageComponent
 			),
 	},
 	{
