@@ -16,13 +16,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 	styleUrl: './dynamic-data-table.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DynamicDataTableComponent implements OnInit {
+export class DynamicDataTableComponent {
 	@Input() tableData: any[] = [];
 	@Input() tableColumns: any[] = [];
-
-	ngOnInit(): void {
-		console.log((this.tableColumns[0] as string).length);
-	}
 
 	get columnsCount() {
 		return (this.tableColumns[0] as string).length - 1;

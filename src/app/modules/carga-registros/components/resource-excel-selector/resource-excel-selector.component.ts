@@ -27,8 +27,15 @@ import { MatSelectModule } from '@angular/material/select';
 			<mat-form-field>
 				<mat-label>Tipo Excel</mat-label>
 				<mat-select [(ngModel)]="excelType">
-					<mat-option [value]="1">Relación de Armas</mat-option>
-					<mat-option [value]="2">Excel 2</mat-option>
+					<mat-option [value]="1"
+						>Relación de Armas Militares</mat-option
+					>
+					<mat-option [value]="2"
+						>Relación de Armas Civiles</mat-option
+					>
+					<mat-option [value]="3"
+						>Relación de Armas Dependencias</mat-option
+					>
 				</mat-select>
 			</mat-form-field>
 			<button mat-raised-button (click)="downloadTemplate()">

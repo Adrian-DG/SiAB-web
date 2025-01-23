@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DynamicDataTableComponent } from '../../components/dynamic-data-table/dynamic-data-table.component';
 import { ResourceExcelSelectorComponent } from '../../components/resource-excel-selector/resource-excel-selector.component';
 import { ExcelTemplateService } from '../../services/ExcelTemplate.service';
+import { TransaccionService } from '../../services/transaccion.service';
 
 export interface IExcelData {
 	sheet: string;
@@ -37,14 +38,21 @@ export interface IExcelData {
 	styleUrl: './index.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
+	providers: [ExcelTemplateService, TransaccionService],
 })
 export class IndexPageComponent {
 	tableData$ = signal<IExcelData[]>([]);
+	file: File | null = null;
 
-	constructor(private _excelService: ExcelTemplateService) {}
+	constructor(
+		private _excelService: ExcelTemplateService,
+		private _transaccionService: TransaccionService
+	) {}
 
-	onFileSelected(event: IExcelData[]) {
-		this.tableData$.set(event);
+	onFileSelected(event: { data: IExcelData[]; file: File }) {
+		console.log(event);
+		this.tableData$.set(event.data);
+		this.file = event.file;
 	}
 
 	onTemplateDownload(type: number) {
@@ -60,7 +68,20 @@ export class IndexPageComponent {
 		action ? action() : console.error('Invalid template type');
 	}
 
-	onInfoUpload(type: number) {
-		// Upload info
+	onInfoUpload(event: number) {
+		console.log('File upload: ', event);
+
+		const uploadActions: { [key: number]: () => void } = {
+			1: () => {
+				const formData = new FormData();
+				formData.append('file', this.file as Blob);
+				this._transaccionService.uploadRelacionArticulos(formData);
+			},
+			2: () => {},
+		};
+
+		const action = uploadActions[event];
+
+		action ? action() : console.error('Invalid upload type');
 	}
 }

@@ -32,7 +32,7 @@ export class ExcelUploaderComponent {
 	// Define constants for magic numbers
 	private readonly EXPECTED_FILE_COUNT = 1;
 	private readonly HEADER_ROW_INDEX = 0;
-	private readonly START_ROW_INDEX = 1;
+	private readonly START_ROW_INDEX = 0;
 
 	onFileSelected(evt: any) {
 		/* wire up file reader */
@@ -65,11 +65,12 @@ export class ExcelUploaderComponent {
 						range: this.START_ROW_INDEX,
 					});
 
-					// console.log('Header:', this.rows.slice(1, 2)); // Log the header
-					this.header = this.rows.slice(1, 2);
+					// console.log('Rows: ', this.rows);
+					// console.log('Header:', this.rows.slice(0, 1)); // Log the header
+					this.header = this.rows.slice(0, 1);
 
-					// console.log('Row Data:', this.rows.slice(2)); // Log the row data
-					this.rows = this.rows.slice(2);
+					// console.log('Row Data:', this.rows.slice(1, 2)); // Log the row data
+					this.rows = this.rows.slice(1, 2);
 
 					excelData.push({
 						sheet: wsname as string,
@@ -78,7 +79,7 @@ export class ExcelUploaderComponent {
 					});
 				}
 
-				this.fileEvent.emit(excelData);
+				this.fileEvent.emit({ data: excelData, file: this.file });
 
 				/* grab first sheet */
 				// const wsname: string = wb.SheetNames[0];
@@ -130,7 +131,7 @@ export class ExcelUploaderComponent {
 
 	removeFile(): void {
 		this.file = null;
-		this.fileEvent.emit('');
+		this.fileEvent.emit({ data: [], file: this.file });
 	}
 
 	// export(): void {
