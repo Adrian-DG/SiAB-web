@@ -11,6 +11,7 @@
 
 	<tbody class="tbody">
 		@if(tableData.length > 0) { @for(row of tableData; track $index) {
+
 		<tr class="row">
 			@for(cell of row; track $index) {
 			<td scope="row" class="cell">{{ cell }}</td>
@@ -31,11 +32,11 @@
 				scope="row"
 				[colSpan]="columnsCount"
 				class="footer"
-				style="text-align: left"
+				style="text-align: left; padding-left: 4em"
 			>
 				Total
 			</th>
-			<td>{{ tableData.length }}</td>
+			<td style="text-align: center">{{ rowCount$() }}</td>
 		</tr>
 	</tfoot>
 </table>

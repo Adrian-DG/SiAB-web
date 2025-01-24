@@ -70,7 +70,7 @@ export class ExcelUploaderComponent {
 					this.header = this.rows.slice(0, 1);
 
 					// console.log('Row Data:', this.rows.slice(1, 2)); // Log the row data
-					this.rows = this.rows.slice(1, 2);
+					this.rows = this.rows.slice(1, this.rows.length);
 
 					excelData.push({
 						sheet: wsname as string,

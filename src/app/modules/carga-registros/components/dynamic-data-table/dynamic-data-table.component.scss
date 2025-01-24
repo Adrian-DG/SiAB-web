@@ -7,12 +7,19 @@
 	.thead {
 		background-color: rgb(226, 224, 224);
 		color: rgb(70, 69, 69);
+		.column {
+			text-align: center;
+			padding: 0.3em 0;
+		}
 	}
 	.tbody {
 		max-height: 500px;
 		overflow-y: auto;
 		.row {
 			padding: 0.3em 0;
+			.cell {
+				text-align: center;
+			}
 		}
 	}
 	.tfoot {

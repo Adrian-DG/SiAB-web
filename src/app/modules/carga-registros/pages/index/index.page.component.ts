@@ -55,33 +55,16 @@ export class IndexPageComponent {
 		this.file = event.file;
 	}
 
-	onTemplateDownload(type: number) {
-		const templateActions: { [key: number]: () => void } = {
-			1: () => {
-				this._excelService.getPlantillaRelacionArmas();
-			},
-			2: () => {},
-		};
-
-		const action = templateActions[type];
-
-		action ? action() : console.error('Invalid template type');
+	onTemplateDownload(event: any) {
+		this._excelService.getPlantillaRelacionArmas();
 	}
 
-	onInfoUpload(event: number) {
-		console.log('File upload: ', event);
-
-		const uploadActions: { [key: number]: () => void } = {
-			1: () => {
-				const formData = new FormData();
-				formData.append('file', this.file as Blob);
-				this._transaccionService.uploadRelacionArticulos(formData);
-			},
-			2: () => {},
-		};
-
-		const action = uploadActions[event];
-
-		action ? action() : console.error('Invalid upload type');
+	onInfoUpload(event: { origen: number; destino: number }) {
+		const formData = new FormData();
+		formData.append('file', this.file as Blob);
+		this._transaccionService.uploadRelacionArticulos(formData, {
+			origen: event.origen,
+			destino: event.destino,
+		});
 	}
 }

@@ -25,19 +25,25 @@ import { MatSelectModule } from '@angular/material/select';
 	template: `
 		<div class="row">
 			<mat-form-field>
-				<mat-label>Tipo Excel</mat-label>
-				<mat-select [(ngModel)]="excelType">
-					<mat-option [value]="1"
-						>Relación de Armas Militares</mat-option
-					>
-					<mat-option [value]="2"
-						>Relación de Armas Civiles</mat-option
-					>
-					<mat-option [value]="3"
-						>Relación de Armas Dependencias</mat-option
-					>
+				<mat-label>Origen</mat-label>
+				<mat-select [(ngModel)]="origen">
+					<mat-option [value]="1">Militar</mat-option>
+					<mat-option [value]="2">Deposito</mat-option>
+					<mat-option [value]="3">Funcuion (S4)</mat-option>
+					<mat-option [value]="4">Civil</mat-option>
 				</mat-select>
 			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>Destino</mat-label>
+				<mat-select [(ngModel)]="destino">
+					<mat-option [value]="1">Militar</mat-option>
+					<mat-option [value]="2">Deposito</mat-option>
+					<mat-option [value]="3">Funcuion (S4)</mat-option>
+					<mat-option [value]="4">Civil</mat-option>
+				</mat-select>
+			</mat-form-field>
+
 			<button mat-raised-button (click)="downloadTemplate()">
 				<mat-icon>cloud_download</mat-icon>
 				Descargar plantilla
@@ -52,19 +58,22 @@ import { MatSelectModule } from '@angular/material/select';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResourceExcelSelectorComponent {
-	@Output('on-template-download') templateDownload =
-		new EventEmitter<number>();
-	@Output('on-info-upload') infoUpload = new EventEmitter<number>();
+	@Output('on-template-download') templateDownload = new EventEmitter<void>();
+	@Output('on-info-upload') infoUpload = new EventEmitter<{
+		origen: number;
+		destino: number;
+	}>();
 
-	excelType: number = 1;
+	origen: number = 2;
+	destino: number = 1;
 
 	downloadTemplate() {
 		// Download template
-		this.templateDownload.emit(this.excelType);
+		this.templateDownload.emit();
 	}
 
 	uploadInfo() {
 		// Upload info
-		this.infoUpload.emit(this.excelType);
+		this.infoUpload.emit({ origen: this.origen, destino: this.destino });
 	}
 }
