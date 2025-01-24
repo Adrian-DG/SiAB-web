@@ -32,7 +32,7 @@ export class ExcelTemplateService {
 
 	getPlantillaRelacionArmas() {
 		this.$httpClient
-			.get(`${this._templateUrl}/plantilla-relacion-armas`, {
+			.get(`${this._templateUrl}/download-plantilla-relacion-armas`, {
 				observe: 'response',
 				responseType: 'blob',
 				reportProgress: true,
