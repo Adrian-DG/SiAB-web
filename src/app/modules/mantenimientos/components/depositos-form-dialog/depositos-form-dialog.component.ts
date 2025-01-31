@@ -22,7 +22,6 @@ import { IFuncionDetail } from '../../models/ifuncion-detail.model';
 import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata';
 import { DependenciasService } from '../../services/dependencias.service';
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
-import React from 'react';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ICreateDepositoDto } from '../../dtos/icreate-deposito.dto';
 import { MatCheckboxModule } from '@angular/material/checkbox';
