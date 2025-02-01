@@ -27,12 +27,14 @@ export class DynamicDataTableComponent implements OnChanges {
 
 	ngOnChanges(changes: SimpleChanges): void {
 		console.log(changes);
+		this.tableColumns = changes['tableColumns'].currentValue as string[];
 		this.tableData = changes['tableData'].currentValue as any[];
 		this.updateRowCount();
 	}
 
 	get columnsCount() {
-		return (this.tableColumns[0] as string).length - 1;
+		// return (this.tableColumns[0] as string).length - 1;
+		return this.tableColumns.length - 1;
 	}
 
 	updateRowCount(): void {

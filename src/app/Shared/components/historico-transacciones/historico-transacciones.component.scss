@@ -1,3 +1,9 @@
 :host {
-  display: block;
+	display: block;
+}
+
+.table {
+	min-height: 200px;
+	max-height: 300px;
+	overflow-y: auto;
 }

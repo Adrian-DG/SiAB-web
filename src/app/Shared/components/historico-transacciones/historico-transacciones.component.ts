@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+	AfterViewInit,
 	ChangeDetectionStrategy,
 	Component,
 	Input,
@@ -12,6 +13,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { TransaccionService } from '../../../modules/carga-registros/services/transaccion.service';
 import { DynamicDataTableComponent } from '../../../modules/carga-registros/components/dynamic-data-table/dynamic-data-table.component';
+import { MatTable, MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'app-historico-transacciones',
@@ -19,20 +23,90 @@ import { DynamicDataTableComponent } from '../../../modules/carga-registros/comp
 	imports: [
 		CommonModule,
 		MatCardModule,
-		MatListModule,
-		DynamicDataTableComponent,
+		MatTableModule,
+		MatButtonModule,
+		MatIconModule,
 	],
 	template: `
 		<mat-card>
 			<mat-card-header>
 				<mat-card-title>Historico de transacciones</mat-card-title>
+				<mat-card-subtitle
+					>Contiene el historial de todas las armas o equipos
+					asignados.</mat-card-subtitle
+				>
 			</mat-card-header>
-			<mat-card-content>
-				@if(data$().length > 0) {
-				<app-dynamic-data-table
-					[tableColumns]="columns$()"
-					[tableData]="data$()"
-				></app-dynamic-data-table>
+			<mat-card-content class="content">
+				@if (records$().length > 0) {
+
+				<mat-table [dataSource]="records$()" class="table">
+					<ng-container matColumnDef="marca">
+						<mat-header-cell *matHeaderCellDef>
+							Marca
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.marca }}
+						</mat-cell>
+					</ng-container>
+					<ng-container matColumnDef="modelo">
+						<mat-header-cell *matHeaderCellDef>
+							Modelo
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.modelo }}
+						</mat-cell>
+					</ng-container>
+					<ng-container matColumnDef="subtipo">
+						<mat-header-cell *matHeaderCellDef>
+							Subtipo
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.subTipo }}
+						</mat-cell>
+					</ng-container>
+					<ng-container matColumnDef="serie">
+						<mat-header-cell *matHeaderCellDef>
+							Serie
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.serie }}
+						</mat-cell>
+					</ng-container>
+					<ng-container matColumnDef="cantidad">
+						<mat-header-cell *matHeaderCellDef>
+							Cantidad
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.cantidad }}
+						</mat-cell>
+					</ng-container>
+					<ng-container matColumnDef="formulario">
+						<mat-header-cell *matHeaderCellDef>
+							Formulario
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.formulario }}
+						</mat-cell>
+					</ng-container>
+					<ng-container matColumnDef="acciones">
+						<mat-header-cell *matHeaderCellDef>
+							Acciones
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							<button mat-icon-button color="primary">
+								<mat-icon>edit</mat-icon>
+							</button>
+						</mat-cell>
+					</ng-container>
+					<mat-header-row
+						*matHeaderRowDef="displayedColumns"
+					></mat-header-row>
+					<mat-row
+						*matRowDef="let row; columns: displayedColumns"
+					></mat-row>
+				</mat-table>
+				} @else {
+				<p>No hay registros</p>
 				}
 			</mat-card-content>
 		</mat-card>
@@ -41,31 +115,27 @@ import { DynamicDataTableComponent } from '../../../modules/carga-registros/comp
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [TransaccionService],
 })
-export class HistoricoTransaccionesComponent implements OnInit, OnChanges {
+export class HistoricoTransaccionesComponent implements AfterViewInit {
 	@Input() tipoOrigen: number = 0;
 	@Input() origen: string = '';
+	displayedColumns: string[] = [
+		'marca',
+		'modelo',
+		'subtipo',
+		'serie',
+		'cantidad',
+		'formulario',
+		'acciones',
+	];
 
-	columns$ = signal<string[]>([]);
-	data$ = signal<any[]>([]);
+	records$ = signal<any[]>([]);
 
 	constructor(private _transaccionService: TransaccionService) {}
-
-	ngOnInit(): void {
+	ngAfterViewInit(): void {
 		this._transaccionService
 			.getArticulosOrigenTransaccion(this.tipoOrigen, this.origen)
 			.subscribe((data: any[]) => {
-				console.log(data);
+				this.records$.set(data);
 			});
-	}
-
-	ngOnChanges(changes: SimpleChanges): void {
-		// this._transaccionService
-		// 	.getArticulosOrigenTransaccion(this.tipoOrigen, this.origen)
-		// 	.subscribe((data: any[]) => {
-		// 		this.columns$.set(Object.keys(data[0]) as any[]);
-		// 		this.data$.set(Object.values(data) as any[]);
-		// 	});
-
-		throw new Error('Method not implemented.');
 	}
 }

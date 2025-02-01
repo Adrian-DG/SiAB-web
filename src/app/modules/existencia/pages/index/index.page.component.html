@@ -43,7 +43,7 @@
 	@if(miembro()!==null) {
 	<div style="width: 100%; height: auto">
 		<app-consulta-miembro [miembro]="miembro()"></app-consulta-miembro>
-
+		<br />
 		<app-historico-transacciones
 			[tipoOrigen]="tipoFiltro"
 			[origen]="miembro()?.cedula ?? ''"
