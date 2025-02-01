@@ -27,9 +27,7 @@ export class DynamicDataTableComponent implements OnChanges {
 
 	ngOnChanges(changes: SimpleChanges): void {
 		console.log(changes);
-		this.tableData = (changes['tableData'].currentValue as any[]).filter(
-			(v) => v.length > 0
-		);
+		this.tableData = changes['tableData'].currentValue as any[];
 		this.updateRowCount();
 	}
 
