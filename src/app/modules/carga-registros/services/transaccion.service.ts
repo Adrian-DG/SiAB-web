@@ -29,4 +29,16 @@ export class TransaccionService {
 			})
 			.subscribe(() => console.log('File uploaded'));
 	}
+
+	getArticulosOrigenTransaccion(tipoOrigen: number, origen: string) {
+		const params = new HttpParams()
+			.set('tipoOrigen', tipoOrigen.toString())
+			.set('origen', origen);
+		return this.$httpClient.get<any[]>(
+			`${this._url}/filter-articulos-origen-transaccion`,
+			{
+				params: params,
+			}
+		);
+	}
 }

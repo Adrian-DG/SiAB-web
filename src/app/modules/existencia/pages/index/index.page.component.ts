@@ -21,6 +21,9 @@ import { ConsultaMiembroComponent } from '../../../../Shared/components/consulta
 import { JCEService } from '../../../../Shared/Services/JCE.service';
 import { IJCEModel } from '../../../../Shared/Models/ijce-model';
 import { MiembroListItemComponent } from '../../../../Shared/components/miembro-list-item/miembro-list-item.component';
+import { TransaccionService } from '../../../carga-registros/services/transaccion.service';
+import { MatButtonModule } from '@angular/material/button';
+import { HistoricoTransaccionesComponent } from '../../../../Shared/components/historico-transacciones/historico-transacciones.component';
 
 export enum TipoBusqueda {
 	MIEMBRO = 1,
@@ -40,6 +43,7 @@ export enum TipoBusqueda {
 		ReactiveFormsModule,
 		ConsultaMiembroComponent,
 		MiembroListItemComponent,
+		HistoricoTransaccionesComponent,
 	],
 	templateUrl: './index.page.component.html',
 	styleUrl: './index.page.component.scss',
