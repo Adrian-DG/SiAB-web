@@ -29,10 +29,10 @@ import { MiembroService } from '../../../existencia/services/miembro.service';
 import { IFilterMiembroResult } from '../../models/ifilter-miembro-result.model';
 import { IMiembroListDetail } from '../../../existencia/models/imiembro-list-deatil.model';
 import { DepositosService } from '../../../mantenimientos/services/depositos.service';
-import { RDCService } from '../../services/RDC.service';
 import { DebitoArticulosTableComponent } from '../../components/debito-articulos-table/debito-articulos-table.component';
 import { SecuenciasService } from '../../services/Secuencias.service';
 import { FileInputComponent } from '../../../../Shared/components/file-input/file-input.component';
+import { TransaccionService } from '../../../carga-registros/services/transaccion.service';
 
 @Component({
 	selector: 'app-cargo-descargo.page',
@@ -57,8 +57,8 @@ import { FileInputComponent } from '../../../../Shared/components/file-input/fil
 	providers: [
 		MiembroService,
 		DepositosService,
-		RDCService,
 		SecuenciasService,
+		TransaccionService,
 	],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
@@ -97,8 +97,8 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	constructor(
 		private _miembrosService: MiembroService,
 		private _depositosService: DepositosService,
-		private _rdcService: RDCService,
-		private _secuenciasService: SecuenciasService
+		private _secuenciasService: SecuenciasService,
+		private _transaccionService: TransaccionService
 	) {}
 
 	ngOnInit(): void {
@@ -215,12 +215,16 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	}
 
 	onSelectedCredito(event: any) {
+		const tipoCargoCredito = this.registroDebitoCreditoForm.controls[
+			'tipoCargoCredito'
+		].value as number;
 		const debitadoA =
 			this.registroDebitoCreditoForm.controls['credito'].value;
-		this._rdcService
-			.getArticulosDebito(debitadoA)
-			.subscribe((value: IRegistroDebitoArticulo[]) => {
-				this.articulosList.set(value);
+
+		this._transaccionService
+			.getArticulosOrigenTransaccion(tipoCargoCredito, debitadoA)
+			.subscribe((data: any[]) => {
+				console.log(data);
 			});
 	}
 
