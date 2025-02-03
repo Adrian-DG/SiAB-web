@@ -5,6 +5,15 @@ import { AppPermissions } from './app.permissions';
 
 export const routes: Routes = [
 	{
+		path: 'proveedores',
+		loadChildren: () =>
+			import('./modules/proveedores/proveedores.routes').then(
+				(m) => m.proveedoresRoutes
+			),
+		canActivate: [authGuard, RolesGuard],
+		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
+	},
+	{
 		path: 'inventario',
 		loadChildren: () =>
 			import('./modules/carga-registros/carga-registros.routes').then(
