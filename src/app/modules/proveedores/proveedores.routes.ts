@@ -5,7 +5,7 @@ export const proveedoresRoutes: Routes = [
 		path: '',
 		pathMatch: 'full',
 		loadComponent: () =>
-			import('./pages/index.page/index.page.component').then(
+			import('./pages/index/index.page.component').then(
 				(m) => m.IndexPageComponent
 			),
 	},
