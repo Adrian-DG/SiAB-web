@@ -11,13 +11,20 @@ export const RolesGuard: CanActivateFn = (route, state) => {
 
 	if (expectedRoles.length === 0) return true;
 
-	const userRoles = token.Roles;
+	const roles = token.Roles;
 
-	if (Array.isArray(userRoles)) {
-		const roles = userRoles.map((role) => role.replace(' ', '_'));
-		return roles.some((role) => expectedRoles.includes(role));
+	console.log('Expected Roles:', expectedRoles);
+	console.log('Roles:', roles);
+
+	if (Array.isArray(roles)) {
+		return roles.some((role) => {
+			console.log(expectedRoles.includes(role));
+			return expectedRoles.includes(role);
+		});
 	} else {
-		const roles = userRoles.replace(' ', '_');
-		return roles.split(',').some((role) => expectedRoles.includes(role));
+		return roles.split(',').some((role) => {
+			console.log(expectedRoles.includes(role));
+			return expectedRoles.includes(role);
+		});
 	}
 };

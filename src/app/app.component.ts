@@ -85,11 +85,8 @@ export class AppComponent implements OnInit {
 		if (permissions.length === 0) return true;
 
 		const hasPermission = Array.isArray(this.userRoles)
-			? this.userRoles
-					.map((role) => role.replace(' ', '_'))
-					.some((role) => permissions.includes(role))
+			? this.userRoles.some((role) => permissions.includes(role))
 			: this.userRoles
-					.replace(' ', '_')
 					.split(',')
 					.some((role) => permissions.includes(role));
 

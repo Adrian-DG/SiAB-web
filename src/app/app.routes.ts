@@ -10,6 +10,8 @@ export const routes: Routes = [
 			import('./modules/carga-registros/carga-registros.routes').then(
 				(m) => m.cargaRegistrosRoutes
 			),
+		canActivate: [authGuard, RolesGuard],
+		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
 	},
 	{
 		path: 'accesos',
@@ -36,12 +38,7 @@ export const routes: Routes = [
 				(m) => m.existenciaRoutes
 			),
 		canActivate: [authGuard, RolesGuard],
-		data: {
-			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
-				AppPermissions.CONSULTA,
-			],
-		},
+		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
 	},
 	{
 		path: 'mantenimientos',
@@ -51,10 +48,7 @@ export const routes: Routes = [
 			),
 		canActivate: [authGuard, RolesGuard],
 		data: {
-			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
-				AppPermissions.MANTENIMIENTO,
-			],
+			expectedRoles: [AppPermissions.ADMINISTRADOR],
 		},
 	},
 	{
