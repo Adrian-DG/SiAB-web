@@ -11,7 +11,12 @@ export const routes: Routes = [
 				(m) => m.proveedoresRoutes
 			),
 		canActivate: [authGuard, RolesGuard],
-		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.PROVEEDORES,
+			],
+		},
 	},
 	{
 		path: 'inventario',
