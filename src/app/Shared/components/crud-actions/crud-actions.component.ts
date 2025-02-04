@@ -22,6 +22,11 @@ import { IUpdateEntityDto } from '../../../modules/mantenimientos/dtos/iupdate-e
 			>
 				<mat-icon>edit</mat-icon>
 			</button>
+			@if(showDetails) {
+			<button mat-icon-button color="warn" (click)="onDetails(id)">
+				<mat-icon>remove_red_eye</mat-icon>
+			</button>
+			}
 			<button mat-icon-button color="warn" (click)="onDelete(id)">
 				<mat-icon>delete</mat-icon>
 			</button>
@@ -33,8 +38,10 @@ import { IUpdateEntityDto } from '../../../modules/mantenimientos/dtos/iupdate-e
 export class CrudActionsComponent {
 	@Input() id!: number;
 	@Input() entity!: any;
+	@Input() showDetails: boolean = false;
 	@Output('on-delete') deleteEvent = new EventEmitter<number>();
 	@Output('on-edit') editEvent = new EventEmitter<IUpdateEntityDto<any>>();
+	@Output('on-details') detailsEvent = new EventEmitter<number>();
 
 	onDelete(id: number) {
 		this.deleteEvent.emit(id);
@@ -42,5 +49,9 @@ export class CrudActionsComponent {
 
 	onEdit(id: number, entity: any) {
 		this.editEvent.emit({ id, entity });
+	}
+
+	onDetails(id: number) {
+		this.detailsEvent.emit(id);
 	}
 }

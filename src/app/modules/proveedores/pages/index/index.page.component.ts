@@ -70,6 +70,10 @@ export class IndexPageComponent
 		});
 	}
 
+	onDetails(event: number): void {
+		throw new Error('Method not implemented.');
+	}
+
 	override onLoadData(): void {
 		this._proveedorService
 			.get<IProveedorModel>(this.filters$())
