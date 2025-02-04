@@ -16,6 +16,7 @@ import { IProveedorModel } from '../../models/iproveedor.model';
 import { ProveedorService } from '../../services/proveedor.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { ProveedorFormComponent } from '../../components/proveedor-form/proveedor-form-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-index.page',
@@ -47,7 +48,8 @@ export class IndexPageComponent
 
 	constructor(
 		protected override _dialog: MatDialog,
-		private _proveedorService: ProveedorService
+		private _proveedorService: ProveedorService,
+		private $router: Router
 	) {
 		super(_dialog);
 	}
@@ -71,7 +73,7 @@ export class IndexPageComponent
 	}
 
 	onDetails(event: number): void {
-		throw new Error('Method not implemented.');
+		this.$router.navigate([`proveedores/${event}`]);
 	}
 
 	override onLoadData(): void {

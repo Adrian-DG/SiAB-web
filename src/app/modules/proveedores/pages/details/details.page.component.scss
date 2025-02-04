@@ -1,0 +1,22 @@
+:host {
+	display: block;
+}
+
+.row {
+	height: 72vh;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 1em;
+	.table {
+		width: 50%;
+		table {
+			overflow-y: auto;
+		}
+	}
+	iframe {
+		height: 100%;
+		border: 2px solid gray;
+		border-radius: 0.5em;
+	}
+}
