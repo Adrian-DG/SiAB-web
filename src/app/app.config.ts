@@ -12,6 +12,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { jwtInterceptor } from './interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { loadingInterceptor } from './interceptors/loading.interceptor';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -25,5 +26,14 @@ export const appConfig: ApplicationConfig = {
 				loadingInterceptor,
 			])
 		),
+		provideMomentDateAdapter({
+			parse: { dateInput: 'DD/MM/YYYY' },
+			display: {
+				dateInput: 'DD/MM/YYYY',
+				monthYearLabel: 'MMM YYYY',
+				dateA11yLabel: 'DD/MM/YYYY',
+				monthYearA11yLabel: 'MMMM YYYY',
+			},
+		}),
 	],
 };

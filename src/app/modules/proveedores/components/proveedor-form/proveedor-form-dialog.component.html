@@ -1,0 +1,79 @@
+<h2 mat-dialog-title>
+	{{ customTitle }}
+</h2>
+
+<div mat-dialog-content>
+	<form [formGroup]="proveedorForm">
+		<mat-form-field appearance="fill" style="width: 50%">
+			<mat-label>Nombre</mat-label>
+			<input matInput formControlName="nombre" />
+		</mat-form-field>
+
+		<mat-form-field appearance="fill" style="width: 40%">
+			<mat-label>Telefono</mat-label>
+			<input matInput formControlName="telefono" />
+		</mat-form-field>
+
+		<mat-form-field appearance="fill" style="width: 50%">
+			<mat-label>RNC</mat-label>
+			<input matInput formControlName="rnc" />
+		</mat-form-field>
+
+		<mat-form-field appearance="fill" style="width: 40%">
+			<mat-label>Númeracion</mat-label>
+			<input matInput formControlName="numeracion" />
+		</mat-form-field>
+
+		<mat-form-field style="width: 40%">
+			<mat-label>Fecha Emisión</mat-label>
+			<input
+				matInput
+				[matDatepicker]="picker1"
+				formControlName="fechaEmision"
+			/>
+			<mat-hint>DD/MM/YYYY</mat-hint>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="picker1"
+			></mat-datepicker-toggle>
+			<mat-datepicker #picker1></mat-datepicker>
+		</mat-form-field>
+
+		<mat-form-field style="width: 40%">
+			<mat-label>Fecha Vencimiento</mat-label>
+			<input
+				matInput
+				[matDatepicker]="picker2"
+				formControlName="fechaVencimiento"
+			/>
+			<mat-hint>DD/MM/YYYY</mat-hint>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="picker2"
+			></mat-datepicker-toggle>
+			<mat-datepicker #picker2></mat-datepicker>
+		</mat-form-field>
+
+		<fieldset style="width: 100%">
+			<legend>Tipo de licencia</legend>
+			<mat-radio-group formControlName="tipoLicencia">
+				<mat-radio-button [value]="1">IMPORTAR</mat-radio-button>
+				<mat-radio-button [value]="2">EXPORTAR</mat-radio-button>
+				<mat-radio-button [value]="3"
+					>IMPORTAR-EXPORTAR</mat-radio-button
+				>
+			</mat-radio-group>
+		</fieldset>
+	</form>
+
+	<app-file-input
+		[title]="'licencia proveedor'"
+		[fileType]="'application/pdf'"
+		(on-file-upluoded)="onFileUploaded($event)"
+	></app-file-input>
+</div>
+<app-update-create-dialog-actions
+	[isUpdate]="isUpdate"
+	(on-save)="onSave($event)"
+	(on-update)="onUpdate($event)"
+></app-update-create-dialog-actions>

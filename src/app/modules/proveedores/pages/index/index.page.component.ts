@@ -15,6 +15,7 @@ import { CrudActionsComponent } from '../../../../Shared/components/crud-actions
 import { IProveedorModel } from '../../models/iproveedor.model';
 import { ProveedorService } from '../../services/proveedor.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
+import { ProveedorFormComponent } from '../../components/proveedor-form/proveedor-form-dialog.component';
 
 @Component({
 	selector: 'app-index.page',
@@ -64,7 +65,9 @@ export class IndexPageComponent
 	}
 
 	override onCreate(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog.open(ProveedorFormComponent, {
+			...this.dialogConfig,
+		});
 	}
 
 	override onLoadData(): void {
