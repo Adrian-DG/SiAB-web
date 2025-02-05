@@ -5,10 +5,10 @@ import { AppPermissions } from './app.permissions';
 
 export const routes: Routes = [
 	{
-		path: 'proveedores',
+		path: 'empresas',
 		loadChildren: () =>
-			import('./modules/proveedores/proveedores.routes').then(
-				(m) => m.proveedoresRoutes
+			import('./modules/empresas/empresas.routes').then(
+				(m) => m.empresasRoutes
 			),
 		canActivate: [authGuard, RolesGuard],
 		data: {

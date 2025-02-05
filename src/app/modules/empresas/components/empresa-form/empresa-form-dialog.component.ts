@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata';
-import { ICreateProveedorDto } from '../../dto/icreate-proveedor.dto';
+import { ICreateEmpresaDto } from '../../dto/icreate-empresa.dto';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UpdateCreateDialogActionsComponent } from '../../../../Shared/components/update-create-dialog-actions/update-create-dialog-actions.component';
@@ -11,7 +11,6 @@ import { FileInputComponent } from '../../../../Shared/components/file-input/fil
 import { ProveedorService } from '../../services/proveedor.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import moment from 'moment';
 
@@ -29,8 +28,8 @@ import moment from 'moment';
 		ReactiveFormsModule,
 		FileInputComponent,
 	],
-	templateUrl: './proveedor-form-dialog.component.html',
-	styleUrl: './proveedor-form-dialog.component.scss',
+	templateUrl: './empresa-form-dialog.component.html',
+	styleUrl: './empresa-form-dialog.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [
 		provideMomentDateAdapter({
@@ -44,8 +43,8 @@ import moment from 'moment';
 		}),
 	],
 })
-export class ProveedorFormComponent
-	extends FormularyMetadata<ProveedorFormComponent, ICreateProveedorDto>
+export class EmpresaFormComponent
+	extends FormularyMetadata<EmpresaFormComponent, ICreateEmpresaDto>
 	implements OnInit
 {
 	proveedorForm: FormGroup = new FormGroup({
@@ -71,7 +70,7 @@ export class ProveedorFormComponent
 	file: string = '';
 
 	constructor(
-		protected dialogRef: MatDialogRef<ProveedorFormComponent>,
+		protected dialogRef: MatDialogRef<EmpresaFormComponent>,
 		private _proveedorService: ProveedorService
 	) {
 		super(dialogRef);
@@ -86,7 +85,7 @@ export class ProveedorFormComponent
 	}
 
 	override onSave(event: any): void {
-		const proveedor: ICreateProveedorDto = {
+		const proveedor: ICreateEmpresaDto = {
 			nombre: this.proveedorForm.get('nombre')?.value,
 			telefono: this.proveedorForm.get('telefono')?.value,
 			rnc: this.proveedorForm.get('rnc')?.value,
@@ -98,7 +97,7 @@ export class ProveedorFormComponent
 		};
 
 		this._proveedorService
-			.create<ICreateProveedorDto>(proveedor)
+			.create<ICreateEmpresaDto>(proveedor)
 			.subscribe((res) => {
 				this.dialogRef.close(res);
 			});

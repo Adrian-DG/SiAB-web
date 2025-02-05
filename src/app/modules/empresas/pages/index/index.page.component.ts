@@ -12,11 +12,11 @@ import { MatCardModule } from '@angular/material/card';
 import { PageIntroComponent } from '../../../../Shared/components/page-intro/page-intro.component';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
 import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
-import { IProveedorModel } from '../../models/iproveedor.model';
+import { IEmpresaModel } from '../../models/iempresa.model';
 import { ProveedorService } from '../../services/proveedor.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
-import { ProveedorFormComponent } from '../../components/proveedor-form/proveedor-form-dialog.component';
 import { Router } from '@angular/router';
+import { EmpresaFormComponent } from '../../components/empresa-form/empresa-form-dialog.component';
 
 @Component({
 	selector: 'app-index.page',
@@ -34,11 +34,11 @@ import { Router } from '@angular/router';
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class IndexPageComponent
-	extends BaseListResource<IProveedorModel>
+	extends BaseListResource<IEmpresaModel>
 	implements AfterViewInit
 {
-	override title: string = 'Proveedores';
-	override description: string = 'Listado de proveedores';
+	override title: string = 'Empresas';
+	override description: string = 'Listado de empresas';
 	override displayedColumns: string[] = [
 		'id',
 		'nombre',
@@ -67,7 +67,7 @@ export class IndexPageComponent
 	}
 
 	override onCreate(event: any): void {
-		this._dialog.open(ProveedorFormComponent, {
+		this._dialog.open(EmpresaFormComponent, {
 			...this.dialogConfig,
 		});
 	}
@@ -78,8 +78,8 @@ export class IndexPageComponent
 
 	override onLoadData(): void {
 		this._proveedorService
-			.get<IProveedorModel>(this.filters$())
-			.subscribe((data: IPagedData<IProveedorModel>) => {
+			.get<IEmpresaModel>(this.filters$())
+			.subscribe((data: IPagedData<IEmpresaModel>) => {
 				this.records$.set(data.rows);
 				this.totalCount$.set(data.totalCount);
 			});

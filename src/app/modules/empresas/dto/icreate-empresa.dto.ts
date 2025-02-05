@@ -1,4 +1,4 @@
-export interface ICreateProveedorDto {
+export interface ICreateEmpresaDto {
 	nombre: string;
 	telefono: string;
 	rnc: string;

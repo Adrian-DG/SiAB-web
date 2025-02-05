@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-export const proveedoresRoutes: Routes = [
+export const empresasRoutes: Routes = [
 	{
 		path: ':id',
 		loadComponent: () =>
