@@ -1,0 +1,60 @@
+<div class="column">
+	<div class="row">
+		<mat-form-field appearance="fill" style="width: 30%">
+			<mat-label>Númeracion</mat-label>
+			<input matInput [(ngModel)]="documentoInfo.numeracion" />
+		</mat-form-field>
+
+		<mat-form-field style="width: 30%">
+			<mat-label>Fecha Emisión</mat-label>
+			<input
+				matInput
+				[matDatepicker]="picker1"
+				[(ngModel)]="documentoInfo.fechaEmision"
+			/>
+			<mat-hint>DD/MM/YYYY</mat-hint>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="picker1"
+			></mat-datepicker-toggle>
+			<mat-datepicker #picker1></mat-datepicker>
+		</mat-form-field>
+
+		<mat-form-field style="width: 30%">
+			<mat-label>Fecha Vigencia</mat-label>
+			<input
+				matInput
+				[matDatepicker]="picker2"
+				[(ngModel)]="documentoInfo.fechaVigencia"
+			/>
+			<mat-hint>DD/MM/YYYY</mat-hint>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="picker2"
+			></mat-datepicker-toggle>
+			<mat-datepicker #picker2></mat-datepicker>
+		</mat-form-field>
+
+		<mat-form-field style="width: 30%">
+			<mat-label>Fecha Vencimiento</mat-label>
+			<input
+				matInput
+				[matDatepicker]="picker3"
+				[(ngModel)]="documentoInfo.fechaVencimiento"
+			/>
+			<mat-hint>DD/MM/YYYY</mat-hint>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="picker3"
+			></mat-datepicker-toggle>
+			<mat-datepicker #picker3></mat-datepicker>
+		</mat-form-field>
+	</div>
+	<app-file-input
+		[title]="tipoDocumentoString"
+		[fileType]="'application/pdf'"
+		[is-multiple]="false"
+		(on-file-upluoded)="onFileSelected($event)"
+		style="width: 100%"
+	></app-file-input>
+</div>

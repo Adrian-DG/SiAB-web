@@ -13,3 +13,15 @@ form {
 		flex-grow: 2;
 	}
 }
+
+.actions {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 1em;
+	button {
+		flex-grow: 1;
+	}
+}

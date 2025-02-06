@@ -10,10 +10,13 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FileInputComponent } from '../../../../Shared/components/file-input/file-input.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatStepperModule } from '@angular/material/stepper';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import moment from 'moment';
 import { EmpresaService } from '../../services/empresa.service';
-
+import { DocumentoEmpresaFormComponent } from '../documento-empresa-form/documento-empresa-form.component';
+import { TipoDocumentoEnum } from '../../enums/tipo-documento.enum';
+import { IDocumentoEmpresaModel } from '../../models/idocumento-empresa.model';
 @Component({
 	selector: 'app-proveedor-form',
 	standalone: true,
@@ -22,11 +25,10 @@ import { EmpresaService } from '../../services/empresa.service';
 		MatButtonModule,
 		MatFormFieldModule,
 		MatInputModule,
-		MatRadioModule,
 		MatDatepickerModule,
-		UpdateCreateDialogActionsComponent,
+		MatStepperModule,
 		ReactiveFormsModule,
-		FileInputComponent,
+		DocumentoEmpresaFormComponent,
 	],
 	templateUrl: './empresa-form-dialog.component.html',
 	styleUrl: './empresa-form-dialog.component.scss',
@@ -43,59 +45,43 @@ import { EmpresaService } from '../../services/empresa.service';
 		}),
 	],
 })
-export class EmpresaFormComponent
-	extends FormularyMetadata<EmpresaFormComponent, ICreateEmpresaDto>
-	implements OnInit
-{
-	proveedorForm: FormGroup = new FormGroup({
-		nombre: new FormControl(this.isUpdate ? this.data.entity.nombre : ''),
-		telefono: new FormControl(
-			this.isUpdate ? this.data.entity.telefono : ''
-		),
-		titular: new FormControl(this.isUpdate ? this.data.entity.titular : ''),
-		rnc: new FormControl(this.isUpdate ? this.data.entity.rnc : ''),
-		numeracion: new FormControl(
-			this.isUpdate ? this.data.entity.numeracion : ''
-		),
-		fechaEmision: new FormControl(
-			this.isUpdate ? moment(this.data.entity.fechaEmision) : ''
-		),
-		fechaVigencia: new FormControl(
-			this.isUpdate ? moment(this.data.entity.fechaEmision) : ''
-		),
-		fechaVencimiento: new FormControl(
-			this.isUpdate ? moment(this.data.entity.fechaVencimiento) : ''
-		),
+export class EmpresaFormComponent implements OnInit {
+	empresaForm: FormGroup = new FormGroup({
+		nombre: new FormControl(''),
+		telefono: new FormControl(''),
+		titular: new FormControl(''),
+		rnc: new FormControl(''),
 	});
 
-	files: string[] = [];
+	filesInfo: { [key: string]: IDocumentoEmpresaModel } = {};
 
 	constructor(
-		protected dialogRef: MatDialogRef<EmpresaFormComponent>,
+		private dialogRef: MatDialogRef<EmpresaFormComponent>,
 		private _empresaService: EmpresaService
-	) {
-		super(dialogRef);
-	}
+	) {}
 
 	ngOnInit(): void {
 		throw new Error('Method not implemented.');
 	}
 
-	onFileUploaded(event: string[]): void {
-		this.files = event;
+	get tipoDocumento(): typeof TipoDocumentoEnum {
+		return TipoDocumentoEnum;
 	}
 
-	override onSave(event: any): void {
+	onInfoRecieved(event: {
+		context: string;
+		data: IDocumentoEmpresaModel;
+	}): void {
+		this.filesInfo[event.context] = event.data;
+	}
+
+	onSave(): void {
 		const empresa: ICreateEmpresaDto = {
-			nombre: this.proveedorForm.get('nombre')?.value,
-			telefono: this.proveedorForm.get('telefono')?.value,
-			rnc: this.proveedorForm.get('rnc')?.value,
-			titular: this.proveedorForm.get('titular')?.value,
-			numeracion: this.proveedorForm.get('numeracion')?.value,
-			archivos: this.files,
-			fechaEmision: this.proveedorForm.get('fechaEmision')?.value,
-			fechaVigencia: this.proveedorForm.get('fechaVigencia')?.value,
-			fechaVencimiento: this.proveedorForm.get('fechaVencimiento')?.value,
+			nombre: this.empresaForm.get('nombre')?.value,
+			telefono: this.empresaForm.get('telefono')?.value,
+			rnc: this.empresaForm.get('rnc')?.value,
+			titular: this.empresaForm.get('titular')?.value,
+			dataArchivos: Object.values(this.filesInfo),
 		};
 
 		this._empresaService
@@ -103,9 +89,5 @@ export class EmpresaFormComponent
 			.subscribe((res) => {
 				this.dialogRef.close(res);
 			});
-	}
-
-	override onUpdate(event: any): void {
-		throw new Error('Method not implemented.');
 	}
 }

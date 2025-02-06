@@ -29,7 +29,9 @@
 			<ng-container matColumnDef="telefono">
 				<th mat-header-cell *matHeaderCellDef>Contacto</th>
 				<td mat-cell *matCellDef="let element">
-					{{ element.telefono }}
+					<span><b>Titular: </b>{{ element.titular }}</span>
+					<br />
+					<span><b>Nombre: </b>{{ element.telefono }}</span>
 				</td>
 			</ng-container>
 
