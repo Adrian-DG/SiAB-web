@@ -7,9 +7,9 @@ import { map } from 'rxjs';
 @Injectable({
 	providedIn: 'root',
 })
-export class ProveedorService extends GenericService {
+export class EmpresaService extends GenericService {
 	protected override GetResource(): string {
-		return 'proveedores';
+		return 'empresas';
 	}
 
 	constructor(protected override $http: HttpClient) {

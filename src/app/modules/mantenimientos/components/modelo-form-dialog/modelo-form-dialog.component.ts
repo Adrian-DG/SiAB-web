@@ -85,8 +85,8 @@ export class ModeloFormDialogComponent
 		return marca?.nombre || '';
 	}
 
-	onFileUploaded(event: any): void {
-		this.fotoModelo = event;
+	onFileUploaded(event: string[]): void {
+		this.fotoModelo = event[0];
 	}
 
 	override onSave(event: any): void {

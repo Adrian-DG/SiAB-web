@@ -9,22 +9,27 @@
 			<input matInput formControlName="nombre" />
 		</mat-form-field>
 
-		<mat-form-field appearance="fill" style="width: 40%">
+		<mat-form-field appearance="fill" style="width: 45%">
+			<mat-label>Titular</mat-label>
+			<input matInput formControlName="titular" />
+		</mat-form-field>
+
+		<mat-form-field appearance="fill" style="width: 30%">
 			<mat-label>Telefono</mat-label>
 			<input matInput formControlName="telefono" />
 		</mat-form-field>
 
-		<mat-form-field appearance="fill" style="width: 50%">
+		<mat-form-field appearance="fill" style="width: 30%">
 			<mat-label>RNC</mat-label>
 			<input matInput formControlName="rnc" />
 		</mat-form-field>
 
-		<mat-form-field appearance="fill" style="width: 40%">
+		<mat-form-field appearance="fill" style="width: 30%">
 			<mat-label>Númeracion</mat-label>
 			<input matInput formControlName="numeracion" />
 		</mat-form-field>
 
-		<mat-form-field style="width: 40%">
+		<mat-form-field style="width: 30%">
 			<mat-label>Fecha Emisión</mat-label>
 			<input
 				matInput
@@ -39,12 +44,12 @@
 			<mat-datepicker #picker1></mat-datepicker>
 		</mat-form-field>
 
-		<mat-form-field style="width: 40%">
-			<mat-label>Fecha Vencimiento</mat-label>
+		<mat-form-field style="width: 30%">
+			<mat-label>Fecha Vigencia</mat-label>
 			<input
 				matInput
 				[matDatepicker]="picker2"
-				formControlName="fechaVencimiento"
+				formControlName="fechaVigencia"
 			/>
 			<mat-hint>DD/MM/YYYY</mat-hint>
 			<mat-datepicker-toggle
@@ -54,21 +59,26 @@
 			<mat-datepicker #picker2></mat-datepicker>
 		</mat-form-field>
 
-		<fieldset style="width: 100%">
-			<legend>Tipo de licencia</legend>
-			<mat-radio-group formControlName="tipoLicencia">
-				<mat-radio-button [value]="1">IMPORTAR</mat-radio-button>
-				<mat-radio-button [value]="2">EXPORTAR</mat-radio-button>
-				<mat-radio-button [value]="3"
-					>IMPORTAR-EXPORTAR</mat-radio-button
-				>
-			</mat-radio-group>
-		</fieldset>
+		<mat-form-field style="width: 30%">
+			<mat-label>Fecha Vencimiento</mat-label>
+			<input
+				matInput
+				[matDatepicker]="picker3"
+				formControlName="fechaVencimiento"
+			/>
+			<mat-hint>DD/MM/YYYY</mat-hint>
+			<mat-datepicker-toggle
+				matIconSuffix
+				[for]="picker3"
+			></mat-datepicker-toggle>
+			<mat-datepicker #picker3></mat-datepicker>
+		</mat-form-field>
 	</form>
 
 	<app-file-input
-		[title]="'licencia proveedor'"
+		[title]="'Documentos'"
 		[fileType]="'application/pdf'"
+		[is-multiple]="true"
 		(on-file-upluoded)="onFileUploaded($event)"
 	></app-file-input>
 </div>

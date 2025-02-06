@@ -61,8 +61,8 @@ export class AppComponent implements OnInit {
 			icon: 'chevron_right',
 		},
 		{
-			url: 'proveedores',
-			name: 'Proveedores',
+			url: 'empresas',
+			name: 'Empresas',
 			icon: 'chevron_right',
 		},
 		{

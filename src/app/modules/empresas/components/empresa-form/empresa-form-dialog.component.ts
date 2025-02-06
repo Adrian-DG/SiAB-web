@@ -8,11 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { UpdateCreateDialogActionsComponent } from '../../../../Shared/components/update-create-dialog-actions/update-create-dialog-actions.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FileInputComponent } from '../../../../Shared/components/file-input/file-input.component';
-import { ProveedorService } from '../../services/proveedor.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import moment from 'moment';
+import { EmpresaService } from '../../services/empresa.service';
 
 @Component({
 	selector: 'app-proveedor-form',
@@ -52,9 +52,7 @@ export class EmpresaFormComponent
 		telefono: new FormControl(
 			this.isUpdate ? this.data.entity.telefono : ''
 		),
-		tipoLicencia: new FormControl(
-			this.isUpdate ? this.data.entity.tipoLicencia : 0
-		),
+		titular: new FormControl(this.isUpdate ? this.data.entity.titular : ''),
 		rnc: new FormControl(this.isUpdate ? this.data.entity.rnc : ''),
 		numeracion: new FormControl(
 			this.isUpdate ? this.data.entity.numeracion : ''
@@ -62,16 +60,19 @@ export class EmpresaFormComponent
 		fechaEmision: new FormControl(
 			this.isUpdate ? moment(this.data.entity.fechaEmision) : ''
 		),
+		fechaVigencia: new FormControl(
+			this.isUpdate ? moment(this.data.entity.fechaEmision) : ''
+		),
 		fechaVencimiento: new FormControl(
 			this.isUpdate ? moment(this.data.entity.fechaVencimiento) : ''
 		),
 	});
 
-	file: string = '';
+	files: string[] = [];
 
 	constructor(
 		protected dialogRef: MatDialogRef<EmpresaFormComponent>,
-		private _proveedorService: ProveedorService
+		private _empresaService: EmpresaService
 	) {
 		super(dialogRef);
 	}
@@ -80,24 +81,25 @@ export class EmpresaFormComponent
 		throw new Error('Method not implemented.');
 	}
 
-	onFileUploaded(event: string): void {
-		this.file = event;
+	onFileUploaded(event: string[]): void {
+		this.files = event;
 	}
 
 	override onSave(event: any): void {
-		const proveedor: ICreateEmpresaDto = {
+		const empresa: ICreateEmpresaDto = {
 			nombre: this.proveedorForm.get('nombre')?.value,
 			telefono: this.proveedorForm.get('telefono')?.value,
 			rnc: this.proveedorForm.get('rnc')?.value,
+			titular: this.proveedorForm.get('titular')?.value,
 			numeracion: this.proveedorForm.get('numeracion')?.value,
-			tipoLicencia: this.proveedorForm.get('tipoLicencia')?.value,
-			archivo: this.file,
+			archivos: this.files,
 			fechaEmision: this.proveedorForm.get('fechaEmision')?.value,
+			fechaVigencia: this.proveedorForm.get('fechaVigencia')?.value,
 			fechaVencimiento: this.proveedorForm.get('fechaVencimiento')?.value,
 		};
 
-		this._proveedorService
-			.create<ICreateEmpresaDto>(proveedor)
+		this._empresaService
+			.create<ICreateEmpresaDto>(empresa)
 			.subscribe((res) => {
 				this.dialogRef.close(res);
 			});

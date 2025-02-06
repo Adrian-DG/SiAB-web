@@ -13,10 +13,10 @@ import { PageIntroComponent } from '../../../../Shared/components/page-intro/pag
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
 import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
 import { IEmpresaModel } from '../../models/iempresa.model';
-import { ProveedorService } from '../../services/proveedor.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { Router } from '@angular/router';
 import { EmpresaFormComponent } from '../../components/empresa-form/empresa-form-dialog.component';
+import { EmpresaService } from '../../services/empresa.service';
 
 @Component({
 	selector: 'app-index.page',
@@ -48,7 +48,7 @@ export class IndexPageComponent
 
 	constructor(
 		protected override _dialog: MatDialog,
-		private _proveedorService: ProveedorService,
+		private _empresaService: EmpresaService,
 		private $router: Router
 	) {
 		super(_dialog);
@@ -67,17 +67,20 @@ export class IndexPageComponent
 	}
 
 	override onCreate(event: any): void {
-		this._dialog.open(EmpresaFormComponent, {
-			...this.dialogConfig,
-		});
+		this._dialog
+			.open(EmpresaFormComponent, {
+				...this.dialogConfig,
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	onDetails(event: number): void {
-		this.$router.navigate([`proveedores/${event}`]);
+		this.$router.navigate([`empresas/${event}`]);
 	}
 
 	override onLoadData(): void {
-		this._proveedorService
+		this._empresaService
 			.get<IEmpresaModel>(this.filters$())
 			.subscribe((data: IPagedData<IEmpresaModel>) => {
 				this.records$.set(data.rows);

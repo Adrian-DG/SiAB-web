@@ -2,9 +2,10 @@ export interface ICreateEmpresaDto {
 	nombre: string;
 	telefono: string;
 	rnc: string;
+	titular: string;
 	numeracion: string;
-	tipoLicencia: number;
-	archivo: string;
+	archivos: string[];
 	fechaEmision: Date;
+	fechaVigencia: Date;
 	fechaVencimiento: Date;
 }
