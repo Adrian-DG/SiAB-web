@@ -5,13 +5,14 @@ import {
 	Input,
 	Output,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FileInputComponent } from '../../../../Shared/components/file-input/file-input.component';
 import { IDocumentoEmpresaModel } from '../../models/idocumento-empresa.model';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'app-documento-empresa-form',
@@ -21,7 +22,7 @@ import { FormsModule } from '@angular/forms';
 		MatFormFieldModule,
 		MatInputModule,
 		MatDatepickerModule,
-		FileInputComponent,
+		MatIconModule,
 		FormsModule,
 	],
 	templateUrl: './documento-empresa-form.component.html',
@@ -54,8 +55,7 @@ export class DocumentoEmpresaFormComponent {
 		return fileTypes[this.tipoDocumento];
 	}
 
-	onFileSelected(event: string[]): void {
-		this.documentoInfo.archivo = event[0];
+	onFileSelected(): void {
 		this.onInfoSentEvent.emit({
 			context: this.context,
 			data: this.documentoInfo,

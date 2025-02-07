@@ -50,11 +50,4 @@
 			<mat-datepicker #picker3></mat-datepicker>
 		</mat-form-field>
 	</div>
-	<app-file-input
-		[title]="tipoDocumentoString"
-		[fileType]="'application/pdf'"
-		[is-multiple]="false"
-		(on-file-upluoded)="onFileSelected($event)"
-		style="width: 100%"
-	></app-file-input>
 </div>
