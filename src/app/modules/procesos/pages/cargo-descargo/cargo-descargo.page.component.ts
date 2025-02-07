@@ -232,7 +232,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 		console.log(event);
 	}
 
-	onFileUploaded(event: string[]) {
+	onFileUploaded(event: string) {
 		console.log(event);
 	}
 
