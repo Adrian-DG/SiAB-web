@@ -41,7 +41,6 @@
 				matInput
 				[matDatepicker]="picker3"
 				[(ngModel)]="documentoInfo.fechaVencimiento"
-				(ngModelChange)="onInfoSent()"
 			/>
 			<mat-hint>DD/MM/YYYY</mat-hint>
 			<mat-datepicker-toggle
@@ -51,4 +50,10 @@
 			<mat-datepicker #picker3></mat-datepicker>
 		</mat-form-field>
 	</div>
+	<app-file-input
+		style="width: 100%"
+		[title]="formatedTitle"
+		[fileType]="'application/pdf'"
+		(on-file-upluoded)="onFileUploaded($event)"
+	></app-file-input>
 </div>

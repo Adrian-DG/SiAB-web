@@ -26,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
 		MatDatepickerModule,
 		MatIconModule,
 		FormsModule,
+		FileInputComponent,
 	],
 	templateUrl: './documento-empresa-form.component.html',
 	styleUrl: './documento-empresa-form.component.scss',
@@ -40,18 +41,26 @@ export class DocumentoEmpresaFormComponent implements OnChanges {
 	}>();
 
 	documentoInfo: IDocumentoEmpresaModel = {
-		tipo: 0,
+		tipoDocumentoId: this.tipoDocumento,
 		numeracion: '',
 		fechaEmision: new Date(),
 		fechaVigencia: new Date(),
 		fechaVencimiento: new Date(),
+		archivo: null,
 	};
 
 	ngOnChanges(changes: SimpleChanges): void {
-		this.documentoInfo.tipo = changes['tipoDocumento'].currentValue;
+		console.log(changes);
+		this.documentoInfo.tipoDocumentoId =
+			changes['tipoDocumento'].currentValue;
 	}
 
-	onInfoSent() {
+	get formatedTitle(): string {
+		return this.context.replace('-', ' ');
+	}
+
+	onFileUploaded(event: string) {
+		this.documentoInfo.archivo = event;
 		this.onInfoSentEvent.emit({
 			context: this.context,
 			data: this.documentoInfo,

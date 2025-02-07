@@ -36,11 +36,6 @@
 				[tipo-documento]="tipoDocumento.licencia"
 				(on-info-sent)="onInfoRecieved($event)"
 			></app-documento-empresa-form>
-			<app-file-input
-				[title]="'Licencia'"
-				[fileType]="'application/pdf'"
-				(on-file-upluoded)="onFileUpload($event)"
-			></app-file-input>
 			<div class="actions">
 				<button mat-raised-button matStepperPrevious>Atras</button>
 				<button mat-flat-button matStepperNext>Siguiente</button>
@@ -53,11 +48,7 @@
 				[tipo-documento]="tipoDocumento.autorizacion_importacion"
 				(on-info-sent)="onInfoRecieved($event)"
 			></app-documento-empresa-form>
-			<app-file-input
-				[title]="'Autorización Importación'"
-				[fileType]="'application/pdf'"
-				(on-file-upluoded)="onFileUpload($event)"
-			></app-file-input>
+
 			<div class="actions">
 				<button mat-raised-button matStepperPrevious>Atras</button>
 				<button mat-flat-button matStepperNext>Siguiente</button>
@@ -70,11 +61,7 @@
 				[tipo-documento]="tipoDocumento.autorizacion_retiro_aduanal"
 				(on-info-sent)="onInfoRecieved($event)"
 			></app-documento-empresa-form>
-			<app-file-input
-				[title]="'Autorización Retiro Aduanal'"
-				[fileType]="'application/pdf'"
-				(on-file-upluoded)="onFileUpload($event)"
-			></app-file-input>
+
 			<div class="actions">
 				<button mat-raised-button matStepperPrevious>Atras</button>
 				<button mat-flat-button (click)="onSave()">Guardar</button>

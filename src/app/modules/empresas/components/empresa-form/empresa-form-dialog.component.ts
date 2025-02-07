@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	OnInit,
+	signal,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormularyMetadata } from '../../../../Shared/helpers/formulary-metadata';
@@ -29,7 +34,6 @@ import { IDocumentoEmpresaModel } from '../../models/idocumento-empresa.model';
 		MatStepperModule,
 		ReactiveFormsModule,
 		DocumentoEmpresaFormComponent,
-		FileInputComponent,
 	],
 	templateUrl: './empresa-form-dialog.component.html',
 	styleUrl: './empresa-form-dialog.component.scss',
@@ -73,13 +77,9 @@ export class EmpresaFormComponent implements OnInit {
 		context: string;
 		data: IDocumentoEmpresaModel;
 	}): void {
-		console.log(event);
 		this.filesInfo[event.context] = event.data;
 	}
 
-	onFileUpload(event: string): void {
-		console.log(event);
-	}
 	onSave(): void {
 		const empresa: ICreateEmpresaDto = {
 			nombre: this.empresaForm.get('nombre')?.value,

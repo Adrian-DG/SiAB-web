@@ -1,7 +1,8 @@
 export interface IDocumentoEmpresaModel {
 	numeracion: string;
-	tipo: number;
+	tipoDocumentoId: number;
 	fechaEmision: Date;
 	fechaVigencia: Date;
 	fechaVencimiento: Date;
+	archivo: string | null;
 }

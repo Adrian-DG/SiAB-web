@@ -1,7 +1,7 @@
 <div class="file-input-container">
 	<h4 style="color: rgb(122, 122, 122)">{{ title }}:</h4>
 	<label
-		for="fileInput"
+		[for]="'fileInput-' + title"
 		[class.file-input-label]="!file"
 		[class.uploaded]="file"
 	>
@@ -11,7 +11,7 @@
 		Subir archivo
 	</label>
 	<input
-		id="fileInput"
+		[id]="'fileInput-' + title"
 		type="file"
 		(change)="onFileSelected($event)"
 		[accept]="fileType"
