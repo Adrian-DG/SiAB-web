@@ -4,5 +4,4 @@ export interface IDocumentoEmpresaModel {
 	fechaEmision: Date;
 	fechaVigencia: Date;
 	fechaVencimiento: Date;
-	archivo: string | null;
 }

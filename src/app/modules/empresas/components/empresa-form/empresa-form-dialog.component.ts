@@ -72,7 +72,7 @@ export class EmpresaFormComponent implements OnInit {
 		context: string;
 		data: IDocumentoEmpresaModel;
 	}): void {
-		console.log('EmpresaFormComponent -> onInfoRecieved -> event', event);
+		console.log(event);
 		this.filesInfo[event.context] = event.data;
 	}
 

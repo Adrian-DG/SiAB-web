@@ -3,7 +3,9 @@ import {
 	Component,
 	EventEmitter,
 	Input,
+	OnChanges,
 	Output,
+	SimpleChanges,
 } from '@angular/core';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -29,33 +31,27 @@ import { MatIconModule } from '@angular/material/icon';
 	styleUrl: './documento-empresa-form.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DocumentoEmpresaFormComponent {
-	@Input() context!: string;
+export class DocumentoEmpresaFormComponent implements OnChanges {
+	@Input('context') context!: string;
 	@Input('tipo-documento') tipoDocumento!: number;
 	@Output('on-info-sent') onInfoSentEvent = new EventEmitter<{
 		context: string;
 		data: IDocumentoEmpresaModel;
 	}>();
+
 	documentoInfo: IDocumentoEmpresaModel = {
-		tipo: this.tipoDocumento,
+		tipo: 0,
 		numeracion: '',
 		fechaEmision: new Date(),
 		fechaVigencia: new Date(),
 		fechaVencimiento: new Date(),
-		archivo: null,
 	};
 
-	get tipoDocumentoString(): string {
-		const fileTypes: { [key: number]: string } = {
-			3: 'Licencia',
-			4: 'Autorización Importación',
-			5: 'Autorización Retiro Aduanal',
-		};
-
-		return fileTypes[this.tipoDocumento];
+	ngOnChanges(changes: SimpleChanges): void {
+		this.documentoInfo.tipo = changes['tipoDocumento'].currentValue;
 	}
 
-	onFileSelected(): void {
+	onInfoSent() {
 		this.onInfoSentEvent.emit({
 			context: this.context,
 			data: this.documentoInfo,
