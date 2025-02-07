@@ -19,7 +19,7 @@
 		hidden
 		[disabled]="file"
 	/>
-	@if(file){
+	@if(!file){
 	<div class="message error" style="width: 100%">
 		<mat-icon>error_outline</mat-icon> archivo es obligatorio
 	</div>
