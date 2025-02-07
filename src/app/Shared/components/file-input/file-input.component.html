@@ -2,13 +2,13 @@
 	<h4 style="color: rgb(122, 122, 122)">{{ title }}:</h4>
 	<label
 		for="fileInput"
-		[class.file-input-label]="!files"
-		[class.uploaded]="files"
+		[class.file-input-label]="!file"
+		[class.uploaded]="file"
 	>
 		<span style="margin-right: 0.3em"
 			><mat-icon>cloud_upload</mat-icon></span
 		>
-		Subir archivo ({{ filesCount }})
+		Subir archivo
 	</label>
 	<input
 		id="fileInput"
@@ -17,10 +17,9 @@
 		[accept]="fileType"
 		class="file-input"
 		hidden
-		[disabled]="files"
-		[multiple]="isMultiple"
+		[disabled]="file"
 	/>
-	@if(!files){
+	@if(file){
 	<div class="message error" style="width: 100%">
 		<mat-icon>error_outline</mat-icon> archivo es obligatorio
 	</div>
