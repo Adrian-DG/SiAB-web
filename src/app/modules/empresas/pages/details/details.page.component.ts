@@ -32,7 +32,7 @@ import { EmpresaService } from '../../services/empresa.service';
 })
 export class DetailsPageComponent implements AfterViewInit {
 	private _id: number = 0;
-	displayedColumns: string[] = ['data', 'estatus', 'acciones'];
+	displayedColumns: string[] = ['fechas', 'data', 'acciones'];
 	dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
 
 	constructor(
@@ -50,6 +50,7 @@ export class DetailsPageComponent implements AfterViewInit {
 	}
 
 	showLicencia(archivo: string) {
+		console.log(archivo);
 		const filePath = (
 			this._sanitizer.bypassSecurityTrustResourceUrl(archivo) as any
 		).changingThisBreaksApplicationSecurity;
