@@ -15,7 +15,7 @@ export abstract class BaseListResource<T> {
 	abstract displayedColumns: string[];
 	protected filters$ = signal<IPaginationFilter>({
 		page: 1,
-		size: 10,
+		size: 5,
 		searchTerm: '',
 	});
 	protected records$ = signal<T[]>([]);
