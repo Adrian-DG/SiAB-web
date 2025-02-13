@@ -12,7 +12,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 	const router = inject(Router);
 	const dialog = inject(MatDialog);
 
-	if (!authService.isAuthenticated()) {
+	if (!authService.isAuthenticated$()) {
 		dialog
 			.open(ErrorDialogComponent, {
 				width: '300px',

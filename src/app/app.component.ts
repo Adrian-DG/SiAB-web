@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, signal, Signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { IUrlOption } from './Shared/Models/iurl-option.model';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -9,7 +9,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthenticationService } from './modules/authentication/services/authentication.service';
 import { routes as AppRoutes } from './app.routes';
-import { NavMenuComponent } from './Shared/components/nav-menu/nav-menu.component';
 
 @Component({
 	selector: 'app-root',
@@ -23,7 +22,6 @@ import { NavMenuComponent } from './Shared/components/nav-menu/nav-menu.componen
 		MatButtonModule,
 		MatListModule,
 		MatMenuModule,
-		NavMenuComponent,
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
@@ -74,8 +72,6 @@ export class AppComponent implements OnInit {
 		},
 	];
 
-	isVisible$ = signal<boolean>(false);
-
 	constructor(public _authService: AuthenticationService) {}
 
 	ngOnInit(): void {
@@ -83,8 +79,23 @@ export class AppComponent implements OnInit {
 		// throw new Error('Method not implemented.');
 	}
 
+	hasPermission(url: string): boolean {
+		const routeData = AppRoutes.find((route) => route.path === url)
+			?.data as { expectedRoles: string[] };
+		const permissions = routeData?.expectedRoles ?? [];
+
+		if (permissions.length === 0) return true;
+
+		const hasPermission = Array.isArray(this.userRoles)
+			? this.userRoles.some((role) => permissions.includes(role))
+			: this.userRoles
+					.split(',')
+					.some((role) => permissions.includes(role));
+
+		return hasPermission;
+	}
+
 	onLogout() {
 		this._authService.logout();
-		this.isVisible$.set(false);
 	}
 }

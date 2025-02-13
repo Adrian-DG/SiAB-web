@@ -1,7 +1,7 @@
 <div id="main">
 	<mat-toolbar class="toolbar">
 		<mat-toolbar-row>
-			@if (isVisible$()) {
+			@if (_authService.isAuthenticated$()) {
 			<button mat-icon-button (click)="sidenav.toggle()">
 				<mat-icon style="color: white">menu</mat-icon>
 			</button>
@@ -10,7 +10,7 @@
 			<span>SiAB</span>
 			<span style="width: 90%"></span>
 
-			@if (isVisible$()) {
+			@if (_authService.isAuthenticated$()) {
 			<button mat-button [matMenuTriggerFor]="menu" style="color: white">
 				<span
 					>{{ _authService.userData()?.Username }}
@@ -32,10 +32,30 @@
 		class="sidenav-container"
 		style="height: 90%; margin: 1em 0.5em"
 	>
-		<app-nav-menu
-			[modules]="modules"
-			[userRoles]="userRoles"
-		></app-nav-menu>
+		<mat-sidenav
+			#sidenav
+			mode="side"
+			[opened]="_authService.isAuthenticated$()"
+			class="sidenav"
+			[autoFocus]="true"
+			[position]="'start'"
+		>
+			<mat-list>
+				@for (item of modules; track $index) {
+				@if(hasPermission(item.url)) {
+				<mat-list-item class="link-item">
+					<a
+						[routerLink]="item.url"
+						class="link"
+						routerLinkActive
+						[routerLinkActiveOptions]="{ exact: true }"
+					>
+						<span>{{ item.name }}</span>
+					</a>
+				</mat-list-item>
+				} }
+			</mat-list>
+		</mat-sidenav>
 		<mat-sidenav-content
 			style="padding: 1em 2em; height: 95%; overflow-y: auto"
 		>
