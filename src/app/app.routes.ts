@@ -14,7 +14,7 @@ export const routes: Routes = [
 		data: {
 			expectedRoles: [
 				AppPermissions.ADMINISTRADOR,
-				AppPermissions.PROVEEDORES,
+				AppPermissions.EMPRESAS,
 			],
 		},
 	},
