@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthenticationService } from './modules/authentication/services/authentication.service';
 import { routes as AppRoutes } from './app.routes';
+import { NavMenuComponent } from './Shared/components/nav-menu/nav-menu.component';
 
 @Component({
 	selector: 'app-root',
@@ -22,6 +23,7 @@ import { routes as AppRoutes } from './app.routes';
 		MatButtonModule,
 		MatListModule,
 		MatMenuModule,
+		NavMenuComponent,
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
@@ -78,24 +80,7 @@ export class AppComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.userRoles = this._authService.userData()?.Roles ?? [];
-		this.isVisible$.set(this._authService.isAuthenticated());
 		// throw new Error('Method not implemented.');
-	}
-
-	hasPermission(url: string): boolean {
-		const routeData = AppRoutes.find((route) => route.path === url)
-			?.data as { expectedRoles: string[] };
-		const permissions = routeData?.expectedRoles ?? [];
-
-		if (permissions.length === 0) return true;
-
-		const hasPermission = Array.isArray(this.userRoles)
-			? this.userRoles.some((role) => permissions.includes(role))
-			: this.userRoles
-					.split(',')
-					.some((role) => permissions.includes(role));
-
-		return hasPermission;
 	}
 
 	onLogout() {
