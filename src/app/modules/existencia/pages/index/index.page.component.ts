@@ -24,6 +24,7 @@ import { MiembroListItemComponent } from '../../../../Shared/components/miembro-
 import { TransaccionService } from '../../../carga-registros/services/transaccion.service';
 import { MatButtonModule } from '@angular/material/button';
 import { HistoricoTransaccionesComponent } from '../../../../Shared/components/historico-transacciones/historico-transacciones.component';
+import { debounceTime, distinct, distinctUntilChanged } from 'rxjs';
 
 export enum TipoBusqueda {
 	MIEMBRO = 1,
@@ -55,6 +56,7 @@ export class IndexComponent implements OnInit {
 	filtro = new FormControl('', [Validators.minLength(5)]);
 	miembrosList = signal<IMiembroListDetail[]>([]);
 	miembro = signal<IMiembroView | null>(null);
+	private readonly MIN_LENGTH = 5;
 
 	constructor(
 		private _miembroService: MiembroService,
@@ -62,18 +64,25 @@ export class IndexComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.filtro.valueChanges.subscribe((value: string | null) => {
-			if (this.tipoFiltro === this.tipoBusqueda.CIVIL) {
-				if (value && value !== '' && value.length >= 13)
-					this.geCivilByCedula(value);
-			} else {
-				if (value && value !== '' && value.length >= 5) {
-					this.tipoFiltro === 1
-						? this.getMiembrosByCedulaNombre(value)
-						: this.getMiembrosByCargo(value);
+		this.filtro.valueChanges
+			.pipe(debounceTime(3000), distinctUntilChanged())
+			.subscribe((value: string | null) => {
+				const searchActions: {
+					[key: number]: (value: string) => void;
+				} = {
+					[this.tipoBusqueda.MIEMBRO]: (value: string) =>
+						this.getMiembrosByCedulaNombre(value),
+					[this.tipoBusqueda.FUNCION]: (value: string) =>
+						this.getMiembrosByCargo(value),
+					[this.tipoBusqueda.CIVIL]: (value: string) =>
+						this.geCivilByCedula(value),
+				};
+
+				const action = searchActions[this.tipoFiltro];
+				if (action && value && value?.length >= this.MIN_LENGTH) {
+					action(value);
 				}
-			}
-		});
+			});
 	}
 
 	get searchHelpText() {
