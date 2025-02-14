@@ -40,6 +40,14 @@ import { MatIconModule } from '@angular/material/icon';
 				@if (records$().length > 0) {
 
 				<mat-table [dataSource]="records$()" class="table">
+					<ng-container matColumnDef="serie">
+						<mat-header-cell *matHeaderCellDef>
+							Serie
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.serie }}
+						</mat-cell>
+					</ng-container>
 					<ng-container matColumnDef="marca">
 						<mat-header-cell *matHeaderCellDef>
 							Marca
@@ -64,14 +72,6 @@ import { MatIconModule } from '@angular/material/icon';
 							{{ element.subTipo }}
 						</mat-cell>
 					</ng-container>
-					<ng-container matColumnDef="serie">
-						<mat-header-cell *matHeaderCellDef>
-							Serie
-						</mat-header-cell>
-						<mat-cell *matCellDef="let element">
-							{{ element.serie }}
-						</mat-cell>
-					</ng-container>
 					<ng-container matColumnDef="cantidad">
 						<mat-header-cell *matHeaderCellDef>
 							Cantidad
@@ -88,13 +88,21 @@ import { MatIconModule } from '@angular/material/icon';
 							{{ element.formulario }}
 						</mat-cell>
 					</ng-container>
+					<ng-container matColumnDef="fechaEfectividad">
+						<mat-header-cell *matHeaderCellDef>
+							Fecha Efectividad
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.fechaEfectividad | date : 'dd/MM/yyyy' }}
+						</mat-cell>
+					</ng-container>
 					<ng-container matColumnDef="acciones">
 						<mat-header-cell *matHeaderCellDef>
 							Acciones
 						</mat-header-cell>
 						<mat-cell *matCellDef="let element">
 							<button mat-icon-button color="primary">
-								<mat-icon>edit</mat-icon>
+								<mat-icon>remove_red_eye</mat-icon>
 							</button>
 						</mat-cell>
 					</ng-container>
@@ -119,12 +127,13 @@ export class HistoricoTransaccionesComponent implements AfterViewInit {
 	@Input() tipoOrigen: number = 0;
 	@Input() origen: string = '';
 	displayedColumns: string[] = [
+		'serie',
 		'marca',
 		'modelo',
 		'subtipo',
-		'serie',
 		'cantidad',
 		'formulario',
+		'fechaEfectividad',
 		'acciones',
 	];
 
