@@ -30,6 +30,7 @@ export enum TipoBusqueda {
 	MIEMBRO = 1,
 	FUNCION = 2,
 	CIVIL = 3,
+	SERIE = 4,
 }
 
 @Component({
@@ -86,11 +87,14 @@ export class IndexComponent implements OnInit {
 	}
 
 	get searchHelpText() {
-		return this.tipoFiltro === this.tipoBusqueda.MIEMBRO
-			? 'Buscar por cédula o nombre'
-			: this.tipoFiltro === this.tipoBusqueda.FUNCION
-			? 'Buscar por cargo o función'
-			: 'Buscar por cédula civil, favor incluir guiones (-)';
+		const searchHelpText: { [key: number]: string } = {
+			[this.tipoBusqueda.MIEMBRO]: 'Buscar por cédula o nombre',
+			[this.tipoBusqueda.FUNCION]: 'Buscar por cargo o función',
+			[this.tipoBusqueda.CIVIL]:
+				'Buscar por cédula civil, favor incluir guiones (-)',
+			[this.tipoBusqueda.SERIE]: 'Buscar por serie de arma',
+		};
+		return searchHelpText[this.tipoFiltro] || '';
 	}
 
 	get tipoBusqueda() {
@@ -98,11 +102,13 @@ export class IndexComponent implements OnInit {
 	}
 
 	get tipoFiltroPlaceholder(): string {
-		return this.tipoFiltro === this.tipoBusqueda.MIEMBRO
-			? 'cédula o nombre'
-			: this.tipoFiltro === this.tipoBusqueda.FUNCION
-			? 'cargo o función'
-			: 'cédula civil';
+		const placeholders: { [key: number]: string } = {
+			[this.tipoBusqueda.MIEMBRO]: 'Cédula o Nombre',
+			[this.tipoBusqueda.FUNCION]: 'Cargo o Función',
+			[this.tipoBusqueda.CIVIL]: 'Cédula civil',
+			[this.tipoBusqueda.SERIE]: 'Serie de arma',
+		};
+		return placeholders[this.tipoFiltro] || '';
 	}
 
 	getMiembrosByCedulaNombre(param: string) {

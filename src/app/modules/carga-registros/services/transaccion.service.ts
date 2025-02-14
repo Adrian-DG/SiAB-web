@@ -41,4 +41,11 @@ export class TransaccionService {
 			}
 		);
 	}
+
+	getTransaccionesBySerie(serie: string) {
+		return this.$httpClient.get<any[]>(
+			`${this._url}/filter-transacciones-by-serie/`,
+			{ params: new HttpParams().set('serie', serie) }
+		);
+	}
 }
