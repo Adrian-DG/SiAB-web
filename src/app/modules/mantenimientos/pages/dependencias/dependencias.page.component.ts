@@ -34,8 +34,8 @@ export class DependenciasPageComponent
 	extends BaseListResource<INamedEntity>
 	implements AfterViewInit
 {
-	override title: string = 'Dependencias';
-	override description: string = 'Listado de dependencias';
+	override title: string = 'Instituciones';
+	override description: string = 'Listado de instituciones';
 	override displayedColumns: string[] = ['id', 'nombre', 'acciones'];
 
 	constructor(

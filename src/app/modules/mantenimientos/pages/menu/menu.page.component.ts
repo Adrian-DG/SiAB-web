@@ -13,18 +13,18 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class MenuPageComponent {
 	modules: IUrlOption[] = [
-		{ url: 'articulos', name: 'Articulos', icon: '' },
+		{ url: 'propiedades', name: 'Propiedades', icon: '' },
 		{ url: 'categorias', name: 'Categorias', icon: '' },
 		{ url: 'tipos', name: 'Tipos', icon: '' },
 		{ url: 'subtipos', name: 'Subtipos', icon: '' },
-		{ url: 'series', name: 'Series', icon: '' },
+		// { url: 'series', name: 'Series', icon: '' },
 		{ url: 'marcas', name: 'Marcas', icon: '' },
 		{ url: 'modelos', name: 'Modelos', icon: '' },
 		{ url: 'calibres', name: 'Calibres', icon: '' },
-		{ url: 'propiedades', name: 'Propiedades', icon: '' },
+		// { url: 'propiedades', name: 'Propiedades', icon: '' },
 		// { url: 'estado-armas', name: 'Estado de Armas', icon: '' },
-		{ url: 'depositos', name: 'Depositos', icon: '' },
 		{ url: 'dependencias', name: 'Dependencias', icon: '' },
+		{ url: 'instituciones', name: 'Instituciones', icon: '' },
 	];
 
 	search(event: Event): void {

@@ -35,8 +35,8 @@ export class DepositosPageComponent
 	extends BaseListResource<IDepositoDetailModel>
 	implements AfterViewInit
 {
-	override title: string = 'Depositos';
-	override description: string = 'Listado de depositos';
+	override title: string = 'Dependencias';
+	override description: string = 'Listado de dependencias';
 	override displayedColumns: string[] = [
 		'id',
 		'nombre',
