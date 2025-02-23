@@ -55,8 +55,8 @@ export class IndexPageComponent {
 		this.file = event.file;
 	}
 
-	onTemplateDownload(event: any) {
-		this._excelService.getPlantillaRelacionArmas();
+	onTemplateDownload(event: string) {
+		this._excelService.getPlantillaRelacionArmas(event);
 	}
 
 	onInfoUpload(event: { origen: number; destino: number }) {

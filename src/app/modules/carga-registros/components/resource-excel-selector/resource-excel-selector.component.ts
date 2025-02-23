@@ -88,7 +88,8 @@ import { debounce, debounceTime, distinctUntilChanged } from 'rxjs';
 	providers: [DepositosService],
 })
 export class ResourceExcelSelectorComponent {
-	@Output('on-template-download') templateDownload = new EventEmitter<void>();
+	@Output('on-template-download') templateDownload =
+		new EventEmitter<string>();
 	@Output('on-info-upload') infoUpload = new EventEmitter<{
 		origen: number;
 		destino: number;
@@ -122,7 +123,12 @@ export class ResourceExcelSelectorComponent {
 
 	downloadTemplate() {
 		// Download template
-		this.templateDownload.emit();
+		const dependencia = this.dependenciaControl.value as INamedEntity;
+		if (!dependencia || dependencia.nombre === '') {
+			alert('Debe seleccionar una dependencia');
+			return;
+		}
+		this.templateDownload.emit(dependencia.nombre);
 	}
 
 	uploadInfo() {
