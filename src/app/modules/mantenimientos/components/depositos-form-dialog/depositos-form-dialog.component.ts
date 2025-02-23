@@ -28,6 +28,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { IUpdateEntityDto } from '../../dtos/iupdate-entity.dto';
 import { IDepositoDetailModel } from '../../models/ideposito-detail.model';
 import { UpdateCreateDialogActionsComponent } from '../../../../Shared/components/update-create-dialog-actions/update-create-dialog-actions.component';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
 	selector: 'app-depositos-form-dialog',
@@ -68,8 +69,9 @@ export class DepositosFormDialogComponent
 	}
 
 	ngOnInit(): void {
-		this.dependenciaControl.valueChanges.subscribe(
-			(value: string | null) => {
+		this.dependenciaControl.valueChanges
+			.pipe(debounceTime(300), distinctUntilChanged())
+			.subscribe((value: string | null) => {
 				if (value && value !== '' && value.length > 2) {
 					this._dependenciasService
 						.getFilter<INamedEntity>(value)
@@ -77,8 +79,7 @@ export class DepositosFormDialogComponent
 							this.dependencias$.set(data);
 						});
 				}
-			}
-		);
+			});
 	}
 
 	displayDependenciaFn(dependencia: INamedEntity): string {
