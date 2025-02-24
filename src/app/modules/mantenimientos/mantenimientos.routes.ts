@@ -9,14 +9,14 @@ export const mantenimientosRoutes: Route[] = [
 	// 		),
 	// },
 	{
-		path: 'dependencias',
+		path: 'instituciones',
 		loadComponent: () =>
 			import('./pages/dependencias/dependencias.page.component').then(
 				(c) => c.DependenciasPageComponent
 			),
 	},
 	{
-		path: 'depositos',
+		path: 'dependencias',
 		loadComponent: () =>
 			import('./pages/depositos/depositos.page.component').then(
 				(c) => c.DepositosPageComponent

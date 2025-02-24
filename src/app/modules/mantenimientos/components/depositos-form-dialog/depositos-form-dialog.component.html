@@ -2,16 +2,16 @@
 <div mat-dialog-content>
 	@if(isUpdate){
 	<mat-form-field style="width: 100%">
-		<mat-label>Deposito</mat-label>
+		<mat-label>Dependencia</mat-label>
 		<input matInput [(ngModel)]="data.entity.nombre" />
 	</mat-form-field>
 
-	<p><b>Dependencia actual:</b> <br />{{ data.entity.dependencia }}</p>
+	<p><b>Institución actual:</b> <br />{{ data.entity.dependencia }}</p>
 	<mat-form-field style="width: 100%">
-		<mat-label>Dependencia Actual</mat-label>
+		<mat-label>Institución actual</mat-label>
 		<input
 			type="text"
-			placeholder="Buscar dependencia"
+			placeholder="Buscar Institución"
 			matInput
 			[formControl]="dependenciaControl"
 			[matAutocomplete]="dependenciaAuto"
@@ -33,14 +33,14 @@
 	>
 	} @else {
 	<mat-form-field style="width: 100%">
-		<mat-label>Deposito</mat-label>
+		<mat-label>Dependencia</mat-label>
 		<input matInput [(ngModel)]="depositoObj.nombre" />
 	</mat-form-field>
 	<mat-form-field style="width: 100%">
-		<mat-label>Dependencia</mat-label>
+		<mat-label>Institución</mat-label>
 		<input
 			type="text"
-			placeholder="Buscar dependencia"
+			placeholder="Buscar Institución"
 			matInput
 			[formControl]="dependenciaControl"
 			[matAutocomplete]="dependenciaAuto"

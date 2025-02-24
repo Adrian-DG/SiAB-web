@@ -16,6 +16,8 @@ import { DynamicDataTableComponent } from '../../../modules/carga-registros/comp
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TipoBusqueda } from '../../../modules/existencia/pages/index/index.page.component';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-historico-transacciones',
@@ -40,6 +42,15 @@ import { MatIconModule } from '@angular/material/icon';
 				@if (records$().length > 0) {
 
 				<mat-table [dataSource]="records$()" class="table">
+					@if(tipoOrigen == tipoBusqueda.MIEMBRO) {
+					<ng-container matColumnDef="serie">
+						<mat-header-cell *matHeaderCellDef>
+							Serie
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.serie }}
+						</mat-cell>
+					</ng-container>
 					<ng-container matColumnDef="marca">
 						<mat-header-cell *matHeaderCellDef>
 							Marca
@@ -64,14 +75,6 @@ import { MatIconModule } from '@angular/material/icon';
 							{{ element.subTipo }}
 						</mat-cell>
 					</ng-container>
-					<ng-container matColumnDef="serie">
-						<mat-header-cell *matHeaderCellDef>
-							Serie
-						</mat-header-cell>
-						<mat-cell *matCellDef="let element">
-							{{ element.serie }}
-						</mat-cell>
-					</ng-container>
 					<ng-container matColumnDef="cantidad">
 						<mat-header-cell *matHeaderCellDef>
 							Cantidad
@@ -88,16 +91,69 @@ import { MatIconModule } from '@angular/material/icon';
 							{{ element.formulario }}
 						</mat-cell>
 					</ng-container>
+					<ng-container matColumnDef="fechaEfectividad">
+						<mat-header-cell *matHeaderCellDef>
+							Fecha Efectividad
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.fechaEfectividad | date : 'dd/MM/yyyy' }}
+						</mat-cell>
+					</ng-container>
 					<ng-container matColumnDef="acciones">
 						<mat-header-cell *matHeaderCellDef>
 							Acciones
 						</mat-header-cell>
 						<mat-cell *matCellDef="let element">
 							<button mat-icon-button color="primary">
-								<mat-icon>edit</mat-icon>
+								<mat-icon>remove_red_eye</mat-icon>
 							</button>
 						</mat-cell>
 					</ng-container>
+					} @if(tipoOrigen == tipoBusqueda.SERIE) {
+					<ng-container matColumnDef="origen">
+						<mat-header-cell *matHeaderCellDef>
+							Origen
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.origen }}
+						</mat-cell>
+					</ng-container>
+					<ng-container matColumnDef="destino">
+						<mat-header-cell *matHeaderCellDef>
+							Destino
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.destino }}
+						</mat-cell>
+					</ng-container>
+					<ng-container matColumnDef="formulario">
+						<mat-header-cell *matHeaderCellDef>
+							Formulario
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.formulario }}
+						</mat-cell>
+					</ng-container>
+					<ng-container matColumnDef="fecha">
+						<mat-header-cell *matHeaderCellDef>
+							Fecha
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							{{ element.fecha | date : 'dd/MM/yyyy' }}
+						</mat-cell>
+					</ng-container>
+					<ng-container matColumnDef="acciones">
+						<mat-header-cell *matHeaderCellDef>
+							Acciones
+						</mat-header-cell>
+						<mat-cell *matCellDef="let element">
+							<button mat-icon-button color="primary">
+								<mat-icon>remove_red_eye</mat-icon>
+							</button>
+						</mat-cell>
+					</ng-container>
+					}
+
 					<mat-header-row
 						*matHeaderRowDef="displayedColumns"
 					></mat-header-row>
@@ -118,24 +174,54 @@ import { MatIconModule } from '@angular/material/icon';
 export class HistoricoTransaccionesComponent implements AfterViewInit {
 	@Input() tipoOrigen: number = 0;
 	@Input() origen: string = '';
-	displayedColumns: string[] = [
-		'marca',
-		'modelo',
-		'subtipo',
-		'serie',
-		'cantidad',
-		'formulario',
-		'acciones',
-	];
+	displayedColumns: string[] = [];
 
 	records$ = signal<any[]>([]);
 
 	constructor(private _transaccionService: TransaccionService) {}
+
 	ngAfterViewInit(): void {
-		this._transaccionService
-			.getArticulosOrigenTransaccion(this.tipoOrigen, this.origen)
-			.subscribe((data: any[]) => {
-				this.records$.set(data);
-			});
+		if (this.tipoOrigen == TipoBusqueda.MIEMBRO) {
+			this.displayedColumns = [
+				'serie',
+				'marca',
+				'modelo',
+				'subtipo',
+				'cantidad',
+				'formulario',
+				'fechaEfectividad',
+				'acciones',
+			];
+		} else if (this.tipoOrigen == TipoBusqueda.SERIE) {
+			this.displayedColumns = [
+				'origen',
+				'destino',
+				'formulario',
+				'fecha',
+				'acciones',
+			];
+		}
+
+		this.getTableData();
+	}
+
+	get tipoBusqueda() {
+		return TipoBusqueda;
+	}
+
+	getTableData() {
+		const rowData: { [key: number]: () => Observable<any[]> } = {
+			[this.tipoBusqueda.MIEMBRO]: () =>
+				this._transaccionService.getArticulosOrigenTransaccion(
+					this.tipoOrigen,
+					this.origen
+				),
+			[this.tipoBusqueda.SERIE]: () =>
+				this._transaccionService.getTransaccionesBySerie(this.origen),
+		};
+
+		rowData[this.tipoOrigen]().subscribe((data) => {
+			this.records$.set(data);
+		});
 	}
 }

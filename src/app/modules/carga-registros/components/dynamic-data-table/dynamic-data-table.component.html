@@ -19,7 +19,7 @@
 		</tr>
 		} } @else {
 		<tr class="row">
-			<td scope="row" class="cell" [colSpan]="columnsCount">
+			<td scope="row" class="cell" [colSpan]="tableColumnsCount$()">
 				No data available
 			</td>
 		</tr>
@@ -30,7 +30,7 @@
 		<tr>
 			<th
 				scope="row"
-				[colSpan]="columnsCount"
+				[colSpan]="tableColumnsCount$()"
 				class="footer"
 				style="text-align: left; padding-left: 4em"
 			>

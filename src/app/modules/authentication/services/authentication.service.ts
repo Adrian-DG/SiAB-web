@@ -17,7 +17,7 @@ export class AuthenticationService extends GenericService {
 		return 'authentication';
 	}
 
-	isAuthenticated = computed<boolean>(() => {
+	isAuthenticated$ = computed<boolean>(() => {
 		const token = localStorage.getItem('token');
 		if (token) {
 			const decodedToken = jwtDecode(token);
@@ -72,14 +72,12 @@ export class AuthenticationService extends GenericService {
 			)
 			.subscribe((response: IAuthenticatedResponse) => {
 				localStorage.setItem('token', response.token);
-				this.isAuthenticated = signal(true);
 				this.$router.navigateByUrl('/existencia');
 			});
 	}
 
 	logout() {
 		localStorage.removeItem('token');
-		this.isAuthenticated = signal(false);
 		this.$router.navigateByUrl('/authentication');
 	}
 }

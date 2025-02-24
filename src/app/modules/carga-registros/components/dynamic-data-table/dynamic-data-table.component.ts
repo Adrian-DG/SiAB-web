@@ -23,6 +23,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 export class DynamicDataTableComponent implements OnChanges {
 	@Input() tableData: any[] = [];
 	@Input() tableColumns: any[] = [];
+
+	tableColumnsCount$ = signal<number>(10);
 	rowCount$ = signal<number>(0);
 
 	ngOnChanges(changes: SimpleChanges): void {
@@ -32,12 +34,9 @@ export class DynamicDataTableComponent implements OnChanges {
 		this.updateRowCount();
 	}
 
-	get columnsCount() {
-		// return (this.tableColumns[0] as string).length - 1;
-		return this.tableColumns.length - 1;
-	}
-
 	updateRowCount(): void {
-		this.rowCount$.set(this.tableData.length);
+		this.rowCount$.set(
+			this.tableData.filter((v) => v && v.length !== 0).length
+		);
 	}
 }

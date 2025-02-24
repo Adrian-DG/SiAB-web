@@ -30,9 +30,10 @@ export class ExcelTemplateService {
 		a.click();
 	}
 
-	getPlantillaRelacionArmas() {
+	getPlantillaRelacionArmas(origen: string) {
 		this.$httpClient
 			.get(`${this._templateUrl}/download-plantilla-relacion-armas`, {
+				params: new HttpParams().set('origen', origen),
 				observe: 'response',
 				responseType: 'blob',
 				reportProgress: true,

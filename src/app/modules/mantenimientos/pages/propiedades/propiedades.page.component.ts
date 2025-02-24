@@ -11,11 +11,19 @@ import { MatTableModule } from '@angular/material/table';
 import { PageIntroComponent } from '../../../../Shared/components/page-intro/page-intro.component';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
 import { PropiedadesService } from '../../services/propiedades.service';
+import { ArticuloService } from '../../services/articulo.service';
+import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
+import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
 
 @Component({
 	selector: 'app-propiedades.page',
 	standalone: true,
-	imports: [MatTableModule, PageIntroComponent, PagePaginatorComponent],
+	imports: [
+		MatTableModule,
+		PageIntroComponent,
+		PagePaginatorComponent,
+		CrudActionsComponent,
+	],
 	templateUrl: './propiedades.page.component.html',
 	styleUrl: './propiedades.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,16 +31,22 @@ import { PropiedadesService } from '../../services/propiedades.service';
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PropiedadesPageComponent
-	extends BaseListResource<INamedEntity>
+	extends BaseListResource<any>
 	implements AfterViewInit
 {
 	override title: string = 'Propiedades';
 	override description: string = 'Listado de propiedades';
-	override displayedColumns: string[] = ['id', 'nombre', 'acciones'];
+	override displayedColumns: string[] = [
+		'id',
+		'serie',
+		'tipado',
+		'info',
+		'acciones',
+	];
 
 	constructor(
 		protected override _dialog: MatDialog,
-		private _service: PropiedadesService
+		private _articuloService: ArticuloService
 	) {
 		super(_dialog);
 	}
@@ -54,8 +68,10 @@ export class PropiedadesPageComponent
 	}
 
 	override onLoadData(): void {
-		this._service.get<INamedEntity>(this.filters$()).subscribe((data) => {
-			this.records$.set(data.rows);
-		});
+		this._articuloService
+			.get<any>(this.filters$())
+			.subscribe((data: IPagedData<any>) => {
+				this.records$.set(data.rows);
+			});
 	}
 }

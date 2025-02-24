@@ -24,11 +24,13 @@ import { MiembroListItemComponent } from '../../../../Shared/components/miembro-
 import { TransaccionService } from '../../../carga-registros/services/transaccion.service';
 import { MatButtonModule } from '@angular/material/button';
 import { HistoricoTransaccionesComponent } from '../../../../Shared/components/historico-transacciones/historico-transacciones.component';
+import { debounceTime, distinct, distinctUntilChanged } from 'rxjs';
 
 export enum TipoBusqueda {
 	MIEMBRO = 1,
 	FUNCION = 2,
 	CIVIL = 3,
+	SERIE = 4,
 }
 
 @Component({
@@ -55,6 +57,7 @@ export class IndexComponent implements OnInit {
 	filtro = new FormControl('', [Validators.minLength(5)]);
 	miembrosList = signal<IMiembroListDetail[]>([]);
 	miembro = signal<IMiembroView | null>(null);
+	private readonly MIN_LENGTH = 5;
 
 	constructor(
 		private _miembroService: MiembroService,
@@ -62,26 +65,36 @@ export class IndexComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this.filtro.valueChanges.subscribe((value: string | null) => {
-			if (this.tipoFiltro === this.tipoBusqueda.CIVIL) {
-				if (value && value !== '' && value.length >= 13)
-					this.geCivilByCedula(value);
-			} else {
-				if (value && value !== '' && value.length >= 5) {
-					this.tipoFiltro === 1
-						? this.getMiembrosByCedulaNombre(value)
-						: this.getMiembrosByCargo(value);
+		this.filtro.valueChanges
+			.pipe(debounceTime(3000), distinctUntilChanged())
+			.subscribe((value: string | null) => {
+				const searchActions: {
+					[key: number]: (value: string) => void;
+				} = {
+					[this.tipoBusqueda.MIEMBRO]: (value: string) =>
+						this.getMiembrosByCedulaNombre(value),
+					[this.tipoBusqueda.FUNCION]: (value: string) =>
+						this.getMiembrosByCargo(value),
+					[this.tipoBusqueda.CIVIL]: (value: string) =>
+						this.geCivilByCedula(value),
+				};
+
+				const action = searchActions[this.tipoFiltro];
+				if (action && value && value?.length >= this.MIN_LENGTH) {
+					action(value);
 				}
-			}
-		});
+			});
 	}
 
 	get searchHelpText() {
-		return this.tipoFiltro === this.tipoBusqueda.MIEMBRO
-			? 'Buscar por cédula o nombre'
-			: this.tipoFiltro === this.tipoBusqueda.FUNCION
-			? 'Buscar por cargo o función'
-			: 'Buscar por cédula civil, favor incluir guiones (-)';
+		const searchHelpText: { [key: number]: string } = {
+			[this.tipoBusqueda.MIEMBRO]: 'Buscar por cédula o nombre',
+			[this.tipoBusqueda.FUNCION]: 'Buscar por cargo o función',
+			[this.tipoBusqueda.CIVIL]:
+				'Buscar por cédula civil, favor incluir guiones (-)',
+			[this.tipoBusqueda.SERIE]: 'Buscar por serie de arma',
+		};
+		return searchHelpText[this.tipoFiltro] || '';
 	}
 
 	get tipoBusqueda() {
@@ -89,11 +102,13 @@ export class IndexComponent implements OnInit {
 	}
 
 	get tipoFiltroPlaceholder(): string {
-		return this.tipoFiltro === this.tipoBusqueda.MIEMBRO
-			? 'cédula o nombre'
-			: this.tipoFiltro === this.tipoBusqueda.FUNCION
-			? 'cargo o función'
-			: 'cédula civil';
+		const placeholders: { [key: number]: string } = {
+			[this.tipoBusqueda.MIEMBRO]: 'Cédula o Nombre',
+			[this.tipoBusqueda.FUNCION]: 'Cargo o Función',
+			[this.tipoBusqueda.CIVIL]: 'Cédula civil',
+			[this.tipoBusqueda.SERIE]: 'Serie de arma',
+		};
+		return placeholders[this.tipoFiltro] || '';
 	}
 
 	getMiembrosByCedulaNombre(param: string) {

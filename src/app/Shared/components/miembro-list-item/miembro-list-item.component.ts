@@ -26,9 +26,12 @@ import { CommonModule } from '@angular/common';
 						{{ miembro.nombreApellidoCompleto }}</span
 					>
 					<br />
-					<span class="status" [ngClass]="clasificacionEstado"
-						><b>Estado:</b> {{ miembro.estadoMiembro }}</span
-					>
+					<span>
+						<b>Estado:</b>
+						<span class="status" [ngClass]="clasificacionEstado">{{
+							miembro.estadoMiembro | uppercase
+						}}</span>
+					</span>
 				</div>
 			</div>
 			<mat-divider></mat-divider>
@@ -51,10 +54,14 @@ export class MiembroListItemComponent {
 	}
 
 	get clasificacionEstado() {
-		return ['ACTIVO', 'LICENCIA', 'VACACIONES', 'PERMISO'].includes(
-			this.miembro.estadoMiembro
-		)
+		return [
+			'ACTIVO',
+			'LICENCIA',
+			'VACACIONES',
+			'PERMISO',
+			'REALIZANDO ESTUDIO',
+		].includes(this.miembro.estadoMiembro.toUpperCase())
 			? 'activo'
-			: 'inactivo';
+			: 'pasivo';
 	}
 }

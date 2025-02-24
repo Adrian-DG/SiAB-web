@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, signal, Signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { IUrlOption } from './Shared/Models/iurl-option.model';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -72,13 +72,10 @@ export class AppComponent implements OnInit {
 		},
 	];
 
-	isVisible$ = signal<boolean>(false);
-
 	constructor(public _authService: AuthenticationService) {}
 
 	ngOnInit(): void {
 		this.userRoles = this._authService.userData()?.Roles ?? [];
-		this.isVisible$.set(this._authService.isAuthenticated());
 		// throw new Error('Method not implemented.');
 	}
 
@@ -100,6 +97,5 @@ export class AppComponent implements OnInit {
 
 	onLogout() {
 		this._authService.logout();
-		this.isVisible$.set(false);
 	}
 }
