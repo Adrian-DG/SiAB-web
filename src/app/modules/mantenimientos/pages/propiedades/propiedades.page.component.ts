@@ -71,7 +71,7 @@ export class PropiedadesPageComponent
 		this._articuloService
 			.get<any>(this.filters$())
 			.subscribe((data: IPagedData<any>) => {
-				this.records$.set(data.rows);
+				this.data$.set(data);
 			});
 	}
 }

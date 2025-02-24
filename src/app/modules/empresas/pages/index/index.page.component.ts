@@ -83,8 +83,7 @@ export class IndexPageComponent
 		this._empresaService
 			.get<IEmpresaModel>(this.filters$())
 			.subscribe((data: IPagedData<IEmpresaModel>) => {
-				this.records$.set(data.rows);
-				this.totalCount$.set(data.totalCount);
+				this.data$.set(data);
 			});
 	}
 }

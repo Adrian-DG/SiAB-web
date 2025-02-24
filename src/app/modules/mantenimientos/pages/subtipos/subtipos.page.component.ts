@@ -91,8 +91,7 @@ export class SubtiposPageComponent
 		this._subTipoService
 			.get<ISubtipoDetail>(this.filters$())
 			.subscribe((response: IPagedData<ISubtipoDetail>) => {
-				this.records$.set(response.rows);
-				this.totalCount$.set(response.totalCount);
+				this.data$.set(response);
 			});
 	}
 }

@@ -82,7 +82,7 @@ export class ListPageComponent
 		this._usuariosService
 			.get<IUsuarioDetailModel>(this.filters$())
 			.subscribe((data: IPagedData<IUsuarioDetailModel>) => {
-				this.records$.set(data.rows);
+				this.data$.set(data);
 			});
 	}
 }

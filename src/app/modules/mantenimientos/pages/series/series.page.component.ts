@@ -67,8 +67,7 @@ export class SeriePageComponent
 		this._serieService
 			.get<ISerieDetail>(this.filters$())
 			.subscribe((response: IPagedData<ISerieDetail>) => {
-				this.records$.set(response.rows);
-				this.totalCount$.set(response.totalCount);
+				this.data$.set(response);
 			});
 	}
 }

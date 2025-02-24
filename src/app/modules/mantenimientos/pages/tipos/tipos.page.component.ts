@@ -95,8 +95,7 @@ export class TiposPageComponent
 		this._tiposService
 			.get<ITipoDetail>(this.filters$())
 			.subscribe((response: IPagedData<ITipoDetail>) => {
-				this.records$.set(response.rows);
-				this.totalCount$.set(response.totalCount);
+				this.data$.set(response);
 			});
 	}
 }

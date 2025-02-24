@@ -9,7 +9,7 @@
 		</app-page-intro>
 	</card-header>
 	<card-content>
-		<table mat-table [dataSource]="records$()">
+		<table mat-table [dataSource]="data$().rows">
 			<ng-container matColumnDef="id">
 				<th mat-header-cell *matHeaderCellDef>#</th>
 				<td mat-cell *matCellDef="let element; let i = index">
@@ -69,7 +69,7 @@
 	</card-content>
 	<card-footer>
 		<app-page-paginator
-			[length]="totalCount$()"
+			[length]="data$().totalCount"
 			[pageSize]="filters$().size"
 			(page)="onPaginate($event)"
 		></app-page-paginator

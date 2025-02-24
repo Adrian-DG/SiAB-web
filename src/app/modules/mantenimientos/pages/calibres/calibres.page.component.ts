@@ -100,8 +100,7 @@ export class CalibresPageComponent
 		this._calibreService
 			.get<INamedEntity>(this.filters$())
 			.subscribe((response: IPagedData<INamedEntity>) => {
-				this.records$.set(response.rows);
-				this.totalCount$.set(response.totalCount);
+				this.data$.set(response);
 			});
 	}
 }

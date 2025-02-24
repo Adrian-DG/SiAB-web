@@ -90,8 +90,7 @@ export class DependenciasPageComponent
 		this._service
 			.get<INamedEntity>(this.filters$())
 			.subscribe((data: IPagedData<INamedEntity>) => {
-				this.records$.set(data.rows);
-				this.totalCount$.set;
+				this.data$.set(data);
 			});
 	}
 }

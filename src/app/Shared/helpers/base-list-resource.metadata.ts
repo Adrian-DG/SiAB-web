@@ -1,4 +1,4 @@
-import { OnInit, signal } from '@angular/core';
+import { computed, OnInit, signal } from '@angular/core';
 import { IPaginationFilter } from '../dtos/ipagination-filter.dto';
 import {
 	MatDialog,
@@ -8,6 +8,7 @@ import {
 import { PageEvent } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 import { IUpdateEntityDto } from '../../modules/mantenimientos/dtos/iupdate-entity.dto';
+import { IPagedData } from '../Models/ipaged-data.model';
 
 export abstract class BaseListResource<T> {
 	abstract title: string;
@@ -18,8 +19,13 @@ export abstract class BaseListResource<T> {
 		size: 5,
 		searchTerm: '',
 	});
-	protected records$ = signal<T[]>([]);
-	protected totalCount$ = signal<number>(0);
+
+	protected data$ = signal<IPagedData<T>>({
+		page: this.filters$().page,
+		size: this.filters$().size,
+		totalCount: 0,
+		rows: [],
+	});
 
 	protected dialogConfig: MatDialogConfig = {
 		hasBackdrop: true,

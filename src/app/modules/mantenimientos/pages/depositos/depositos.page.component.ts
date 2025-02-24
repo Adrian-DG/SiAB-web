@@ -93,8 +93,7 @@ export class DepositosPageComponent
 		this._depositosService
 			.get<IDepositoDetailModel>(this.filters$())
 			.subscribe((response: IPagedData<IDepositoDetailModel>) => {
-				this.records$.set(response.rows);
-				this.totalCount$.set(response.totalCount);
+				this.data$.set(response);
 			});
 	}
 }

@@ -93,8 +93,7 @@ export class ModelosPageComponent
 		this._modelosService
 			.get<IModeloDetail>(this.filters$())
 			.subscribe((response: IPagedData<IModeloDetail>) => {
-				this.records$.set(response.rows);
-				this.totalCount$.set(response.totalCount);
+				this.data$.set(response);
 			});
 	}
 }
