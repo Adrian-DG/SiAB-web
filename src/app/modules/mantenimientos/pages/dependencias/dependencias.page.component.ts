@@ -70,7 +70,7 @@ export class DependenciasPageComponent
 			.afterClosed()
 			.subscribe((result) => {
 				if (result) {
-					this._service.delete(event.id).subscribe(() => {
+					this._service.delete(event).subscribe(() => {
 						this.onLoadData();
 					});
 				}
