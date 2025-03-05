@@ -55,6 +55,20 @@ export const routes: Routes = [
 		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
 	},
 	{
+		path: 'estadisticas',
+		loadChildren: () =>
+			import('./modules/estadisticas/estadisticas.routes').then(
+				(m) => m.estadisticasRoutes
+			),
+		canActivate: [authGuard, RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ESTADISTICAS,
+			],
+		},
+	},
+	{
 		path: 'mantenimientos',
 		loadChildren: () =>
 			import('./modules/mantenimientos/mantenimientos.routes').then(

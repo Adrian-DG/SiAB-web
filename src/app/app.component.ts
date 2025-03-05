@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
 	userRoles: string | string[] = [];
 	modules: IUrlOption[] = [
 		{
-			url: 'link',
+			url: 'estadisticas',
 			name: 'Estadisticas',
 			icon: 'chevron_right',
 		},
