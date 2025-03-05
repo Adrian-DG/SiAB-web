@@ -1,0 +1,66 @@
+<div mat-dialog-title>Editar Propiedad</div>
+<div mat-dialog-content>
+	<div class="row">
+		<mat-form-field>
+			<mat-label>Categoria ({{ data.entity.categoria }})</mat-label>
+			<mat-select>
+				@for (item of categorias$(); track $index) {
+				<mat-option [value]="item.id">{{ item.nombre }}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Tipos ({{ data.entity.tipo }})</mat-label>
+			<mat-select>
+				@for (item of tipos$(); track $index) {
+				<mat-option [value]="item.id">{{ item.nombre }}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Subtipos ({{ data.entity.subTipo }})</mat-label>
+			<mat-select>
+				@for (item of subtipos$(); track $index) {
+				<mat-option [value]="item.id">{{ item.nombre }}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+	</div>
+	<div class="row">
+		<mat-form-field>
+			<mat-label>Marca ({{ data.entity.marca }})</mat-label>
+			<input
+				type="text"
+				matInput
+				[formControl]="marcasControl"
+				[matAutocomplete]="marcas"
+				(ngModelChange)="onMarcaSelected()"
+			/>
+			<mat-autocomplete
+				autoActiveFirstOption
+				#marcas="matAutocomplete"
+				[displayWith]="displayMarca"
+			>
+				@for (item of marcas$(); track $index) {
+				<mat-option [value]="item">{{ item }}</mat-option>
+				}
+			</mat-autocomplete>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Modelo ({{ data.entity.modelo }}</mat-label>
+			<mat-select>
+				@for (item of modelos$(); track $index) {
+				<mat-option [value]="item.id">{{ item.nombre }}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Serie</mat-label>
+			<input type="text" matInput [(ngModel)]="editModel.serie" />
+		</mat-form-field>
+	</div>
+</div>
+<div mat-dialog-actions>
+	<button mat-button mat-dialog-close>Cancelar</button>
+	<button mat-button color="primary">Guardar</button>
+</div>

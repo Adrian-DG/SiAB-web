@@ -11,10 +11,12 @@
 			</mat-card-title-group>
 		</div>
 		<div class="right">
+			@if (showCreateButton) {
 			<button mat-flat-button (click)="onAddClick()">
 				<mat-icon>add</mat-icon>
 				<span>Agregar</span>
 			</button>
+			}
 		</div>
 	</div>
 	<mat-form-field class="search">

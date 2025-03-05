@@ -14,6 +14,8 @@ import { PropiedadesService } from '../../services/propiedades.service';
 import { ArticuloService } from '../../services/articulo.service';
 import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
+import { PropiedadesFormDialogComponent } from '../../components/propiedades-form-dialog/propiedades-form-dialog.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
 	selector: 'app-propiedades.page',
@@ -56,7 +58,11 @@ export class PropiedadesPageComponent
 	}
 
 	override onEdit(event: any): void {
-		throw new Error('Method not implemented.');
+		console.log(event);
+		this._dialog.open(PropiedadesFormDialogComponent, {
+			data: event,
+			...this.dialogConfig,
+		});
 	}
 
 	override onDelete(event: any): void {
