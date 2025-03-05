@@ -3,7 +3,10 @@
 	<div class="row">
 		<mat-form-field>
 			<mat-label>Categoria ({{ data.entity.categoria }})</mat-label>
-			<mat-select>
+			<mat-select
+				[(ngModel)]="editModel.categoriaId"
+				(selectionChange)="onCategoriaSelected()"
+			>
 				@for (item of categorias$(); track $index) {
 				<mat-option [value]="item.id">{{ item.nombre }}</mat-option>
 				}
@@ -11,7 +14,10 @@
 		</mat-form-field>
 		<mat-form-field>
 			<mat-label>Tipos ({{ data.entity.tipo }})</mat-label>
-			<mat-select>
+			<mat-select
+				[(ngModel)]="editModel.tipoId"
+				(selectionChange)="onTipoSelected()"
+			>
 				@for (item of tipos$(); track $index) {
 				<mat-option [value]="item.id">{{ item.nombre }}</mat-option>
 				}
@@ -19,7 +25,7 @@
 		</mat-form-field>
 		<mat-form-field>
 			<mat-label>Subtipos ({{ data.entity.subTipo }})</mat-label>
-			<mat-select>
+			<mat-select [(ngModel)]="editModel.subTipoId">
 				@for (item of subtipos$(); track $index) {
 				<mat-option [value]="item.id">{{ item.nombre }}</mat-option>
 				}
@@ -42,13 +48,13 @@
 				[displayWith]="displayMarca"
 			>
 				@for (item of marcas$(); track $index) {
-				<mat-option [value]="item">{{ item }}</mat-option>
+				<mat-option [value]="item">{{ item.nombre }}</mat-option>
 				}
 			</mat-autocomplete>
 		</mat-form-field>
 		<mat-form-field>
 			<mat-label>Modelo ({{ data.entity.modelo }}</mat-label>
-			<mat-select>
+			<mat-select [(ngModel)]="editModel.modeloId">
 				@for (item of modelos$(); track $index) {
 				<mat-option [value]="item.id">{{ item.nombre }}</mat-option>
 				}
@@ -62,5 +68,5 @@
 </div>
 <div mat-dialog-actions>
 	<button mat-button mat-dialog-close>Cancelar</button>
-	<button mat-button color="primary">Guardar</button>
+	<button mat-button color="primary" (click)="onUpdate()">Guardar</button>
 </div>

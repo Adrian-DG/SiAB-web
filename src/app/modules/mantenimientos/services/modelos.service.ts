@@ -16,7 +16,7 @@ export class ModelosService extends GenericService {
 		return 'modelos';
 	}
 
-	getModelosByMarcaId(marca: string) {
+	getModelosByMarcaId(marca: number) {
 		const params = new HttpParams().set('marca', marca);
 		return this.$http
 			.get(`${this.endPoint}/filtrar-por-marca`, {

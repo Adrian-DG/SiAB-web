@@ -29,6 +29,7 @@ import { CategoriaService } from '../../services/categoria.service';
 import { TipoService } from '../../services/tipo.service';
 import { SubtipoService } from '../../services/subtipo.service';
 import { ModelosService } from '../../services/modelos.service';
+import { ArticuloService } from '../../services/articulo.service';
 
 @Component({
 	selector: 'app-propiedades-form-dialog',
@@ -66,7 +67,7 @@ export class PropiedadesFormDialogComponent implements OnInit, AfterViewInit {
 	editModel = {
 		categoriaId: 0,
 		tipoId: 0,
-		subtipoId: 0,
+		subTipoId: 0,
 		marcaId: 0,
 		modeloId: 0,
 		serie: this.data.entity.serie,
@@ -78,7 +79,8 @@ export class PropiedadesFormDialogComponent implements OnInit, AfterViewInit {
 		private _categoriasService: CategoriaService,
 		private _tiposService: TipoService,
 		private _subTiposService: SubtipoService,
-		private _modelosService: ModelosService
+		private _modelosService: ModelosService,
+		private _articulosService: ArticuloService
 	) {}
 
 	ngOnInit(): void {
@@ -97,29 +99,33 @@ export class PropiedadesFormDialogComponent implements OnInit, AfterViewInit {
 		this._categoriasService
 			.getAll<INamedEntity>()
 			.subscribe((data) => this.categorias$.update(() => data));
-
-		this._tiposService
-			.getAll<INamedEntity>()
-			.subscribe((data) => this.tipos$.update(() => data));
-
-		this._subTiposService
-			.getSubTiposByTipoId(this.data.tipo)
-			.subscribe((data) => this.subtipos$.update(() => data));
 	}
 
 	displayMarca(entity: INamedEntity): string {
 		return entity?.nombre ?? '';
 	}
 
+	onCategoriaSelected(): void {
+		this._tiposService
+			.getTiposByCategoriaId(this.editModel.categoriaId)
+			.subscribe((data) => this.tipos$.update(() => data));
+	}
+
+	onTipoSelected(): void {
+		this._subTiposService
+			.getSubTiposByTipoId(this.editModel.tipoId)
+			.subscribe((data) => this.subtipos$.update(() => data));
+	}
+
 	onMarcaSelected(): void {
 		this._modelosService
-			.getModelosByMarcaId(
-				(this.marcasControl.value as unknown as INamedEntity).nombre
-			)
+			.getModelosByMarcaId(this.editModel.marcaId)
 			.subscribe((data) => this.modelos$.update(() => data));
 	}
 
-	onUpdate(event: any): void {
-		throw new Error('Method not implemented.');
+	onUpdate(): void {
+		this._articulosService
+			.update({ id: this.data.entity.id, entity: this.editModel })
+			.subscribe(() => this._dialogRef.close());
 	}
 }

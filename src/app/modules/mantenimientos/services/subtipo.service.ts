@@ -15,7 +15,7 @@ export class SubtipoService extends GenericService {
 		super($http);
 	}
 
-	getSubTiposByTipoId(tipo: string) {
+	getSubTiposByTipoId(tipo: number) {
 		const params = new HttpParams().set('tipo', tipo);
 		return this.$http
 			.get(`${this.endPoint}/filtrar-por-tipo`, {

@@ -59,10 +59,13 @@ export class PropiedadesPageComponent
 
 	override onEdit(event: any): void {
 		console.log(event);
-		this._dialog.open(PropiedadesFormDialogComponent, {
-			data: event,
-			...this.dialogConfig,
-		});
+		this._dialog
+			.open(PropiedadesFormDialogComponent, {
+				data: event,
+				...this.dialogConfig,
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onDelete(event: any): void {
