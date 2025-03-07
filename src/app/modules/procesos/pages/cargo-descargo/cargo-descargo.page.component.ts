@@ -33,6 +33,8 @@ import { DebitoArticulosTableComponent } from '../../components/debito-articulos
 import { SecuenciasService } from '../../services/Secuencias.service';
 import { FileInputComponent } from '../../../../Shared/components/file-input/file-input.component';
 import { TransaccionService } from '../../../carga-registros/services/transaccion.service';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
 	selector: 'app-cargo-descargo.page',
@@ -46,6 +48,7 @@ import { TransaccionService } from '../../../carga-registros/services/transaccio
 		MatButtonModule,
 		MatIconModule,
 		MatRadioModule,
+		MatDatepickerModule,
 		FormsModule,
 		ReactiveFormsModule,
 		DebitoArticulosTableComponent,
@@ -63,7 +66,7 @@ import { TransaccionService } from '../../../carga-registros/services/transaccio
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
-	private readonly MINIMUN_FILTER_LENGTH = 5;
+	private readonly MINIMUN_FILTER_LENGTH = 2;
 
 	// Variables de control
 	debitosList = signal<IFilterMiembroResult[]>([]);
@@ -110,58 +113,60 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	ngAfterViewInit(): void {
 		// TODO: Implementar busqueda de debitos y creditos
 
-		this.registroDebitoCreditoForm.controls[
-			'debito'
-		].valueChanges.subscribe((value: string | null) => {
-			if (
-				value &&
-				value !== '' &&
-				value.length > this.MINIMUN_FILTER_LENGTH
-			) {
-				const tipoDebito =
-					this.registroDebitoCreditoForm.controls['tipoCargoDebito']
-						.value;
-				this.getInfoTipoCargo(tipoDebito, 'debito', value);
-			}
-		});
+		this.registroDebitoCreditoForm.controls['debito'].valueChanges
+			.pipe(debounceTime(3000), distinctUntilChanged())
+			.subscribe((value: string | null) => {
+				if (
+					value &&
+					value !== '' &&
+					value.length > this.MINIMUN_FILTER_LENGTH
+				) {
+					const tipoDebito =
+						this.registroDebitoCreditoForm.controls[
+							'tipoCargoDebito'
+						].value;
+					this.getInfoTipoCargo(tipoDebito, 'debito', value);
+				}
+			});
 
-		this.registroDebitoCreditoForm.controls[
-			'credito'
-		].valueChanges.subscribe((value: string | null) => {
-			if (
-				value &&
-				value !== '' &&
-				value.length > this.MINIMUN_FILTER_LENGTH
-			) {
-				const tipoCargo =
-					this.registroDebitoCreditoForm.controls['tipoCargoCredito']
-						.value;
-				this.getInfoTipoCargo(tipoCargo, 'credito', value);
-			}
-		});
+		this.registroDebitoCreditoForm.controls['credito'].valueChanges
+			.pipe(debounceTime(3000), distinctUntilChanged())
+			.subscribe((value: string | null) => {
+				if (
+					value &&
+					value !== '' &&
+					value.length > this.MINIMUN_FILTER_LENGTH
+				) {
+					const tipoCargo =
+						this.registroDebitoCreditoForm.controls[
+							'tipoCargoCredito'
+						].value;
+					this.getInfoTipoCargo(tipoCargo, 'credito', value);
+				}
+			});
 
-		this.registroDebitoCreditoForm.controls[
-			'intendente'
-		].valueChanges.subscribe((value: string | null) => {
-			if (
-				value &&
-				value !== '' &&
-				value.length > this.MINIMUN_FILTER_LENGTH
-			) {
-				this._miembrosService
-					.getMiembrosByCedulaNombre(value)
-					.subscribe((miembros: IMiembroListDetail[]) => {
-						this.intendentesList.set(
-							miembros.map((miembro) => {
-								return {
-									param1: miembro.cedula,
-									param2: miembro.nombreApellidoCompleto,
-								};
-							})
-						);
-					});
-			}
-		});
+		this.registroDebitoCreditoForm.controls['intendente'].valueChanges
+			.pipe(debounceTime(3000), distinctUntilChanged())
+			.subscribe((value: string | null) => {
+				if (
+					value &&
+					value !== '' &&
+					value.length > this.MINIMUN_FILTER_LENGTH
+				) {
+					this._miembrosService
+						.getMiembrosByCedulaNombre(value)
+						.subscribe((miembros: IMiembroListDetail[]) => {
+							this.intendentesList.set(
+								miembros.map((miembro) => {
+									return {
+										param1: miembro.cedula,
+										param2: miembro.nombreApellidoCompleto,
+									};
+								})
+							);
+						});
+				}
+			});
 	}
 
 	get tipoCargoDescargo() {
@@ -195,7 +200,10 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 							: this.creditosList.set(data);
 					});
 				break;
-			case TipoDebitoCreditoEnum.S4:
+			case TipoDebitoCreditoEnum.CIVIL:
+				// Buscar el civil por cedula
+				break;
+			case TipoDebitoCreditoEnum.DEPOSITO:
 				this._depositosService
 					.getFilterDepositos(value)
 					.subscribe((depositos: INamedEntity[]) => {
@@ -207,9 +215,6 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 							? this.debitosList.set(data)
 							: this.creditosList.set(data);
 					});
-				break;
-			case TipoDebitoCreditoEnum.CIVIL:
-				// Buscar el civil por cedula
 				break;
 		}
 	}

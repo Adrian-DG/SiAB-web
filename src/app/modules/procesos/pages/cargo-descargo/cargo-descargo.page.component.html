@@ -21,13 +21,13 @@
 						formControlName="tipoCargoDebito"
 					>
 						<mat-radio-button [value]="tipoCargoDescargo.MIEMBRO"
-							>Miembro</mat-radio-button
-						>
-						<mat-radio-button [value]="tipoCargoDescargo.S4"
-							>Depósito</mat-radio-button
+							>Militar</mat-radio-button
 						>
 						<mat-radio-button [value]="tipoCargoDescargo.CIVIL"
 							>Civil</mat-radio-button
+						>
+						<mat-radio-button [value]="tipoCargoDescargo.DEPOSITO"
+							>Depósito</mat-radio-button
 						>
 					</mat-radio-group>
 					<mat-radio-group
@@ -36,13 +36,13 @@
 						formControlName="tipoCargoCredito"
 					>
 						<mat-radio-button [value]="tipoCargoDescargo.MIEMBRO"
-							>Miembro</mat-radio-button
-						>
-						<mat-radio-button [value]="tipoCargoDescargo.S4"
-							>Depósito</mat-radio-button
+							>Militar</mat-radio-button
 						>
 						<mat-radio-button [value]="tipoCargoDescargo.CIVIL"
 							>Civil</mat-radio-button
+						>
+						<mat-radio-button [value]="tipoCargoDescargo.DEPOSITO"
+							>Depósito</mat-radio-button
 						>
 					</mat-radio-group>
 				</div>
@@ -118,13 +118,20 @@
 								formControlName="noDocumento"
 							/>
 						</mat-form-field>
+
 						<mat-form-field class="input">
 							<mat-label>Fecha</mat-label>
 							<input
 								matInput
-								type="date"
+								[matDatepicker]="picker"
 								formControlName="fecha"
 							/>
+							<mat-hint>DD/MM/YYYY</mat-hint>
+							<mat-datepicker-toggle
+								matIconSuffix
+								[for]="picker"
+							></mat-datepicker-toggle>
+							<mat-datepicker #picker></mat-datepicker>
 						</mat-form-field>
 					</div>
 
