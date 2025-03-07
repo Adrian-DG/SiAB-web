@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { DepositosService } from '../../../mantenimientos/services/depositos.service';
 import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
 import { debounce, debounceTime, distinctUntilChanged } from 'rxjs';
+import { TipoDebitoCreditoEnum } from '../../../procesos/enums/tipo-debito-credito.enum';
 
 @Component({
 	selector: 'app-resource-excel-selector',
@@ -35,20 +36,36 @@ import { debounce, debounceTime, distinctUntilChanged } from 'rxjs';
 			<mat-form-field class="select-field">
 				<mat-label>Origen</mat-label>
 				<mat-select [(ngModel)]="origen">
-					<mat-option [value]="1">Militar</mat-option>
-					<mat-option [value]="2">Dependencia</mat-option>
-					<mat-option [value]="3">Función (S4)</mat-option>
-					<mat-option [value]="4">Civil</mat-option>
+					<mat-option [value]="TipoDebitoCredito.MIEMBRO"
+						>Militar</mat-option
+					>
+					<mat-option [value]="TipoDebitoCredito.CIVIL"
+						>Civil</mat-option
+					>
+					<mat-option [value]="TipoDebitoCredito.DEPOSITO"
+						>Deposito</mat-option
+					>
+					<mat-option [value]="TipoDebitoCredito.FUNCION_S4"
+						>Función (S4)</mat-option
+					>
 				</mat-select>
 			</mat-form-field>
 
 			<mat-form-field class="select-field">
 				<mat-label>Destino</mat-label>
 				<mat-select [(ngModel)]="destino">
-					<mat-option [value]="1">Militar</mat-option>
-					<mat-option [value]="2">Dependencia</mat-option>
-					<mat-option [value]="3">Función (S4)</mat-option>
-					<mat-option [value]="4">Civil</mat-option>
+					<mat-option [value]="TipoDebitoCredito.MIEMBRO"
+						>Militar</mat-option
+					>
+					<mat-option [value]="TipoDebitoCredito.CIVIL"
+						>Civil</mat-option
+					>
+					<mat-option [value]="TipoDebitoCredito.DEPOSITO"
+						>Deposito</mat-option
+					>
+					<mat-option [value]="TipoDebitoCredito.FUNCION_S4"
+						>Función (S4)</mat-option
+					>
 				</mat-select>
 			</mat-form-field>
 
@@ -95,8 +112,8 @@ export class ResourceExcelSelectorComponent {
 		destino: number;
 	}>();
 
-	origen: number = 2;
-	destino: number = 1;
+	origen: number = 3;
+	destino: number = 3;
 	dependenciaControl = new FormControl();
 
 	dependencias = signal<INamedEntity[]>([]);
@@ -115,6 +132,10 @@ export class ResourceExcelSelectorComponent {
 						});
 				}
 			});
+	}
+
+	get TipoDebitoCredito() {
+		return TipoDebitoCreditoEnum;
 	}
 
 	displayDependencia(dependencia: INamedEntity) {

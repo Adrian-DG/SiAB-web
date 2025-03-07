@@ -35,7 +35,7 @@ import { FileInputComponent } from '../../../../Shared/components/file-input/fil
 import { TransaccionService } from '../../../carga-registros/services/transaccion.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
+import * as _ from 'lodash';
 @Component({
 	selector: 'app-cargo-descargo.page',
 	standalone: true,
@@ -72,10 +72,14 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	debitosList = signal<IFilterMiembroResult[]>([]);
 	creditosList = signal<IFilterMiembroResult[]>([]);
 	intendentesList = signal<IFilterMiembroResult[]>([]);
-	articulosList = signal<IRegistroDebitoArticulo[]>([]);
-	articulosSelected: IRegistroDebitoArticulo[] = [];
+	articulosList = signal<any[]>([]);
+	articulosSelected = signal<any[]>([]);
 
 	secuencia_53 = signal<string>('');
+
+	subtipoSelected = '';
+	serieSelected = '';
+	cantidadSelected = 0;
 
 	//  Formulario de cargo descargo
 
@@ -85,7 +89,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 			Validators.required
 		),
 		tipoCargoCredito: new FormControl(
-			this.tipoCargoDescargo.MIEMBRO,
+			this.tipoCargoDescargo.DEPOSITO,
 			Validators.required
 		),
 		debito: new FormControl('', Validators.required),
@@ -219,18 +223,55 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 		}
 	}
 
-	onSelectedCredito(event: any) {
+	onSelectedCredito() {
 		const tipoCargoCredito = this.registroDebitoCreditoForm.controls[
 			'tipoCargoCredito'
 		].value as number;
-		const debitadoA =
-			this.registroDebitoCreditoForm.controls['credito'].value;
+		const debitadoA = (
+			this.registroDebitoCreditoForm.controls['credito']
+				.value as unknown as IFilterMiembroResult
+		).param1;
 
 		this._transaccionService
 			.getArticulosOrigenTransaccion(tipoCargoCredito, debitadoA)
 			.subscribe((data: any[]) => {
-				console.log(data);
+				this.articulosList.set(data);
 			});
+	}
+
+	get articulos_subtipos() {
+		const dict = _.groupBy(this.articulosList(), 'subTipo');
+		return Object.keys(dict);
+	}
+
+	get articulos_series() {
+		return this.articulosList().filter(
+			(articulo) => articulo.subTipo === this.subtipoSelected
+		);
+	}
+
+	get articulo_max_cantidad() {
+		return this.articulosList().filter(
+			(articulo) => articulo.serie == this.serieSelected
+		).length;
+	}
+
+	get isArticuloFormValid() {
+		return (
+			this.subtipoSelected !== '' &&
+			this.serieSelected !== '' &&
+			this.cantidadSelected > 0
+		);
+	}
+
+	addArticulo() {
+		const articulo = this.articulosList().find(
+			(articulo) => articulo.serie == this.serieSelected
+		);
+		this.articulosSelected.update(() => [
+			...this.articulosSelected(),
+			articulo,
+		]);
 	}
 
 	onDeleteItem(event: any) {

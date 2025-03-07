@@ -81,7 +81,7 @@
 							autoActiveFirstOption
 							#credito="matAutocomplete"
 							[displayWith]="displaySelectedFormated"
-							(ngModelChange)="onSelectedCredito($event)"
+							(optionSelected)="onSelectedCredito()"
 						>
 							@for (item of creditosList(); track $index) {
 							<mat-option [value]="item">{{
@@ -176,36 +176,51 @@
 			<div class="row">
 				<mat-form-field class="input">
 					<mat-label>Artículo</mat-label>
-					<input
-						type="text"
-						matInput
-						formControlName="articulo"
-						#articulo
-						[matAutocomplete]="auto"
-					/>
-					<mat-autocomplete
-						autoActiveFirstOption
-						#auto="matAutocomplete"
-						[displayWith]="displaySelectedArticulo"
-					>
-						@for (item of articulosList(); track item.id) {
-						<mat-option [value]="item">{{
-							item.nombre
-						}}</mat-option>
+					<mat-select [(ngModel)]="subtipoSelected">
+						@for (item of articulos_subtipos; track $index) {
+						<mat-option [value]="item">{{ item }}</mat-option>
 						}
-					</mat-autocomplete>
+					</mat-select>
 				</mat-form-field>
 
 				<mat-form-field class="input">
 					<mat-label>Serie</mat-label>
-					<input matInput type="text" [value]="articulo.value" />
+					<mat-select [(ngModel)]="serieSelected">
+						@for (item of articulos_series; track $index) {
+						<mat-option [value]="item.serie"
+							>{{ item.serie }} | {{ item.marca }}</mat-option
+						>
+						}
+					</mat-select>
 				</mat-form-field>
 
 				<mat-form-field class="input">
-					<mat-label>Cantidad</mat-label>
-					<input matInput type="number" />
+					<mat-label
+						>Cantidad ({{ articulo_max_cantidad }})</mat-label
+					>
+					<input
+						matInput
+						type="number"
+						[(ngModel)]="cantidadSelected"
+						placeholder="cantidad"
+						[value]="articulo_max_cantidad"
+						[min]="1"
+						[max]="articulo_max_cantidad"
+					/>
 				</mat-form-field>
+
+				<button
+					style="width: 10%"
+					mat-flat-button
+					color="primary"
+					(click)="addArticulo()"
+					[disabled]="!isArticuloFormValid"
+				>
+					<mat-icon>add</mat-icon> agregar
+				</button>
 			</div>
+
+			@if(articulosSelected().length > 0) {
 			<div
 				style="
 					width: 100%;
@@ -216,11 +231,17 @@
 				"
 			>
 				<app-cargo-descargo-articulos-table
-					[data]="articulosSelected"
+					[data]="articulosSelected()"
 					(delete)="onDeleteItem($event)"
 				></app-cargo-descargo-articulos-table>
 			</div>
+			}
+		</div>
+	</fieldset>
 
+	<fieldset>
+		<legend>Detalles</legend>
+		<div class="column">
 			<div class="row">
 				<mat-form-field class="input">
 					<mat-label>Encargado de Armas</mat-label>
@@ -245,16 +266,17 @@
 					<mat-label>Firma</mat-label>
 					<input matInput type="text" />
 				</mat-form-field>
-				<button
-					mat-flat-button
-					color="primary"
-					style="width: 30%; top: -0.8em"
-					(click)="createCargoDescargo()"
-				>
-					<mat-icon>save</mat-icon>
-					Guardar
-				</button>
 			</div>
 		</div>
 	</fieldset>
+
+	<button
+		mat-flat-button
+		color="primary"
+		style="width: 100%"
+		(click)="createCargoDescargo()"
+	>
+		<mat-icon>save</mat-icon>
+		Guardar
+	</button>
 </div>
