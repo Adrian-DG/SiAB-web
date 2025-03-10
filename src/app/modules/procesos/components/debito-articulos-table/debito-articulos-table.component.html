@@ -1,7 +1,9 @@
 <table mat-table [dataSource]="data" class="mat-elevation-z8" tabindex="0">
 	<ng-container matColumnDef="articulo">
 		<th mat-header-cell *matHeaderCellDef>Articulo</th>
-		<td mat-cell *matCellDef="let element">{{ element.articulo }}</td>
+		<td mat-cell *matCellDef="let element">
+			{{ getArticleInfo(element) }}
+		</td>
 		<td mat-footer-cell *matFooterCellDef><b>Total</b></td>
 	</ng-container>
 	<ng-container matColumnDef="cantidad">
@@ -13,7 +15,7 @@
 	</ng-container>
 	<ng-container matColumnDef="embalaje">
 		<th mat-header-cell *matHeaderCellDef>Embalaje</th>
-		<td mat-cell *matCellDef="let element">{{ element.embalaje }}</td>
+		<td mat-cell *matCellDef="let element">N/A</td>
 		<td mat-footer-cell *matFooterCellDef></td>
 	</ng-container>
 	<ng-container matColumnDef="acciones">

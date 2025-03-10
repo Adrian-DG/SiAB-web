@@ -20,7 +20,7 @@ import { IRegistroDebitoArticulo } from '../../models/iregistro-debito-articulo.
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DebitoArticulosTableComponent {
-	@Input() data: IRegistroDebitoArticulo[] = [];
+	@Input() data: any[] = [];
 	@Output('delete') deleteEvent = new EventEmitter<number>();
 	displayedColumns: string[] = [
 		'articulo',
@@ -28,6 +28,10 @@ export class DebitoArticulosTableComponent {
 		'embalaje',
 		'acciones',
 	];
+
+	getArticleInfo(article: any) {
+		return `${article.serie} - ${article.marca} - ${article.subTipo}`;
+	}
 
 	getTotalUnidades() {
 		return this.data

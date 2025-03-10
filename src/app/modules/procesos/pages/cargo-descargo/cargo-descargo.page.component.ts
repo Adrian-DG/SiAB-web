@@ -256,6 +256,10 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 		).length;
 	}
 
+	onSerieChange() {
+		this.cantidadSelected++;
+	}
+
 	get isArticuloFormValid() {
 		return (
 			this.subtipoSelected !== '' &&

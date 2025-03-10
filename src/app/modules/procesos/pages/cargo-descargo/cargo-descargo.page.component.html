@@ -185,7 +185,10 @@
 
 				<mat-form-field class="input">
 					<mat-label>Serie</mat-label>
-					<mat-select [(ngModel)]="serieSelected">
+					<mat-select
+						[(ngModel)]="serieSelected"
+						(selectionChange)="onSerieChange()"
+					>
 						@for (item of articulos_series; track $index) {
 						<mat-option [value]="item.serie"
 							>{{ item.serie }} | {{ item.marca }}</mat-option
