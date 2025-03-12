@@ -81,6 +81,8 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	serieSelected = '';
 	cantidadSelected = 0;
 
+	documentoPDF = '';
+
 	//  Formulario de cargo descargo
 
 	registroDebitoCreditoForm: FormGroup = new FormGroup({
@@ -99,6 +101,14 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 		fecha: new FormControl('', Validators.required),
 		intendente: new FormControl('', Validators.required),
 		observacion: new FormControl(''),
+	});
+
+	reportDetailsForm: FormGroup = new FormGroup({
+		encargadoArmas: new FormControl(''),
+		encargadoDepositos: new FormControl(''),
+		entrega: new FormControl(''),
+		recibe: new FormControl(''),
+		firma: new FormControl(''),
 	});
 
 	constructor(
@@ -279,14 +289,42 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	}
 
 	onDeleteItem(event: any) {
-		console.log(event);
+		const updatedArticulos = this.articulosSelected().filter(
+			(articulo) => articulo.serie !== event.serie
+		);
+		this.articulosSelected.set(updatedArticulos);
 	}
 
 	onFileUploaded(event: string) {
-		console.log(event);
+		this.documentoPDF = event;
 	}
 
 	createCargoDescargo() {
-		console.log(this.registroDebitoCreditoForm.value);
+		const registroDebitoCredito = this.registroDebitoCreditoForm.value;
+		const reportDetails = this.reportDetailsForm.value;
+
+		console.log({
+			secuencia: this.secuencia_53,
+			...registroDebitoCredito,
+			...reportDetails,
+			articulos: this.articulosSelected(),
+			documentoPDF: this.documentoPDF,
+		});
+
+		this._transaccionService
+			.CreateTransaccionCargoDescargo({
+				secuencia: this.secuencia_53() ?? '',
+				...registroDebitoCredito,
+				...reportDetails,
+				fecha: new Date(registroDebitoCredito.fecha).toISOString(),
+				debito: registroDebitoCredito.debito.param1,
+				credito: registroDebitoCredito.credito.param1,
+				intendente: registroDebitoCredito.intendente.param1,
+				articulos: this.articulosSelected(),
+				documentoPDF: this.documentoPDF,
+			})
+			.subscribe(() => {
+				console.log('Transaccion creada');
+			});
 	}
 }

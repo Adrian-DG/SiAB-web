@@ -244,33 +244,43 @@
 
 	<fieldset>
 		<legend>Detalles</legend>
-		<div class="column">
-			<div class="row">
-				<mat-form-field class="input">
-					<mat-label>Encargado de Armas</mat-label>
-					<input matInput type="text" />
-				</mat-form-field>
-				<mat-form-field class="input">
-					<mat-label>Encargado de Depósitos</mat-label>
-					<input matInput type="text" />
-				</mat-form-field>
-			</div>
+		<form [formGroup]="reportDetailsForm">
+			<div class="column">
+				<div class="row">
+					<mat-form-field class="input">
+						<mat-label>Encargado de Armas</mat-label>
+						<input
+							matInput
+							type="text"
+							formControlName="encargadoArmas"
+						/>
+					</mat-form-field>
+					<mat-form-field class="input">
+						<mat-label>Encargado de Depósitos</mat-label>
+						<input
+							matInput
+							type="text"
+							formControlName="encargadoDepositos"
+						/>
+					</mat-form-field>
+				</div>
 
-			<div class="row">
-				<mat-form-field class="input">
-					<mat-label>Entrega</mat-label>
-					<input matInput type="text" />
-				</mat-form-field>
-				<mat-form-field class="input">
-					<mat-label>Recibe</mat-label>
-					<input matInput type="text" />
-				</mat-form-field>
-				<mat-form-field class="input">
-					<mat-label>Firma</mat-label>
-					<input matInput type="text" />
-				</mat-form-field>
+				<div class="row">
+					<mat-form-field class="input">
+						<mat-label>Entrega</mat-label>
+						<input matInput type="text" formControlName="entrega" />
+					</mat-form-field>
+					<mat-form-field class="input">
+						<mat-label>Recibe</mat-label>
+						<input matInput type="text" formControlName="recibe" />
+					</mat-form-field>
+					<mat-form-field class="input">
+						<mat-label>Firma</mat-label>
+						<input matInput type="text" formControlName="firma" />
+					</mat-form-field>
+				</div>
 			</div>
-		</div>
+		</form>
 	</fieldset>
 
 	<button
@@ -278,6 +288,7 @@
 		color="primary"
 		style="width: 100%"
 		(click)="createCargoDescargo()"
+		[disabled]="!registroDebitoCreditoForm.valid"
 	>
 		<mat-icon>save</mat-icon>
 		Guardar

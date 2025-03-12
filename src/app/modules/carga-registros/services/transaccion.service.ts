@@ -3,6 +3,7 @@ import { Injectable, isDevMode } from '@angular/core';
 import { environment as Dev } from '../../../../environment/environment.development';
 import { environment as Prod } from '../../../../environment/environment.production';
 import { IInputOrigenDestinoDto } from '../dto/iinput-origen-destino.dto';
+import { CreateTransaccionCargoDescargoDto } from '../dto/create-transaccion-cargo-descargo.dto';
 
 @Injectable({
 	providedIn: 'root',
@@ -46,6 +47,13 @@ export class TransaccionService {
 		return this.$httpClient.get<any[]>(
 			`${this._url}/filter-transacciones-by-serie/`,
 			{ params: new HttpParams().set('serie', serie) }
+		);
+	}
+
+	CreateTransaccionCargoDescargo(model: CreateTransaccionCargoDescargoDto) {
+		return this.$httpClient.post<number>(
+			`${this._url}/registrar-cargo-descargo`,
+			model
 		);
 	}
 }
