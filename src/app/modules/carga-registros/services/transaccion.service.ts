@@ -4,6 +4,7 @@ import { environment as Dev } from '../../../../environment/environment.developm
 import { environment as Prod } from '../../../../environment/environment.production';
 import { IInputOrigenDestinoDto } from '../dto/iinput-origen-destino.dto';
 import { CreateTransaccionCargoDescargoDto } from '../dto/create-transaccion-cargo-descargo.dto';
+import { InputReporte53Dto } from '../dto/InputReporte53.dto';
 
 @Injectable({
 	providedIn: 'root',
@@ -55,5 +56,17 @@ export class TransaccionService {
 			`${this._url}/registrar-cargo-descargo`,
 			model
 		);
+	}
+
+	generarReporte53(model: InputReporte53Dto): void {
+		this.$httpClient
+			.post(`${this._url}/generar-formulario-53`, model, {
+				responseType: 'blob',
+			})
+			.subscribe((response) => {
+				const blob = new Blob([response], { type: 'application/pdf' });
+				const url = window.URL.createObjectURL(blob);
+				window.open(url);
+			});
 	}
 }

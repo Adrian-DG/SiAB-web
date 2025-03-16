@@ -3,10 +3,12 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	CUSTOM_ELEMENTS_SCHEMA,
+	inject,
 	NO_ERRORS_SCHEMA,
 	OnInit,
 	signal,
 } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import {
 	FormControl,
 	FormGroup,
@@ -62,11 +64,14 @@ import * as _ from 'lodash';
 		DepositosService,
 		SecuenciasService,
 		TransaccionService,
+		DatePipe,
 	],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	private readonly MINIMUN_FILTER_LENGTH = 2;
+
+	datePipe = inject(DatePipe);
 
 	// Variables de control
 	debitosList = signal<IFilterMiembroResult[]>([]);
@@ -160,6 +165,121 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 			});
 
 		this.registroDebitoCreditoForm.controls['intendente'].valueChanges
+			.pipe(debounceTime(3000), distinctUntilChanged())
+			.subscribe((value: string | null) => {
+				if (
+					value &&
+					value !== '' &&
+					value.length > this.MINIMUN_FILTER_LENGTH
+				) {
+					this._miembrosService
+						.getMiembrosByCedulaNombre(value)
+						.subscribe((miembros: IMiembroListDetail[]) => {
+							this.intendentesList.set(
+								miembros.map((miembro) => {
+									return {
+										param1: miembro.cedula,
+										param2: miembro.nombreApellidoCompleto,
+									};
+								})
+							);
+						});
+				}
+			});
+
+		this.reportDetailsForm.controls['firma'].valueChanges
+			.pipe(debounceTime(3000), distinctUntilChanged())
+			.subscribe((value: string | null) => {
+				if (
+					value &&
+					value !== '' &&
+					value.length > this.MINIMUN_FILTER_LENGTH
+				) {
+					this._miembrosService
+						.getMiembrosByCedulaNombre(value)
+						.subscribe((miembros: IMiembroListDetail[]) => {
+							this.intendentesList.set(
+								miembros.map((miembro) => {
+									return {
+										param1: miembro.cedula,
+										param2: miembro.nombreApellidoCompleto,
+									};
+								})
+							);
+						});
+				}
+			});
+
+		this.reportDetailsForm.controls['entrega'].valueChanges
+			.pipe(debounceTime(3000), distinctUntilChanged())
+			.subscribe((value: string | null) => {
+				if (
+					value &&
+					value !== '' &&
+					value.length > this.MINIMUN_FILTER_LENGTH
+				) {
+					this._miembrosService
+						.getMiembrosByCedulaNombre(value)
+						.subscribe((miembros: IMiembroListDetail[]) => {
+							this.intendentesList.set(
+								miembros.map((miembro) => {
+									return {
+										param1: miembro.cedula,
+										param2: miembro.nombreApellidoCompleto,
+									};
+								})
+							);
+						});
+				}
+			});
+
+		this.reportDetailsForm.controls['recibe'].valueChanges
+			.pipe(debounceTime(3000), distinctUntilChanged())
+			.subscribe((value: string | null) => {
+				if (
+					value &&
+					value !== '' &&
+					value.length > this.MINIMUN_FILTER_LENGTH
+				) {
+					this._miembrosService
+						.getMiembrosByCedulaNombre(value)
+						.subscribe((miembros: IMiembroListDetail[]) => {
+							this.intendentesList.set(
+								miembros.map((miembro) => {
+									return {
+										param1: miembro.cedula,
+										param2: miembro.nombreApellidoCompleto,
+									};
+								})
+							);
+						});
+				}
+			});
+
+		this.reportDetailsForm.controls['encargadoArmas'].valueChanges
+			.pipe(debounceTime(3000), distinctUntilChanged())
+			.subscribe((value: string | null) => {
+				if (
+					value &&
+					value !== '' &&
+					value.length > this.MINIMUN_FILTER_LENGTH
+				) {
+					this._miembrosService
+						.getMiembrosByCedulaNombre(value)
+						.subscribe((miembros: IMiembroListDetail[]) => {
+							this.intendentesList.set(
+								miembros.map((miembro) => {
+									return {
+										param1: miembro.cedula,
+										param2: miembro.nombreApellidoCompleto,
+									};
+								})
+							);
+						});
+				}
+			});
+
+		this.reportDetailsForm.controls['encargadoDepositos'].valueChanges
 			.pipe(debounceTime(3000), distinctUntilChanged())
 			.subscribe((value: string | null) => {
 				if (
@@ -303,28 +423,56 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 		const registroDebitoCredito = this.registroDebitoCreditoForm.value;
 		const reportDetails = this.reportDetailsForm.value;
 
-		console.log({
-			secuencia: this.secuencia_53,
-			...registroDebitoCredito,
-			...reportDetails,
-			articulos: this.articulosSelected(),
-			documentoPDF: this.documentoPDF,
-		});
+		const formattedDate = this.datePipe.transform(
+			registroDebitoCredito.fecha ?? new Date(),
+			'yyyy-MM-dd'
+		);
 
 		this._transaccionService
 			.CreateTransaccionCargoDescargo({
 				secuencia: this.secuencia_53() ?? '',
-				...registroDebitoCredito,
-				...reportDetails,
-				fecha: new Date(registroDebitoCredito.fecha).toISOString(),
+
+				tipoCargoCredito: registroDebitoCredito.tipoCargoCredito,
+				tipoCargoDebito: registroDebitoCredito.tipoCargoDebito,
+
 				debito: registroDebitoCredito.debito.param1,
 				credito: registroDebitoCredito.credito.param1,
+
+				oficio: registroDebitoCredito.oficio,
+				noDocumento: registroDebitoCredito.noDocumento,
+				fecha: formattedDate ?? '',
 				intendente: registroDebitoCredito.intendente.param1,
+				observaciones: registroDebitoCredito.observacion,
+				documento: this.documentoPDF,
+
 				articulos: this.articulosSelected(),
-				documentoPDF: this.documentoPDF,
+
+				encargadoArmas: reportDetails.encargadoArmas.param1,
+				encargadoDepositos: reportDetails.encargadoDepositos.param1,
+				firma: reportDetails.firma.param1,
+				recibe: reportDetails.recibe.param1,
+				entrega: reportDetails.entrega.param1,
 			})
 			.subscribe(() => {
-				console.log('Transaccion creada');
+				this._transaccionService.generarReporte53({
+					firmadoPor: reportDetails.firma.param2 ?? 'firma',
+					recibidoPor: reportDetails.recibe.param2 ?? 'recibido por',
+					secuencia: this.secuencia_53(),
+					intendente:
+						registroDebitoCredito.intendente.param2 ?? 'intendente',
+					encargadoArmas:
+						reportDetails.encargadoArmas.param2 ??
+						'encarga de armas',
+					encargadoDepositos:
+						reportDetails.encargadoDepositos.param2 ??
+						'encargado de depositos',
+					fecha:
+						this.datePipe.transform(
+							registroDebitoCredito.fecha,
+							"dd 'de' MMMM 'del' yyyy"
+						) ?? '',
+					articulos: this.articulosSelected(),
+				});
 			});
 	}
 }

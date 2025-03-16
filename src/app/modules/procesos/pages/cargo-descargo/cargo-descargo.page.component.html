@@ -248,35 +248,110 @@
 			<div class="column">
 				<div class="row">
 					<mat-form-field class="input">
-						<mat-label>Encargado de Armas</mat-label>
+						<mat-label>Encargado Armas</mat-label>
 						<input
-							matInput
 							type="text"
+							matInput
 							formControlName="encargadoArmas"
+							[matAutocomplete]="encargadoArmas"
 						/>
+						<mat-autocomplete
+							autoActiveFirstOption
+							#encargadoArmas="matAutocomplete"
+							[displayWith]="displaySelectedFormated"
+						>
+							@for (item of intendentesList(); track $index) {
+							<mat-option [value]="item">{{
+								item.param2
+							}}</mat-option>
+							}
+						</mat-autocomplete>
 					</mat-form-field>
+
 					<mat-form-field class="input">
-						<mat-label>Encargado de Depósitos</mat-label>
+						<mat-label>Encargado Depositos</mat-label>
 						<input
-							matInput
 							type="text"
+							matInput
 							formControlName="encargadoDepositos"
+							[matAutocomplete]="encargadoDepositos"
 						/>
+						<mat-autocomplete
+							autoActiveFirstOption
+							#encargadoDepositos="matAutocomplete"
+							[displayWith]="displaySelectedFormated"
+						>
+							@for (item of intendentesList(); track $index) {
+							<mat-option [value]="item">{{
+								item.param2
+							}}</mat-option>
+							}
+						</mat-autocomplete>
 					</mat-form-field>
 				</div>
 
 				<div class="row">
 					<mat-form-field class="input">
-						<mat-label>Entrega</mat-label>
-						<input matInput type="text" formControlName="entrega" />
+						<mat-label>Entregado A</mat-label>
+						<input
+							type="text"
+							matInput
+							formControlName="entrega"
+							[matAutocomplete]="entrega"
+						/>
+						<mat-autocomplete
+							autoActiveFirstOption
+							#entrega="matAutocomplete"
+							[displayWith]="displaySelectedFormated"
+						>
+							@for (item of intendentesList(); track $index) {
+							<mat-option [value]="item">{{
+								item.param2
+							}}</mat-option>
+							}
+						</mat-autocomplete>
 					</mat-form-field>
+
 					<mat-form-field class="input">
-						<mat-label>Recibe</mat-label>
-						<input matInput type="text" formControlName="recibe" />
+						<mat-label>Recibido Por</mat-label>
+						<input
+							type="text"
+							matInput
+							formControlName="recibe"
+							[matAutocomplete]="recibe"
+						/>
+						<mat-autocomplete
+							autoActiveFirstOption
+							#recibe="matAutocomplete"
+							[displayWith]="displaySelectedFormated"
+						>
+							@for (item of intendentesList(); track $index) {
+							<mat-option [value]="item">{{
+								item.param2
+							}}</mat-option>
+							}
+						</mat-autocomplete>
 					</mat-form-field>
+
 					<mat-form-field class="input">
 						<mat-label>Firma</mat-label>
-						<input matInput type="text" formControlName="firma" />
+						<input
+							type="text"
+							matInput
+							formControlName="firma"
+							[matAutocomplete]="firma"
+						/>
+						<mat-autocomplete
+							autoActiveFirstOption
+							#firma="matAutocomplete"
+							[displayWith]="displaySelectedFormated"
+						>
+							@for (item of intendentesList(); track $index) {
+							<mat-option [value]="item">{{
+								item.param2
+							}}</mat-option>
+							}
+						</mat-autocomplete>
 					</mat-form-field>
 				</div>
 			</div>

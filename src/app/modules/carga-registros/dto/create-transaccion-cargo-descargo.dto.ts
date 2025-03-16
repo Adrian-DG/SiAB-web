@@ -1,6 +1,7 @@
 import { CreateArticuloTransaccionItemDto } from './create-articulo-transaccion-item.dto';
 
 export interface CreateTransaccionCargoDescargoDto {
+	secuencia: string;
 	tipoCargoDebito: number;
 	debito: string;
 	tipoCargoCredito: number;
@@ -17,7 +18,7 @@ export interface CreateTransaccionCargoDescargoDto {
 	articulos: CreateArticuloTransaccionItemDto[];
 
 	encargadoArmas: string;
-	encargadaDepositos: string;
+	encargadoDepositos: string;
 	entrega: string;
 	recibe: string;
 	firma: string;
