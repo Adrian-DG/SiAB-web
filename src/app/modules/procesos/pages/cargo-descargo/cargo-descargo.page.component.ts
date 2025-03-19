@@ -4,6 +4,7 @@ import {
 	Component,
 	CUSTOM_ELEMENTS_SCHEMA,
 	inject,
+	LOCALE_ID,
 	NO_ERRORS_SCHEMA,
 	OnInit,
 	signal,
@@ -67,6 +68,7 @@ import { MiembroListItemComponent } from '../../../../Shared/components/miembro-
 		SecuenciasService,
 		TransaccionService,
 		DatePipe,
+		{ provide: LOCALE_ID, useValue: 'es-ES' },
 	],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
@@ -435,7 +437,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 						this.datePipe.transform(
 							registroDebitoCredito.fecha,
 							"dd 'de' MMMM 'del' yyyy",
-							undefined,
+							'UTC',
 							'es-ES'
 						) ?? '',
 					articulos: this.articulosSelected(),
