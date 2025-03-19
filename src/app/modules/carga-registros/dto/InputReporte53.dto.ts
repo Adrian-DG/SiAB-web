@@ -1,10 +1,17 @@
+import { IMiembroListDetail } from '../../existencia/models/imiembro-list-deatil.model';
+
 export interface InputReporte53Dto {
-	firmadoPor: string;
-	recibidoPor: string;
 	secuencia: string;
-	intendente: string;
-	encargadoArmas: string;
-	encargadoDepositos: string;
+	intendente: IMiembroListDetail;
 	fecha: string;
 	articulos: any[];
+
+	firmadoPor: IMiembroListDetail;
+	recibidoPor: IMiembroListDetail;
+	entregadoPor: IMiembroListDetail;
+
+	encargadoArmas: IMiembroListDetail;
+	encargadoDepositos: IMiembroListDetail;
+
+	comentario: string;
 }

@@ -392,6 +392,16 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 			'yyyy-MM-dd'
 		);
 
+		const intendente =
+			registroDebitoCredito.intendente as unknown as IMiembroListDetail;
+		const encargadoArmas =
+			reportDetails.encargadoArmas as unknown as IMiembroListDetail;
+		const encargadoDepositos =
+			reportDetails.encargadoDepositos as unknown as IMiembroListDetail;
+		const firma = reportDetails.firma as unknown as IMiembroListDetail;
+		const recibe = reportDetails.recibe as unknown as IMiembroListDetail;
+		const entrega = reportDetails.entrega as unknown as IMiembroListDetail;
+
 		this._transaccionService
 			.CreateTransaccionCargoDescargo({
 				secuencia: this.secuencia_53() ?? '',
@@ -405,37 +415,39 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 				oficio: registroDebitoCredito.oficio,
 				noDocumento: registroDebitoCredito.noDocumento,
 				fecha: formattedDate ?? '',
-				intendente: registroDebitoCredito.intendente.param1,
+				intendente: intendente.cedula,
 				observaciones: registroDebitoCredito.observacion,
 				documento: this.documentoPDF,
 
 				articulos: this.articulosSelected(),
 
-				encargadoArmas: reportDetails.encargadoArmas.param1,
-				encargadoDepositos: reportDetails.encargadoDepositos.param1,
-				firma: reportDetails.firma.param1,
-				recibe: reportDetails.recibe.param1,
-				entrega: reportDetails.entrega.param1,
+				encargadoArmas: encargadoArmas.cedula,
+				encargadoDepositos: encargadoDepositos.cedula,
+				firma: firma.cedula,
+				recibe: recibe.cedula,
+				entrega: entrega.cedula,
 			})
 			.subscribe(() => {
 				this._transaccionService.generarReporte53({
-					firmadoPor: reportDetails.firma.param2 ?? 'firma',
-					recibidoPor: reportDetails.recibe.param2 ?? 'recibido por',
 					secuencia: this.secuencia_53(),
-					intendente:
-						registroDebitoCredito.intendente.param2 ?? 'intendente',
-					encargadoArmas:
-						reportDetails.encargadoArmas.param2 ??
-						'encarga de armas',
-					encargadoDepositos:
-						reportDetails.encargadoDepositos.param2 ??
-						'encargado de depositos',
+					intendente: intendente,
 					fecha:
 						this.datePipe.transform(
 							registroDebitoCredito.fecha,
-							"dd 'de' MMMM 'del' yyyy"
+							"dd 'de' MMMM 'del' yyyy",
+							undefined,
+							'es-ES'
 						) ?? '',
 					articulos: this.articulosSelected(),
+
+					encargadoArmas: encargadoArmas,
+					encargadoDepositos: encargadoDepositos,
+
+					firmadoPor: firma,
+					recibidoPor: recibe,
+					entregadoPor: entrega,
+
+					comentario: registroDebitoCredito.observacion,
 				});
 			});
 	}
