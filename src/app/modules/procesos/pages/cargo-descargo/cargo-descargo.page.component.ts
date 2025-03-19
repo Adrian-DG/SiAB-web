@@ -38,6 +38,7 @@ import { TransaccionService } from '../../../carga-registros/services/transaccio
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import * as _ from 'lodash';
+import { MiembroListItemComponent } from '../../../../Shared/components/miembro-list-item/miembro-list-item.component';
 @Component({
 	selector: 'app-cargo-descargo.page',
 	standalone: true,
@@ -55,6 +56,7 @@ import * as _ from 'lodash';
 		ReactiveFormsModule,
 		DebitoArticulosTableComponent,
 		FileInputComponent,
+		MiembroListItemComponent,
 	],
 	templateUrl: './cargo-descargo.page.component.html',
 	styleUrl: './cargo-descargo.page.component.scss',
@@ -76,7 +78,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	// Variables de control
 	debitosList = signal<IFilterMiembroResult[]>([]);
 	creditosList = signal<IFilterMiembroResult[]>([]);
-	intendentesList = signal<IFilterMiembroResult[]>([]);
+	intendentesList = signal<IMiembroListDetail[]>([]);
 	articulosList = signal<any[]>([]);
 	articulosSelected = signal<any[]>([]);
 
@@ -175,14 +177,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 					this._miembrosService
 						.getMiembrosByCedulaNombre(value)
 						.subscribe((miembros: IMiembroListDetail[]) => {
-							this.intendentesList.set(
-								miembros.map((miembro) => {
-									return {
-										param1: miembro.cedula,
-										param2: miembro.nombreApellidoCompleto,
-									};
-								})
-							);
+							this.intendentesList.set(miembros);
 						});
 				}
 			});
@@ -198,14 +193,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 					this._miembrosService
 						.getMiembrosByCedulaNombre(value)
 						.subscribe((miembros: IMiembroListDetail[]) => {
-							this.intendentesList.set(
-								miembros.map((miembro) => {
-									return {
-										param1: miembro.cedula,
-										param2: miembro.nombreApellidoCompleto,
-									};
-								})
-							);
+							this.intendentesList.set(miembros);
 						});
 				}
 			});
@@ -221,14 +209,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 					this._miembrosService
 						.getMiembrosByCedulaNombre(value)
 						.subscribe((miembros: IMiembroListDetail[]) => {
-							this.intendentesList.set(
-								miembros.map((miembro) => {
-									return {
-										param1: miembro.cedula,
-										param2: miembro.nombreApellidoCompleto,
-									};
-								})
-							);
+							this.intendentesList.set(miembros);
 						});
 				}
 			});
@@ -244,14 +225,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 					this._miembrosService
 						.getMiembrosByCedulaNombre(value)
 						.subscribe((miembros: IMiembroListDetail[]) => {
-							this.intendentesList.set(
-								miembros.map((miembro) => {
-									return {
-										param1: miembro.cedula,
-										param2: miembro.nombreApellidoCompleto,
-									};
-								})
-							);
+							this.intendentesList.set(miembros);
 						});
 				}
 			});
@@ -267,14 +241,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 					this._miembrosService
 						.getMiembrosByCedulaNombre(value)
 						.subscribe((miembros: IMiembroListDetail[]) => {
-							this.intendentesList.set(
-								miembros.map((miembro) => {
-									return {
-										param1: miembro.cedula,
-										param2: miembro.nombreApellidoCompleto,
-									};
-								})
-							);
+							this.intendentesList.set(miembros);
 						});
 				}
 			});
@@ -290,14 +257,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 					this._miembrosService
 						.getMiembrosByCedulaNombre(value)
 						.subscribe((miembros: IMiembroListDetail[]) => {
-							this.intendentesList.set(
-								miembros.map((miembro) => {
-									return {
-										param1: miembro.cedula,
-										param2: miembro.nombreApellidoCompleto,
-									};
-								})
-							);
+							this.intendentesList.set(miembros);
 						});
 				}
 			});
@@ -309,6 +269,10 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 
 	displaySelectedFormated(result: IFilterMiembroResult): string {
 		return result.param2;
+	}
+
+	displayedSelectedMiembro(result: IMiembroListDetail): string {
+		return result.nombreApellidoCompleto;
 	}
 
 	displaySelectedArticulo(result: IRegistroDebitoArticulo): string {

@@ -146,12 +146,14 @@
 						<mat-autocomplete
 							autoActiveFirstOption
 							#intendente="matAutocomplete"
-							[displayWith]="displaySelectedFormated"
+							[displayWith]="displayedSelectedMiembro"
 						>
 							@for (item of intendentesList(); track $index) {
-							<mat-option [value]="item">{{
-								item.param2
-							}}</mat-option>
+							<mat-option [value]="item">
+								<app-miembro-list-item
+									[miembro]="item"
+								></app-miembro-list-item>
+							</mat-option>
 							}
 						</mat-autocomplete>
 					</mat-form-field>
@@ -258,12 +260,14 @@
 						<mat-autocomplete
 							autoActiveFirstOption
 							#encargadoArmas="matAutocomplete"
-							[displayWith]="displaySelectedFormated"
+							[displayWith]="displayedSelectedMiembro"
 						>
 							@for (item of intendentesList(); track $index) {
-							<mat-option [value]="item">{{
-								item.param2
-							}}</mat-option>
+							<mat-option [value]="item">
+								<app-miembro-list-item
+									[miembro]="item"
+								></app-miembro-list-item>
+							</mat-option>
 							}
 						</mat-autocomplete>
 					</mat-form-field>
@@ -279,12 +283,14 @@
 						<mat-autocomplete
 							autoActiveFirstOption
 							#encargadoDepositos="matAutocomplete"
-							[displayWith]="displaySelectedFormated"
+							[displayWith]="displayedSelectedMiembro"
 						>
 							@for (item of intendentesList(); track $index) {
-							<mat-option [value]="item">{{
-								item.param2
-							}}</mat-option>
+							<mat-option [value]="item">
+								<app-miembro-list-item
+									[miembro]="item"
+								></app-miembro-list-item>
+							</mat-option>
 							}
 						</mat-autocomplete>
 					</mat-form-field>
@@ -302,12 +308,14 @@
 						<mat-autocomplete
 							autoActiveFirstOption
 							#entrega="matAutocomplete"
-							[displayWith]="displaySelectedFormated"
+							[displayWith]="displayedSelectedMiembro"
 						>
 							@for (item of intendentesList(); track $index) {
-							<mat-option [value]="item">{{
-								item.param2
-							}}</mat-option>
+							<mat-option [value]="item">
+								<app-miembro-list-item
+									[miembro]="item"
+								></app-miembro-list-item>
+							</mat-option>
 							}
 						</mat-autocomplete>
 					</mat-form-field>
@@ -323,12 +331,14 @@
 						<mat-autocomplete
 							autoActiveFirstOption
 							#recibe="matAutocomplete"
-							[displayWith]="displaySelectedFormated"
+							[displayWith]="displayedSelectedMiembro"
 						>
 							@for (item of intendentesList(); track $index) {
-							<mat-option [value]="item">{{
-								item.param2
-							}}</mat-option>
+							<mat-option [value]="item">
+								<app-miembro-list-item
+									[miembro]="item"
+								></app-miembro-list-item>
+							</mat-option>
 							}
 						</mat-autocomplete>
 					</mat-form-field>
@@ -344,12 +354,14 @@
 						<mat-autocomplete
 							autoActiveFirstOption
 							#firma="matAutocomplete"
-							[displayWith]="displaySelectedFormated"
+							[displayWith]="displayedSelectedMiembro"
 						>
 							@for (item of intendentesList(); track $index) {
-							<mat-option [value]="item">{{
-								item.param2
-							}}</mat-option>
+							<mat-option [value]="item">
+								<app-miembro-list-item
+									[miembro]="item"
+								></app-miembro-list-item>
+							</mat-option>
 							}
 						</mat-autocomplete>
 					</mat-form-field>
