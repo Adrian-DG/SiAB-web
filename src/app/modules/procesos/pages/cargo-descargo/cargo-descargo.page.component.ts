@@ -40,6 +40,10 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import * as _ from 'lodash';
 import { MiembroListItemComponent } from '../../../../Shared/components/miembro-list-item/miembro-list-item.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Report53DialogComponent } from '../../components/report-53-dialog/report-53-dialog.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { IAdjuntarFormularioDto } from '../../../carga-registros/dto/iadjuntar-formulario.dto';
 @Component({
 	selector: 'app-cargo-descargo.page',
 	standalone: true,
@@ -76,6 +80,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	private readonly MINIMUN_FILTER_LENGTH = 2;
 
 	datePipe = inject(DatePipe);
+	sanitizer = inject(DomSanitizer);
 
 	// Variables de control
 	debitosList = signal<IFilterMiembroResult[]>([]);
@@ -119,6 +124,8 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 		recibe: new FormControl(''),
 		firma: new FormControl(''),
 	});
+
+	dialog = inject(MatDialog);
 
 	constructor(
 		private _miembrosService: MiembroService,
@@ -429,7 +436,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 				recibe: recibe.cedula,
 				entrega: entrega.cedula,
 			})
-			.subscribe(() => {
+			.subscribe((data: number) => {
 				this._transaccionService
 					.generarReporte53({
 						secuencia: this.secuencia_53(),
@@ -452,13 +459,50 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 
 						comentario: registroDebitoCredito.observacion,
 					})
-					.subscribe((response) => {
+					.subscribe(async (response) => {
 						const blob = new Blob([response], {
 							type: 'application/pdf',
 						});
-						const url = window.URL.createObjectURL(blob);
-						window.open(url);
+
+						await this.mostrarReporte53(data, blob);
 					});
 			});
+	}
+
+	async mostrarReporte53(id: number, blob: Blob) {
+		const url = window.URL.createObjectURL(blob);
+
+		const dataUrl = await fetch(url)
+			.then((res) => res.blob())
+			.then((blob) => {
+				return new Promise<string>((resolve, reject) => {
+					const reader = new FileReader();
+					reader.onloadend = () => resolve(reader.result as string);
+					reader.onerror = reject;
+					reader.readAsDataURL(blob);
+				});
+			});
+
+		this.dialog
+			.open(Report53DialogComponent, {
+				minWidth: '1000',
+				maxWidth: '1200',
+				minHeight: '600',
+				maxHeight: '800',
+				data: {
+					id: id,
+					url: this.sanitizer.bypassSecurityTrustResourceUrl(dataUrl),
+				},
+			})
+			.afterClosed()
+			.subscribe((data: IAdjuntarFormularioDto) => {
+				this.registroDebitoCreditoForm.reset();
+				this.reportDetailsForm.reset();
+				this.guardarReporte53({ id: id, url: dataUrl });
+			});
+	}
+
+	guardarReporte53(adjunto: IAdjuntarFormularioDto) {
+		this._transaccionService.adjuntarFormulario53(adjunto);
 	}
 }

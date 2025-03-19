@@ -5,6 +5,7 @@ import { environment as Prod } from '../../../../environment/environment.product
 import { IInputOrigenDestinoDto } from '../dto/iinput-origen-destino.dto';
 import { CreateTransaccionCargoDescargoDto } from '../dto/create-transaccion-cargo-descargo.dto';
 import { InputReporte53Dto } from '../dto/InputReporte53.dto';
+import { IAdjuntarFormularioDto } from '../dto/iadjuntar-formulario.dto';
 
 @Injectable({
 	providedIn: 'root',
@@ -66,5 +67,12 @@ export class TransaccionService {
 				responseType: 'blob',
 			}
 		);
+	}
+
+	adjuntarFormulario53(adjunto: IAdjuntarFormularioDto) {
+		console.log(adjunto);
+		this.$httpClient
+			.post(`${this._url}/adjuntar-formulario-53`, adjunto)
+			.subscribe(() => console.log('File uploaded'));
 	}
 }
