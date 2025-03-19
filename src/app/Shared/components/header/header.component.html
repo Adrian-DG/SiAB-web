@@ -1,0 +1,27 @@
+<mat-toolbar class="toolbar" [style]="additionalStyles">
+    <mat-toolbar-row>
+        @if (authService.isAuthenticated$()) {
+        <button mat-icon-button (click)="sideBarService.isOpen.set(!sideBarService.isOpen())">
+            <mat-icon style="color: white">menu</mat-icon>
+        </button>
+        }
+
+        <span>{{ appTitle }}</span>
+        <span style="width: 90%"></span>
+
+        @if (authService.isAuthenticated$()) {
+        <button mat-button [matMenuTriggerFor]="menu" style="color: white">
+            <span>
+                {{ authService.userData()?.Username }}
+                <mat-icon [fontIcon]="'keyboard_arrow_down'" style="vertical-align: middle">
+                </mat-icon>
+            </span>
+        </button>
+        <mat-menu #menu="matMenu" yPosition="below">
+            <button mat-menu-item (click)="onLogout()">
+                Cerrar Sesión
+            </button>
+        </mat-menu>
+        }
+    </mat-toolbar-row>
+</mat-toolbar>
