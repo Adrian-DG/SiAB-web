@@ -58,15 +58,13 @@ export class TransaccionService {
 		);
 	}
 
-	generarReporte53(model: InputReporte53Dto): void {
-		this.$httpClient
-			.post(`${this._url}/generar-formulario-53`, model, {
+	generarReporte53(model: InputReporte53Dto) {
+		return this.$httpClient.post(
+			`${this._url}/generar-formulario-53`,
+			model,
+			{
 				responseType: 'blob',
-			})
-			.subscribe((response) => {
-				const blob = new Blob([response], { type: 'application/pdf' });
-				const url = window.URL.createObjectURL(blob);
-				window.open(url);
-			});
+			}
+		);
 	}
 }

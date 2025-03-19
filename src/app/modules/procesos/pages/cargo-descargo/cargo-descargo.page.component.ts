@@ -430,27 +430,35 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 				entrega: entrega.cedula,
 			})
 			.subscribe(() => {
-				this._transaccionService.generarReporte53({
-					secuencia: this.secuencia_53(),
-					intendente: intendente,
-					fecha:
-						this.datePipe.transform(
-							registroDebitoCredito.fecha,
-							"dd 'de' MMMM 'del' yyyy",
-							'UTC',
-							'es-ES'
-						) ?? '',
-					articulos: this.articulosSelected(),
+				this._transaccionService
+					.generarReporte53({
+						secuencia: this.secuencia_53(),
+						intendente: intendente,
+						fecha:
+							this.datePipe.transform(
+								registroDebitoCredito.fecha,
+								"dd 'de' MMMM 'del' yyyy",
+								'UTC',
+								'es-ES'
+							) ?? '',
+						articulos: this.articulosSelected(),
 
-					encargadoArmas: encargadoArmas,
-					encargadoDepositos: encargadoDepositos,
+						encargadoArmas: encargadoArmas,
+						encargadoDepositos: encargadoDepositos,
 
-					firmadoPor: firma,
-					recibidoPor: recibe,
-					entregadoPor: entrega,
+						firmadoPor: firma,
+						recibidoPor: recibe,
+						entregadoPor: entrega,
 
-					comentario: registroDebitoCredito.observacion,
-				});
+						comentario: registroDebitoCredito.observacion,
+					})
+					.subscribe((response) => {
+						const blob = new Blob([response], {
+							type: 'application/pdf',
+						});
+						const url = window.URL.createObjectURL(blob);
+						window.open(url);
+					});
 			});
 	}
 }
