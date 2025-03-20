@@ -152,7 +152,7 @@ import { Observable } from 'rxjs';
 							<button
 								mat-icon-button
 								color="primary"
-								(click)="showDocuments(element.id)"
+								(click)="showDocuments(element)"
 							>
 								<mat-icon>remove_red_eye</mat-icon>
 							</button>
@@ -229,12 +229,13 @@ export class HistoricoTransaccionesComponent implements AfterViewInit {
 		};
 
 		rowData[this.tipoOrigen]().subscribe((data) => {
+			console.log(data);
 			this.records$.set(data);
 		});
 	}
 
-	showDocuments(id: number) {
-		console.log('showing documents for id:', id);
-		this.showDocumentsEvent.emit(id);
+	showDocuments(item: any) {
+		console.log(item);
+		this.showDocumentsEvent.emit(item.id);
 	}
 }
