@@ -30,6 +30,6 @@ export class HeaderComponent {
     constructor(public authService: AuthenticationService) { }
 
     onLogout(): void {
-        this.logout.emit();
+        this.authService.logout();
     }
 }

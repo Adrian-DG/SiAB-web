@@ -1,4 +1,4 @@
-<mat-toolbar class="toolbar" [style]="additionalStyles">
+<mat-toolbar class="toolbar" [style]="additionalStyles" >
     <mat-toolbar-row>
         @if (authService.isAuthenticated$()) {
         <button mat-icon-button (click)="sideBarService.isOpen.set(!sideBarService.isOpen())">

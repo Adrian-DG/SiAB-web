@@ -1,0 +1,6 @@
+<main>
+    <app-sidebar />   
+    <div class="sideBar-container" [ngClass]="{ 'content-open': sideBarService.isOpen() , 'content-closed': !sideBarService.isOpen() }">
+        <router-outlet />
+    </div> 
+</main>

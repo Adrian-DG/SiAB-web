@@ -1,4 +1,4 @@
-<mat-sidenav #sidenav mode="side" [opened]="sideBarService.isOpen()" class="sidenav" [autoFocus]="true"
+<mat-sidenav #sidenav mode="side" [opened]="true" [ngClass]="{ 'show': sideBarService.isOpen()}" class="sidenav" [autoFocus]="true"
     position="start">
 
     <mat-list>
