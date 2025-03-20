@@ -1,6 +1,7 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
+	inject,
 	OnInit,
 	signal,
 } from '@angular/core';
@@ -25,6 +26,8 @@ import { TransaccionService } from '../../../carga-registros/services/transaccio
 import { MatButtonModule } from '@angular/material/button';
 import { HistoricoTransaccionesComponent } from '../../../../Shared/components/historico-transacciones/historico-transacciones.component';
 import { debounceTime, distinct, distinctUntilChanged } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DocumentsDialogComponent } from '../../../../Shared/components/documents-dialog/documents-dialog.component';
 
 export enum TipoBusqueda {
 	MIEMBRO = 1,
@@ -50,7 +53,7 @@ export enum TipoBusqueda {
 	templateUrl: './index.page.component.html',
 	styleUrl: './index.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [MiembroService, JCEService],
+	providers: [MiembroService, JCEService, TransaccionService],
 })
 export class IndexComponent implements OnInit {
 	tipoFiltro: number = 1;
@@ -59,9 +62,12 @@ export class IndexComponent implements OnInit {
 	miembro = signal<IMiembroView | null>(null);
 	private readonly MIN_LENGTH = 5;
 
+	dialog = inject(MatDialog);
+
 	constructor(
 		private _miembroService: MiembroService,
-		private _jceService: JCEService
+		private _jceService: JCEService,
+		private _transaccionService: TransaccionService
 	) {}
 
 	ngOnInit(): void {
@@ -148,6 +154,16 @@ export class IndexComponent implements OnInit {
 				};
 
 				this.miembro.set({ ...obj } as IMiembroView);
+			});
+	}
+
+	getDocumentosTransaccion(event: any) {
+		this._transaccionService
+			.getDocumentosTransaccion(event as number)
+			.subscribe((documentos: any[]) => {
+				this.dialog.open(DocumentsDialogComponent, {
+					data: { documents: documentos },
+				});
 			});
 	}
 }

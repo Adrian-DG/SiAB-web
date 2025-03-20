@@ -47,6 +47,7 @@
 		<app-historico-transacciones
 			[tipoOrigen]="tipoFiltro"
 			[origen]="miembro()?.cedula ?? ''"
+			(on-show-documents)="getDocumentosTransaccion($event)"
 		></app-historico-transacciones>
 	</div>
 	}

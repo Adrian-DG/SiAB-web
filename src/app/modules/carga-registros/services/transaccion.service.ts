@@ -75,4 +75,10 @@ export class TransaccionService {
 			.post(`${this._url}/adjuntar-formulario-53`, adjunto)
 			.subscribe(() => console.log('File uploaded'));
 	}
+
+	getDocumentosTransaccion(idTransaccion: number) {
+		return this.$httpClient.get<any[]>(
+			`${this._url}/${idTransaccion}/documentos-transaccion`
+		);
+	}
 }

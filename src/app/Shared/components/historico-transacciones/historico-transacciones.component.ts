@@ -3,9 +3,11 @@ import {
 	AfterViewInit,
 	ChangeDetectionStrategy,
 	Component,
+	EventEmitter,
 	Input,
 	OnChanges,
 	OnInit,
+	Output,
 	signal,
 	SimpleChanges,
 } from '@angular/core';
@@ -147,7 +149,11 @@ import { Observable } from 'rxjs';
 							Acciones
 						</mat-header-cell>
 						<mat-cell *matCellDef="let element">
-							<button mat-icon-button color="primary">
+							<button
+								mat-icon-button
+								color="primary"
+								(click)="showDocuments(element.id)"
+							>
 								<mat-icon>remove_red_eye</mat-icon>
 							</button>
 						</mat-cell>
@@ -174,6 +180,8 @@ import { Observable } from 'rxjs';
 export class HistoricoTransaccionesComponent implements AfterViewInit {
 	@Input() tipoOrigen: number = 0;
 	@Input() origen: string = '';
+	@Output('on-show-documents') showDocumentsEvent =
+		new EventEmitter<number>();
 	displayedColumns: string[] = [];
 
 	records$ = signal<any[]>([]);
@@ -223,5 +231,10 @@ export class HistoricoTransaccionesComponent implements AfterViewInit {
 		rowData[this.tipoOrigen]().subscribe((data) => {
 			this.records$.set(data);
 		});
+	}
+
+	showDocuments(id: number) {
+		console.log('showing documents for id:', id);
+		this.showDocumentsEvent.emit(id);
 	}
 }
