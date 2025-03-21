@@ -76,7 +76,7 @@ export class DepositosPageComponent
 			.subscribe((res) => {
 				if (res) {
 					this._depositosService
-						.delete(event.id)
+						.delete(event)
 						.subscribe(() => this.onLoadData());
 				}
 			});

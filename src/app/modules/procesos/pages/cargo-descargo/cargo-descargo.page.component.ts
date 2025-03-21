@@ -495,13 +495,13 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 				},
 			})
 			.afterClosed()
-			.subscribe((data: IAdjuntarFormularioDto) => {
+			.subscribe((file: any) => {
 				this.registroDebitoCreditoForm.reset();
 				this.reportDetailsForm.reset();
 				this.articulosSelected.set([]);
 				this.articulosList.set([]);
 				this.documentoPDF = '';
-				this.guardarReporte53({ id: id, url: dataUrl });
+				this.guardarReporte53({ id: id, url: file });
 			});
 	}
 
