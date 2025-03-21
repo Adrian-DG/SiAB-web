@@ -1,4 +1,4 @@
-import { computed, Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, effect, Injectable, signal, WritableSignal } from '@angular/core';
 import { GenericService } from '../../../Shared/Services/Generic.service';
 import { HttpClient } from '@angular/common/http';
 import { IAuthenticatedResponse } from '../models/iauthenticated-response.model';
@@ -17,8 +17,11 @@ export class AuthenticationService extends GenericService {
 		return 'authentication';
 	}
 
+	private tokenSignal = signal<string | null>(null);
+
 	isAuthenticated$ = computed<boolean>(() => {
 		const token = localStorage.getItem('token');
+		
 		if (token) {
 			const decodedToken = jwtDecode(token);
 			const expirationDate = decodedToken.exp
@@ -34,6 +37,8 @@ export class AuthenticationService extends GenericService {
 		console.log('Token not found');
 		return false;
 	});
+
+	
 
 	userData = computed<IJwtCustomSquema | null>(() => {
 		const token = localStorage.getItem('token');
@@ -72,12 +77,14 @@ export class AuthenticationService extends GenericService {
 			)
 			.subscribe((response: IAuthenticatedResponse) => {
 				localStorage.setItem('token', response.token);
+				this.tokenSignal.set(response.token);
 				this.$router.navigateByUrl('/empresas');
 			});
 	}
 
 	logout() {
 		localStorage.removeItem('token');
+		this.tokenSignal.set(null);
 		this.$router.navigateByUrl('/authentication');
 	}
 }

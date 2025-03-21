@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { AuthenticationService } from '../../../modules/authentication/services/authentication.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,7 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
 import { SideBarService } from '../../Services/SideBar.service';
-import { inject } from '@angular/core';
+
+
 
 @Component({
     selector: 'app-header',
@@ -17,9 +18,11 @@ import { inject } from '@angular/core';
         MatIconModule,
         MatButtonModule,
         MatMenuModule
+        
     ],
     templateUrl: './header.component.html',
-    styleUrl: './header.component.scss'
+    styleUrl: './header.component.scss',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class HeaderComponent {
     @Input() appTitle = 'SiAB';
