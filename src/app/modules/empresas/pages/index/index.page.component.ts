@@ -76,7 +76,7 @@ export class IndexPageComponent
 	}
 
 	onDetails(event: number): void {
-		this.$router.navigate([`empresas/${event}`]);
+		this.$router.navigate([`empresas/${event}/ordenes`]);
 	}
 
 	override onLoadData(): void {

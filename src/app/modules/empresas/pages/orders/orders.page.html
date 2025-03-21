@@ -1,0 +1,39 @@
+<app-module-index>
+	<mat-card>
+		<mat-card-header>
+			<app-page-intro
+				[title]="title"
+				[description]="description"
+				(onSearch)="onSearch($event)"
+				(onCreate)="onCreate($event)"
+			></app-page-intro>
+		</mat-card-header>
+		<mat-card-content>
+			<table
+				mat-table
+				[dataSource]="data$().rows"
+				class="mat-elevation-z8"
+			>
+				<ng-container matColumnDef="id">
+					<th mat-header-cell *matHeaderCellDef>Fechas</th>
+					<td mat-cell *matCellDef="let element"></td>
+				</ng-container>
+
+				<ng-container matColumnDef="fechas">
+					<th mat-header-cell *matHeaderCellDef>Datos</th>
+					<td mat-cell *matCellDef="let element"></td>
+				</ng-container>
+
+				<ng-container matColumnDef="acciones">
+					<th mat-header-cell *matHeaderCellDef>Acciones</th>
+					<td mat-cell *matCellDef="let element"></td>
+				</ng-container>
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr
+					mat-row
+					*matRowDef="let row; columns: displayedColumns"
+				></tr>
+			</table>
+		</mat-card-content>
+	</mat-card>
+</app-module-index>
