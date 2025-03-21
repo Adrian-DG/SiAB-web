@@ -70,10 +70,10 @@ export class TransaccionService {
 	}
 
 	adjuntarFormulario53(adjunto: IAdjuntarFormularioDto) {
-		console.log(adjunto);
-		this.$httpClient
-			.post(`${this._url}/adjuntar-formulario-53`, adjunto)
-			.subscribe(() => console.log('File uploaded'));
+		return this.$httpClient.post(
+			`${this._url}/adjuntar-formulario-53`,
+			adjunto
+		);
 	}
 
 	getDocumentosTransaccion(idTransaccion: number) {

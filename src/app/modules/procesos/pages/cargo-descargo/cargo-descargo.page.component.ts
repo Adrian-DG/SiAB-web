@@ -498,11 +498,18 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 			.subscribe((data: IAdjuntarFormularioDto) => {
 				this.registroDebitoCreditoForm.reset();
 				this.reportDetailsForm.reset();
+				this.articulosSelected.set([]);
+				this.articulosList.set([]);
+				this.documentoPDF = '';
 				this.guardarReporte53({ id: id, url: dataUrl });
 			});
 	}
 
 	guardarReporte53(adjunto: IAdjuntarFormularioDto) {
-		this._transaccionService.adjuntarFormulario53(adjunto);
+		this._transaccionService.adjuntarFormulario53(adjunto).subscribe(() => {
+			this._secuenciasService
+				.create({})
+				.subscribe(() => console.log('Secuencia creada'));
+		});
 	}
 }
