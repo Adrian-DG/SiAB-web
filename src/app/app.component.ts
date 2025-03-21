@@ -9,6 +9,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthenticationService } from './modules/authentication/services/authentication.service';
 import { routes as AppRoutes } from './app.routes';
+import { SideBarService } from './Shared/Services/SideBar.service';
+import { inject } from '@angular/core';
+
 
 @Component({
 	selector: 'app-root',
@@ -22,12 +25,15 @@ import { routes as AppRoutes } from './app.routes';
 		MatButtonModule,
 		MatListModule,
 		MatMenuModule,
+	
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 	providers: [AuthenticationService],
 })
+
 export class AppComponent implements OnInit {
+	sideBarService = inject(SideBarService);
 	userRoles: string | string[] = [];
 	modules: IUrlOption[] = [
 		{

@@ -1,0 +1,17 @@
+.main-container {
+    position: relative;
+    overflow-x: hidden;
+}
+
+.content-open, .content-closed {
+    transition: padding-left 0.3s ease-in-out; /* Change from padding to margin */
+}
+
+.content-open {
+    padding-left: 250px;
+    padding-right: 25px;
+}
+
+.content-closed {
+    padding: 0px 25px;
+}
