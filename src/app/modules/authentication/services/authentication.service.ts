@@ -72,12 +72,27 @@ export class AuthenticationService extends GenericService {
 			)
 			.subscribe((response: IAuthenticatedResponse) => {
 				localStorage.setItem('token', response.token);
-				this.$router.navigateByUrl('/existencia');
+				this.checkRoles('MODULO EMPRESAS')
+					? this.$router.navigateByUrl('/empresas')
+					: this.$router.navigateByUrl('/existencia');
 			});
 	}
 
 	logout() {
 		localStorage.removeItem('token');
 		this.$router.navigateByUrl('/authentication');
+	}
+
+	private checkRoles(requiredRole: string): boolean {
+		const token = this.userData();
+		if (token) {
+			const roles = token.Roles;
+			if (Array.isArray(roles)) {
+				return roles.includes(requiredRole);
+			} else {
+				return roles.split(',').includes(requiredRole);
+			}
+		}
+		return false;
 	}
 }
