@@ -110,7 +110,6 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 		),
 		debito: new FormControl('', Validators.required),
 		credito: new FormControl('', Validators.required),
-		oficio: new FormControl('', Validators.required),
 		noDocumento: new FormControl('', Validators.required),
 		fecha: new FormControl('', Validators.required),
 		intendente: new FormControl('', Validators.required),
@@ -120,9 +119,6 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 	reportDetailsForm: FormGroup = new FormGroup({
 		encargadoArmas: new FormControl(''),
 		encargadoDepositos: new FormControl(''),
-		entrega: new FormControl(''),
-		recibe: new FormControl(''),
-		firma: new FormControl(''),
 	});
 
 	dialog = inject(MatDialog);
@@ -176,54 +172,6 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 			});
 
 		this.registroDebitoCreditoForm.controls['intendente'].valueChanges
-			.pipe(debounceTime(3000), distinctUntilChanged())
-			.subscribe((value: string | null) => {
-				if (
-					value &&
-					value !== '' &&
-					value.length > this.MINIMUN_FILTER_LENGTH
-				) {
-					this._miembrosService
-						.getMiembrosByCedulaNombre(value)
-						.subscribe((miembros: IMiembroListDetail[]) => {
-							this.intendentesList.set(miembros);
-						});
-				}
-			});
-
-		this.reportDetailsForm.controls['firma'].valueChanges
-			.pipe(debounceTime(3000), distinctUntilChanged())
-			.subscribe((value: string | null) => {
-				if (
-					value &&
-					value !== '' &&
-					value.length > this.MINIMUN_FILTER_LENGTH
-				) {
-					this._miembrosService
-						.getMiembrosByCedulaNombre(value)
-						.subscribe((miembros: IMiembroListDetail[]) => {
-							this.intendentesList.set(miembros);
-						});
-				}
-			});
-
-		this.reportDetailsForm.controls['entrega'].valueChanges
-			.pipe(debounceTime(3000), distinctUntilChanged())
-			.subscribe((value: string | null) => {
-				if (
-					value &&
-					value !== '' &&
-					value.length > this.MINIMUN_FILTER_LENGTH
-				) {
-					this._miembrosService
-						.getMiembrosByCedulaNombre(value)
-						.subscribe((miembros: IMiembroListDetail[]) => {
-							this.intendentesList.set(miembros);
-						});
-				}
-			});
-
-		this.reportDetailsForm.controls['recibe'].valueChanges
 			.pipe(debounceTime(3000), distinctUntilChanged())
 			.subscribe((value: string | null) => {
 				if (
@@ -407,9 +355,6 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 			reportDetails.encargadoArmas as unknown as IMiembroListDetail;
 		const encargadoDepositos =
 			reportDetails.encargadoDepositos as unknown as IMiembroListDetail;
-		const firma = reportDetails.firma as unknown as IMiembroListDetail;
-		const recibe = reportDetails.recibe as unknown as IMiembroListDetail;
-		const entrega = reportDetails.entrega as unknown as IMiembroListDetail;
 
 		this._transaccionService
 			.CreateTransaccionCargoDescargo({
@@ -421,20 +366,17 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 				debito: registroDebitoCredito.debito.param1,
 				credito: registroDebitoCredito.credito.param1,
 
-				oficio: registroDebitoCredito.oficio,
-				noDocumento: registroDebitoCredito.noDocumento,
 				fecha: formattedDate ?? '',
 				intendente: intendente.cedula,
 				observaciones: registroDebitoCredito.observacion,
+
+				noDocumento: registroDebitoCredito.noDocumento,
 				documento: this.documentoPDF,
 
 				articulos: this.articulosSelected(),
 
 				encargadoArmas: encargadoArmas.cedula,
 				encargadoDepositos: encargadoDepositos.cedula,
-				firma: firma.cedula,
-				recibe: recibe.cedula,
-				entrega: entrega.cedula,
 			})
 			.subscribe((data: number) => {
 				this._transaccionService
@@ -452,10 +394,6 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 
 						encargadoArmas: encargadoArmas,
 						encargadoDepositos: encargadoDepositos,
-
-						firmadoPor: firma,
-						recibidoPor: recibe,
-						entregadoPor: entrega,
 
 						comentario: registroDebitoCredito.observacion,
 					})

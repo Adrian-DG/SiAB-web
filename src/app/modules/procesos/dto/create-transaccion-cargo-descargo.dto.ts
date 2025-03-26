@@ -1,4 +1,4 @@
-import { CreateArticuloTransaccionItemDto } from './create-articulo-transaccion-item.dto';
+import { CreateArticuloTransaccionItemDto } from '../../carga-registros/dto/create-articulo-transaccion-item.dto';
 
 export interface CreateTransaccionCargoDescargoDto {
 	secuencia: string;
@@ -7,10 +7,9 @@ export interface CreateTransaccionCargoDescargoDto {
 	tipoCargoCredito: number;
 	credito: string;
 
+	noDocumento: string;
 	documento: string;
 
-	oficio: string;
-	noDocumento: string;
 	fecha: string;
 	intendente: string;
 	observaciones: string;
@@ -19,7 +18,4 @@ export interface CreateTransaccionCargoDescargoDto {
 
 	encargadoArmas: string;
 	encargadoDepositos: string;
-	entrega: string;
-	recibe: string;
-	firma: string;
 }

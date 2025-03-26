@@ -6,10 +6,6 @@ export interface InputReporte53Dto {
 	fecha: string;
 	articulos: any[];
 
-	firmadoPor: IMiembroListDetail;
-	recibidoPor: IMiembroListDetail;
-	entregadoPor: IMiembroListDetail;
-
 	encargadoArmas: IMiembroListDetail;
 	encargadoDepositos: IMiembroListDetail;
 

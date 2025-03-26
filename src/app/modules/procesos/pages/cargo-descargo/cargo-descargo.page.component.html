@@ -103,20 +103,8 @@
 				<div class="row">
 					<div class="row">
 						<mat-form-field class="input">
-							<mat-label>Oficio</mat-label>
-							<input
-								matInput
-								type="text"
-								formControlName="oficio"
-							/>
-						</mat-form-field>
-						<mat-form-field class="input">
 							<mat-label>No. Documento</mat-label>
-							<input
-								matInput
-								type="text"
-								formControlName="noDocumento"
-							/>
+							<input matInput formControlName="noDocumento" />
 						</mat-form-field>
 
 						<mat-form-field class="input">
@@ -283,77 +271,6 @@
 						<mat-autocomplete
 							autoActiveFirstOption
 							#encargadoDepositos="matAutocomplete"
-							[displayWith]="displayedSelectedMiembro"
-						>
-							@for (item of intendentesList(); track $index) {
-							<mat-option [value]="item">
-								<app-miembro-list-item
-									[miembro]="item"
-								></app-miembro-list-item>
-							</mat-option>
-							}
-						</mat-autocomplete>
-					</mat-form-field>
-				</div>
-
-				<div class="row">
-					<mat-form-field class="input">
-						<mat-label>Entregado A</mat-label>
-						<input
-							type="text"
-							matInput
-							formControlName="entrega"
-							[matAutocomplete]="entrega"
-						/>
-						<mat-autocomplete
-							autoActiveFirstOption
-							#entrega="matAutocomplete"
-							[displayWith]="displayedSelectedMiembro"
-						>
-							@for (item of intendentesList(); track $index) {
-							<mat-option [value]="item">
-								<app-miembro-list-item
-									[miembro]="item"
-								></app-miembro-list-item>
-							</mat-option>
-							}
-						</mat-autocomplete>
-					</mat-form-field>
-
-					<mat-form-field class="input">
-						<mat-label>Recibido Por</mat-label>
-						<input
-							type="text"
-							matInput
-							formControlName="recibe"
-							[matAutocomplete]="recibe"
-						/>
-						<mat-autocomplete
-							autoActiveFirstOption
-							#recibe="matAutocomplete"
-							[displayWith]="displayedSelectedMiembro"
-						>
-							@for (item of intendentesList(); track $index) {
-							<mat-option [value]="item">
-								<app-miembro-list-item
-									[miembro]="item"
-								></app-miembro-list-item>
-							</mat-option>
-							}
-						</mat-autocomplete>
-					</mat-form-field>
-
-					<mat-form-field class="input">
-						<mat-label>Firma</mat-label>
-						<input
-							type="text"
-							matInput
-							formControlName="firma"
-							[matAutocomplete]="firma"
-						/>
-						<mat-autocomplete
-							autoActiveFirstOption
-							#firma="matAutocomplete"
 							[displayWith]="displayedSelectedMiembro"
 						>
 							@for (item of intendentesList(); track $index) {

@@ -3,8 +3,8 @@ import { Injectable, isDevMode } from '@angular/core';
 import { environment as Dev } from '../../../../environment/environment.development';
 import { environment as Prod } from '../../../../environment/environment.production';
 import { IInputOrigenDestinoDto } from '../dto/iinput-origen-destino.dto';
-import { CreateTransaccionCargoDescargoDto } from '../dto/create-transaccion-cargo-descargo.dto';
-import { InputReporte53Dto } from '../dto/InputReporte53.dto';
+import { CreateTransaccionCargoDescargoDto } from '../../procesos/dto/create-transaccion-cargo-descargo.dto';
+import { InputReporte53Dto } from '../../procesos/dto/InputReporte53.dto';
 import { IAdjuntarFormularioDto } from '../dto/iadjuntar-formulario.dto';
 
 @Injectable({
