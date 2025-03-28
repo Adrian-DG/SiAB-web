@@ -8,9 +8,13 @@
 	justify-content: flex-start;
 	align-items: center;
 	gap: 1em;
+	flex-wrap: wrap;
+	input,
+	button {
+		flex-grow: 1;
+	}
 }
 
-.primary-button {
-	width: 15%;
+.primary-color {
 	background-color: rgb(64, 64, 167) !important;
 }

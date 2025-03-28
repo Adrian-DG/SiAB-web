@@ -26,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { IPaginationFilter } from '../../../../Shared/dtos/ipagination-filter.dto';
 import { ITransaccionPaginationFilterDto } from '../../../carga-registros/dto/itransaccion-pagination-filter.dto';
 import { CommonModule } from '@angular/common';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
 	selector: 'app-index.page',
@@ -34,11 +35,13 @@ import { CommonModule } from '@angular/common';
 		CommonModule,
 		MatTableModule,
 		MatCardModule,
+		MatCheckboxModule,
 		MatInputModule,
 		MatFormFieldModule,
 		MatDatepickerModule,
 		MatButtonModule,
 		MatIconModule,
+		ReactiveFormsModule,
 		PageIntroComponent,
 		CrudActionsComponent,
 		PagePaginatorComponent,
@@ -63,14 +66,22 @@ export class IndexPageComponent
 		'acciones',
 	];
 
+	formulario53Ctrl = new FormControl('');
+	origenCtrl = new FormControl('');
+	destinoCtrl = new FormControl('');
+	adjunto53Ctrl = new FormControl(false);
+	fechaDesdeCtrl = new FormControl('');
+	fechaHastaCtrl = new FormControl('');
+
 	transactionFilter$: WritableSignal<ITransaccionPaginationFilterDto> =
-		signal({
+		signal<ITransaccionPaginationFilterDto>({
 			...this.filters$(),
+			origen: '',
+			destino: '',
+			adjunto53: false,
 			fechaDesde: '',
 			fechaHasta: '',
 			formulario53: '',
-			origen: '',
-			destino: '',
 		});
 
 	constructor(
@@ -83,6 +94,16 @@ export class IndexPageComponent
 
 	ngOnInit(): void {
 		this.onLoadData();
+	}
+
+	get isInitialDateValid(): boolean {
+		return this.fechaDesdeCtrl.value !== '';
+	}
+
+	onInitialDateChange(event: any): void {
+		if (this.isInitialDateValid) {
+			this.fechaHastaCtrl.setValue(this.fechaDesdeCtrl.value);
+		}
 	}
 
 	override onEdit(event: IUpdateEntityDto<any>): void {
@@ -98,19 +119,43 @@ export class IndexPageComponent
 	}
 
 	override onLoadData(): void {
-		this.transactionFilter$.update(() => ({
-			...this.filters$(),
-			fechaDesde: this.transactionFilter$().fechaDesde,
-			fechaHasta: this.transactionFilter$().fechaHasta,
-			formulario53: this.transactionFilter$().formulario53,
-			origen: this.transactionFilter$().origen,
-			destino: this.transactionFilter$().destino,
-		}));
-
 		this._transaccionService
 			.getTransacciones(this.transactionFilter$())
 			.subscribe((response) => {
 				this.data$.set(response);
 			});
+	}
+
+	advancedSearch(): void {
+		this.transactionFilter$.update(() => ({
+			...this.filters$(),
+			origen: this.origenCtrl.value ?? '',
+			destino: this.destinoCtrl.value ?? '',
+			adjunto53: this.adjunto53Ctrl.value ?? false,
+			fechaDesde: this.fechaDesdeCtrl.value ?? '',
+			fechaHasta: this.fechaHastaCtrl.value ?? '',
+			formulario53: this.formulario53Ctrl.value ?? '',
+		}));
+		this.onLoadData();
+	}
+
+	clearFilters(): void {
+		this.transactionFilter$.update(() => ({
+			...this.filters$(),
+			origen: '',
+			destino: '',
+			adjunto53: false,
+			fechaDesde: '',
+			fechaHasta: '',
+			formulario53: '',
+		}));
+
+		this.fechaDesdeCtrl.setValue('');
+		this.fechaHastaCtrl.setValue('');
+		this.origenCtrl.setValue('');
+		this.destinoCtrl.setValue('');
+		this.adjunto53Ctrl.setValue(false);
+		this.formulario53Ctrl.setValue('');
+		this.onLoadData();
 	}
 }

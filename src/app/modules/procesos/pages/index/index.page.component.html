@@ -15,20 +15,29 @@
 			<div class="row">
 				<mat-form-field>
 					<mat-label>Origen</mat-label>
-					<input matInput />
+					<input matInput [formControl]="origenCtrl" />
 				</mat-form-field>
 				<mat-form-field>
 					<mat-label>Destino</mat-label>
-					<input matInput />
+					<input matInput [formControl]="destinoCtrl" />
 				</mat-form-field>
 				<mat-form-field>
 					<mat-label>Formulario #53</mat-label>
-					<input matInput />
+					<input matInput [formControl]="formulario53Ctrl" />
 				</mat-form-field>
+
+				<mat-checkbox [formControl]="adjunto53Ctrl"
+					>Sin Formulario 53</mat-checkbox
+				>
 
 				<mat-form-field>
 					<mat-label>Desde</mat-label>
-					<input matInput [matDatepicker]="picker1" />
+					<input
+						matInput
+						[matDatepicker]="picker1"
+						[formControl]="fechaDesdeCtrl"
+						(dateChange)="onInitialDateChange($event)"
+					/>
 					<mat-datepicker-toggle
 						matSuffix
 						[for]="picker1"
@@ -38,7 +47,11 @@
 				</mat-form-field>
 				<mat-form-field>
 					<mat-label>Hasta</mat-label>
-					<input matInput [matDatepicker]="picker2" />
+					<input
+						matInput
+						[matDatepicker]="picker2"
+						[formControl]="fechaHastaCtrl"
+					/>
 					<mat-datepicker-toggle
 						matSuffix
 						[for]="picker2"
@@ -47,12 +60,16 @@
 					<mat-datepicker #picker2></mat-datepicker>
 				</mat-form-field>
 
-				<button mat-stroked-button>
+				<button mat-stroked-button (click)="clearFilters()">
 					<mat-icon>clear</mat-icon>
 					<span>Limpiar</span>
 				</button>
 
-				<button mat-flat-button class="primary-button">
+				<button
+					mat-flat-button
+					class="primary-color"
+					(click)="advancedSearch()"
+				>
 					<mat-icon>search</mat-icon>
 					<span>Buscar</span>
 				</button>

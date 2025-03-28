@@ -94,7 +94,8 @@ export class TransaccionService {
 			.set('destino', filters.destino)
 			.set('formulario53', filters.formulario53)
 			.set('fechaInicial', filters.fechaDesde)
-			.set('fechaFinal', filters.fechaHasta);
+			.set('fechaFinal', filters.fechaHasta)
+			.set('adjunto53', filters.adjunto53);
 
 		return this.$httpClient.get<IPagedData<any>>(`${this._url}`, {
 			params: params,
