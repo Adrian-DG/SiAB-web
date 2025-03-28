@@ -5,9 +5,9 @@ export interface InputReporte53Dto {
 	intendente: IMiembroListDetail;
 	fecha: string;
 	articulos: any[];
-
+	recibidoParam1: string;
+	recibidoParam2: string;
 	encargadoArmas: IMiembroListDetail;
 	encargadoDepositos: IMiembroListDetail;
-
 	comentario: string;
 }

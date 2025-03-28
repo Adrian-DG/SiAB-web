@@ -11,6 +11,9 @@ export const procesosRoutes: Routes = [
 	{
 		path: '',
 		pathMatch: 'full',
-		redirectTo: 'cargo-descargo',
+		loadComponent: () =>
+			import('./pages/index/index.page.component').then(
+				(m) => m.IndexPageComponent
+			),
 	},
 ];

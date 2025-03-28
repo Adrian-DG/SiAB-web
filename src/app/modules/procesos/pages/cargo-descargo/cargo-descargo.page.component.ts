@@ -9,7 +9,7 @@ import {
 	OnInit,
 	signal,
 } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
 	FormControl,
 	FormGroup,
@@ -41,13 +41,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import * as _ from 'lodash';
 import { MiembroListItemComponent } from '../../../../Shared/components/miembro-list-item/miembro-list-item.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Report53DialogComponent } from '../../components/report-53-dialog/report-53-dialog.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IAdjuntarFormularioDto } from '../../../carga-registros/dto/iadjuntar-formulario.dto';
+import { DocumentViewerDialogComponent } from '../../../../Shared/components/document-viewer-dialog/document-viewer-dialog.component';
 @Component({
 	selector: 'app-cargo-descargo.page',
 	standalone: true,
 	imports: [
+		CommonModule,
 		MatDividerModule,
 		MatFormFieldModule,
 		MatInputModule,
@@ -248,7 +249,7 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 					.subscribe((miembros: IMiembroListDetail[]) => {
 						let data = miembros.map((miembro) => ({
 							param1: miembro.cedula,
-							param2: miembro.nombreApellidoCompleto,
+							param2: `${miembro.rango} | ${miembro.nombreApellidoCompleto}`,
 						}));
 						forType === 'debito'
 							? this.debitosList.set(data)
@@ -329,15 +330,24 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 		]);
 	}
 
-	onDeleteItem(event: any) {
+	onDeleteItem(event: number) {
 		const updatedArticulos = this.articulosSelected().filter(
-			(articulo) => articulo.serie !== event.serie
+			(articulo) => articulo.id !== event
 		);
 		this.articulosSelected.set(updatedArticulos);
 	}
 
 	onFileUploaded(event: string) {
 		this.documentoPDF = event;
+	}
+
+	get isDebitoToPerson() {
+		return (
+			this.registroDebitoCreditoForm.value.tipoCargoDebito ===
+				TipoDebitoCreditoEnum.MIEMBRO ||
+			this.registroDebitoCreditoForm.value.tipoCargoDebito ===
+				TipoDebitoCreditoEnum.CIVIL
+		);
 	}
 
 	createCargoDescargo() {
@@ -378,36 +388,65 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 				encargadoArmas: encargadoArmas.cedula,
 				encargadoDepositos: encargadoDepositos.cedula,
 			})
-			.subscribe((data: number) => {
-				this._transaccionService
-					.generarReporte53({
-						secuencia: this.secuencia_53(),
-						intendente: intendente,
-						fecha:
-							this.datePipe.transform(
-								registroDebitoCredito.fecha,
-								"dd 'de' MMMM 'del' yyyy",
-								'UTC',
-								'es-ES'
-							) ?? '',
-						articulos: this.articulosSelected(),
+			.subscribe((data: number) => console.log(data));
+	}
 
-						encargadoArmas: encargadoArmas,
-						encargadoDepositos: encargadoDepositos,
+	private getDebitoString(position: number): string {
+		return (
+			(
+				this.registroDebitoCreditoForm.value
+					.debito as unknown as IFilterMiembroResult
+			).param2.split('|')[position] ?? ''
+		);
+	}
 
-						comentario: registroDebitoCredito.observacion,
-					})
-					.subscribe(async (response) => {
-						const blob = new Blob([response], {
-							type: 'application/pdf',
-						});
+	generarReporte53() {
+		const registroDebitoCredito = this.registroDebitoCreditoForm.value;
+		const reportDetails = this.reportDetailsForm.value;
 
-						await this.mostrarReporte53(data, blob);
-					});
+		const intendente =
+			registroDebitoCredito.intendente as unknown as IMiembroListDetail;
+		const encargadoArmas =
+			reportDetails.encargadoArmas as unknown as IMiembroListDetail;
+		const encargadoDepositos =
+			reportDetails.encargadoDepositos as unknown as IMiembroListDetail;
+
+		let recibidoParam1 = this.isDebitoToPerson
+			? this.getDebitoString(0)
+			: registroDebitoCredito.debito.param2;
+
+		let recibidoParam2 = this.isDebitoToPerson
+			? this.getDebitoString(1)
+			: '';
+
+		this._transaccionService
+			.generarReporte53({
+				secuencia: this.secuencia_53(),
+				intendente: intendente,
+				fecha:
+					this.datePipe.transform(
+						registroDebitoCredito.fecha,
+						"dd 'de' MMMM 'del' yyyy",
+						'UTC',
+						'es-ES'
+					) ?? '',
+				articulos: this.articulosSelected(),
+				recibidoParam1: recibidoParam1,
+				recibidoParam2: recibidoParam2,
+				encargadoArmas: encargadoArmas,
+				encargadoDepositos: encargadoDepositos,
+				comentario: registroDebitoCredito.observacion,
+			})
+			.subscribe(async (response) => {
+				const blob = new Blob([response], {
+					type: 'application/pdf',
+				});
+
+				await this.mostrarReporte53(blob);
 			});
 	}
 
-	async mostrarReporte53(id: number, blob: Blob) {
+	async mostrarReporte53(blob: Blob) {
 		const url = window.URL.createObjectURL(blob);
 
 		const dataUrl = await fetch(url)
@@ -421,26 +460,15 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 				});
 			});
 
-		this.dialog
-			.open(Report53DialogComponent, {
-				minWidth: '1000',
-				maxWidth: '1200',
-				minHeight: '600',
-				maxHeight: '800',
-				data: {
-					id: id,
-					url: this.sanitizer.bypassSecurityTrustResourceUrl(dataUrl),
-				},
-			})
-			.afterClosed()
-			.subscribe((file: any) => {
-				this.registroDebitoCreditoForm.reset();
-				this.reportDetailsForm.reset();
-				this.articulosSelected.set([]);
-				this.articulosList.set([]);
-				this.documentoPDF = '';
-				this.guardarReporte53({ id: id, url: file });
-			});
+		this.dialog.open(DocumentViewerDialogComponent, {
+			minWidth: '1000',
+			maxWidth: '1200',
+			minHeight: '600',
+			maxHeight: '800',
+			data: {
+				url: this.sanitizer.bypassSecurityTrustResourceUrl(dataUrl),
+			},
+		});
 	}
 
 	guardarReporte53(adjunto: IAdjuntarFormularioDto) {
