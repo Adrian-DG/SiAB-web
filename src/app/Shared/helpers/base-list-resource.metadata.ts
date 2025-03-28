@@ -46,7 +46,7 @@ export abstract class BaseListResource<T> {
 		});
 	}
 
-	onSearch(event: string): void {
+	onSearch(event: any): void {
 		this.filters$.set({
 			page: 1,
 			size: 10,

@@ -37,7 +37,7 @@ export const routes: Routes = [
 		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
 	},
 	{
-		path: 'procesos',
+		path: 'transacciones',
 		loadChildren: () =>
 			import('./modules/procesos/procesos.routes').then(
 				(m) => m.procesosRoutes

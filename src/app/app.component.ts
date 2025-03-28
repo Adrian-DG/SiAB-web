@@ -41,8 +41,8 @@ export class AppComponent implements OnInit {
 			icon: 'chevron_right',
 		},
 		{
-			url: 'procesos',
-			name: 'Procesos',
+			url: 'transacciones',
+			name: 'Transacciones',
 			icon: 'chevron_right',
 		},
 		{
