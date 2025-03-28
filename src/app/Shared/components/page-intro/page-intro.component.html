@@ -19,8 +19,10 @@
 			}
 		</div>
 	</div>
+	@if (showSearch) {
 	<mat-form-field class="search">
 		<mat-label>Buscar</mat-label>
 		<input type="text" matInput [formControl]="searchForm" />
 	</mat-form-field>
+	}
 </div>

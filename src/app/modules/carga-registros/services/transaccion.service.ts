@@ -6,6 +6,9 @@ import { IInputOrigenDestinoDto } from '../dto/iinput-origen-destino.dto';
 import { CreateTransaccionCargoDescargoDto } from '../../procesos/dto/create-transaccion-cargo-descargo.dto';
 import { InputReporte53Dto } from '../../procesos/dto/InputReporte53.dto';
 import { IAdjuntarFormularioDto } from '../dto/iadjuntar-formulario.dto';
+import { ITransaccionPaginationFilterDto } from '../dto/itransaccion-pagination-filter.dto';
+import { IPagedData } from '../../../Shared/Models/ipaged-data.model';
+import { map } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -80,5 +83,21 @@ export class TransaccionService {
 		return this.$httpClient.get<any[]>(
 			`${this._url}/${idTransaccion}/documentos-transaccion`
 		);
+	}
+
+	getTransacciones(filters: ITransaccionPaginationFilterDto) {
+		const params = new HttpParams()
+			.set('page', filters.page.toString())
+			.set('size', filters.size.toString())
+			.set('searchTerm', filters.searchTerm ?? '')
+			.set('origen', filters.origen)
+			.set('destino', filters.destino)
+			.set('formulario53', filters.formulario53)
+			.set('fechaInicial', filters.fechaDesde)
+			.set('fechaFinal', filters.fechaHasta);
+
+		return this.$httpClient.get<IPagedData<any>>(`${this._url}`, {
+			params: params,
+		});
 	}
 }

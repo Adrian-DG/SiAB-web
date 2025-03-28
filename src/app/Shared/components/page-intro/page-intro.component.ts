@@ -32,6 +32,7 @@ export class PageIntroComponent implements OnInit {
 	@Input() title!: string;
 	@Input() description!: string;
 	@Input('show-create-btn') showCreateButton = true;
+	@Input('show-search') showSearch = true;
 	@Output('onSearch') searchEvent = new EventEmitter<string>();
 	searchForm = new FormControl('');
 

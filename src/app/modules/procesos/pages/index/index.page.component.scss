@@ -1,3 +1,16 @@
 :host {
-  display: block;
+	display: block;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 1em;
+}
+
+.primary-button {
+	width: 15%;
+	background-color: rgb(64, 64, 167) !important;
 }

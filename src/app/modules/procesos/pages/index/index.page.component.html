@@ -3,21 +3,97 @@
 		<app-page-intro
 			[title]="title"
 			[description]="description"
+			[show-create-btn]="true"
+			[show-search]="false"
 			(onSearch)="onSearch($event)"
 			(onCreate)="onCreate($event)"
 		>
 		</app-page-intro>
+
+		<fieldset>
+			<legend>Filtros</legend>
+			<div class="row">
+				<mat-form-field>
+					<mat-label>Origen</mat-label>
+					<input matInput />
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label>Destino</mat-label>
+					<input matInput />
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label>Formulario #53</mat-label>
+					<input matInput />
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Desde</mat-label>
+					<input matInput [matDatepicker]="picker1" />
+					<mat-datepicker-toggle
+						matSuffix
+						[for]="picker1"
+						class="example-icon"
+					></mat-datepicker-toggle>
+					<mat-datepicker #picker1></mat-datepicker>
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label>Hasta</mat-label>
+					<input matInput [matDatepicker]="picker2" />
+					<mat-datepicker-toggle
+						matSuffix
+						[for]="picker2"
+						class="example-icon"
+					></mat-datepicker-toggle>
+					<mat-datepicker #picker2></mat-datepicker>
+				</mat-form-field>
+
+				<button mat-stroked-button>
+					<mat-icon>clear</mat-icon>
+					<span>Limpiar</span>
+				</button>
+
+				<button mat-flat-button class="primary-button">
+					<mat-icon>search</mat-icon>
+					<span>Buscar</span>
+				</button>
+			</div>
+		</fieldset>
 	</card-header>
 	<card-content>
 		<table mat-table [dataSource]="data$().rows">
-			<ng-container matColumnDef="transaccion">
-				<th mat-header-cell *matHeaderCellDef>Datos Transacción</th>
-				<td mat-cell *matCellDef="let element"></td>
+			<ng-container matColumnDef="id">
+				<th mat-header-cell *matHeaderCellDef>#</th>
+				<td mat-cell *matCellDef="let element; let i = index">
+					{{ i + 1 }}
+				</td>
 			</ng-container>
 
-			<ng-container matColumnDef="articulo">
-				<th mat-header-cell *matHeaderCellDef>Datos Articulo</th>
-				<td mat-cell *matCellDef="let element; let i = index"></td>
+			<ng-container matColumnDef="transaccion">
+				<th mat-header-cell *matHeaderCellDef>Datos Transacción</th>
+				<td mat-cell *matCellDef="let element">
+					<span><b>Origen: </b>{{ element.origen }}</span>
+					<br />
+					<span><b>Destino: </b>{{ element.destino }}</span>
+					<br />
+					<span><b>Fecha: </b>{{ element.fecha }}</span>
+					<br />
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="documento">
+				<th mat-header-cell *matHeaderCellDef>Datos Documento</th>
+				<td mat-cell *matCellDef="let element">
+					<span><b>Form. #53: </b>{{ element.formulario }}</span>
+					<br />
+					<span><b>Usuario: </b>{{ element.usuario }}</span>
+					<br />
+					<span
+						><b>Creación: </b
+						>{{
+							element.fechaCreacion | date : 'dd-MM-yyyy HH:mm'
+						}}</span
+					>
+				</td>
 			</ng-container>
 
 			<ng-container matColumnDef="acciones">
@@ -48,7 +124,7 @@
 	<card-footer>
 		<app-page-paginator
 			[length]="data$().totalCount"
-			[pageSize]="filters$().size"
+			[pageSize]="transactionFilter$().size"
 			(page)="onPaginate($event)"
 		></app-page-paginator
 	></card-footer>
