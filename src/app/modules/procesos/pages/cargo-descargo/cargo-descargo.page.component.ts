@@ -44,10 +44,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IAdjuntarFormularioDto } from '../../../carga-registros/dto/iadjuntar-formulario.dto';
 import { DocumentViewerDialogComponent } from '../../../../Shared/components/document-viewer-dialog/document-viewer-dialog.component';
+import { RouterModule } from '@angular/router';
 @Component({
 	selector: 'app-cargo-descargo.page',
 	standalone: true,
 	imports: [
+		RouterModule,
 		CommonModule,
 		MatDividerModule,
 		MatFormFieldModule,

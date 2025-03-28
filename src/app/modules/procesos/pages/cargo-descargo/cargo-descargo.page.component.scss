@@ -36,3 +36,13 @@
 		}
 	}
 }
+
+.row-between {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between !important;
+}
+
+.primary-color {
+	background-color: rgb(64, 64, 167) !important;
+}

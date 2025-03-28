@@ -1,6 +1,17 @@
 <div class="container">
 	<div style="width: 100%">
-		<h1><mat-icon></mat-icon>Cargo y Descargo de Artículos</h1>
+		<div class="row-between">
+			<h1><mat-icon></mat-icon>Cargo y Descargo de Artículos</h1>
+			<button
+				mat-flat-button
+				[routerLink]="['/transacciones/']"
+				style="margin-top: 1.5em"
+				class="primary-color"
+			>
+				<mat-icon>keyboard_arrow_left</mat-icon>
+				Regresar
+			</button>
+		</div>
 		<mat-divider></mat-divider>
 	</div>
 
