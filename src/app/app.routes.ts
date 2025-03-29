@@ -19,13 +19,18 @@ export const routes: Routes = [
 		},
 	},
 	{
-		path: 'inventario',
+		path: 'cargar-inventario',
 		loadChildren: () =>
 			import('./modules/carga-registros/carga-registros.routes').then(
 				(m) => m.cargaRegistrosRoutes
 			),
 		canActivate: [authGuard, RolesGuard],
-		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.TRANSACCIONES_CARGAR_INVENTARIO_EXCEL,
+			],
+		},
 	},
 	{
 		path: 'accesos',
@@ -34,7 +39,12 @@ export const routes: Routes = [
 				(m) => m.accesosRoutes
 			),
 		canActivate: [authGuard, RolesGuard],
-		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.USUARIOS,
+			],
+		},
 	},
 	{
 		path: 'transacciones',
@@ -43,7 +53,12 @@ export const routes: Routes = [
 				(m) => m.procesosRoutes
 			),
 		canActivate: [authGuard, RolesGuard],
-		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.TRANSACCIONES,
+			],
+		},
 	},
 	{
 		path: 'existencia',
@@ -52,7 +67,12 @@ export const routes: Routes = [
 				(m) => m.existenciaRoutes
 			),
 		canActivate: [authGuard, RolesGuard],
-		data: { expectedRoles: [AppPermissions.ADMINISTRADOR] },
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.EXISTENCIA,
+			],
+		},
 	},
 	{
 		path: 'estadisticas',
@@ -62,10 +82,7 @@ export const routes: Routes = [
 			),
 		canActivate: [authGuard, RolesGuard],
 		data: {
-			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
-				AppPermissions.ESTADISTICAS,
-			],
+			expectedRoles: [AppPermissions.ADMINISTRADOR],
 		},
 	},
 	{

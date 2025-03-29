@@ -46,13 +46,13 @@ export class AppComponent implements OnInit {
 			icon: 'chevron_right',
 		},
 		{
-			url: 'mantenimientos',
-			name: 'Mantenimientos',
+			url: 'cargar-inventario',
+			name: 'Cargar Inventario',
 			icon: 'chevron_right',
 		},
 		{
-			url: 'inventario',
-			name: 'Inventarios',
+			url: 'mantenimientos',
+			name: 'Mantenimientos',
 			icon: 'chevron_right',
 		},
 		{
