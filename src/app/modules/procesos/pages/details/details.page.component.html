@@ -1,0 +1,16 @@
+<mat-card>
+	<mat-card-header class="card-header">
+		<mat-card-title>Detalles de transacción</mat-card-title>
+		<mat-card-subtitle
+			>Detalles de la transacción seleccionada</mat-card-subtitle
+		>
+	</mat-card-header>
+	<mat-card-content>
+		{{ transaccion$() | json }}
+	</mat-card-content>
+	<mat-card-footer>
+		<mat-card-actions>
+			<button mat-button>Cerrar</button>
+		</mat-card-actions>
+	</mat-card-footer>
+</mat-card>

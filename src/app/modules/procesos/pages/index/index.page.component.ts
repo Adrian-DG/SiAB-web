@@ -126,6 +126,10 @@ export class IndexPageComponent
 			});
 	}
 
+	onDetails(event: number): void {
+		this.$router.navigate(['transacciones', event, 'detalles-transaccion']);
+	}
+
 	advancedSearch(): void {
 		this.transactionFilter$.update(() => ({
 			...this.filters$(),

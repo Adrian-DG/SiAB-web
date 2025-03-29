@@ -119,8 +119,10 @@
 					<app-crud-actions
 						[id]="element.id"
 						[entity]="element"
+						[showDetails]="true"
 						(on-edit)="onEdit($event)"
 						(on-delete)="onDelete($event)"
+						(on-details)="onDetails($event)"
 					></app-crud-actions>
 				</td>
 			</ng-container>

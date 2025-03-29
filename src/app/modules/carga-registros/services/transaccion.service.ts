@@ -1,7 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { environment as Dev } from '../../../../environment/environment.development';
-import { environment as Prod } from '../../../../environment/environment.production';
 import { IInputOrigenDestinoDto } from '../dto/iinput-origen-destino.dto';
 import { CreateTransaccionCargoDescargoDto } from '../../procesos/dto/create-transaccion-cargo-descargo.dto';
 import { InputReporte53Dto } from '../../procesos/dto/InputReporte53.dto';
@@ -9,17 +7,18 @@ import { IAdjuntarFormularioDto } from '../dto/iadjuntar-formulario.dto';
 import { ITransaccionPaginationFilterDto } from '../dto/itransaccion-pagination-filter.dto';
 import { IPagedData } from '../../../Shared/Models/ipaged-data.model';
 import { map } from 'rxjs';
+import { GenericService } from '../../../Shared/Services/Generic.service';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class TransaccionService {
-	private readonly _url = '';
+export class TransaccionService extends GenericService {
+	protected override GetResource(): string {
+		return 'transacciones';
+	}
 
 	constructor(private $httpClient: HttpClient) {
-		this._url += `${
-			isDevMode() ? Dev.api_url : Prod.api_url
-		}/transacciones`;
+		super($httpClient);
 	}
 
 	uploadRelacionArticulos(file: FormData, model: IInputOrigenDestinoDto) {
@@ -27,7 +26,7 @@ export class TransaccionService {
 			.set('origen', model.origen)
 			.set('destino', model.destino);
 		return this.$httpClient
-			.post(`${this._url}/upload-excel-relacion-articulos`, file, {
+			.post(`${this.endPoint}/upload-excel-relacion-articulos`, file, {
 				params: params,
 				reportProgress: true,
 				observe: 'events',
@@ -41,7 +40,7 @@ export class TransaccionService {
 			.set('tipoOrigen', tipoOrigen.toString())
 			.set('origen', origen);
 		return this.$httpClient.get<any[]>(
-			`${this._url}/filter-articulos-origen-transaccion`,
+			`${this.endPoint}/filter-articulos-origen-transaccion`,
 			{
 				params: params,
 			}
@@ -50,21 +49,21 @@ export class TransaccionService {
 
 	getTransaccionesBySerie(serie: string) {
 		return this.$httpClient.get<any[]>(
-			`${this._url}/filter-transacciones-by-serie/`,
+			`${this.endPoint}/filter-transacciones-by-serie/`,
 			{ params: new HttpParams().set('serie', serie) }
 		);
 	}
 
 	CreateTransaccionCargoDescargo(model: CreateTransaccionCargoDescargoDto) {
 		return this.$httpClient.post<number>(
-			`${this._url}/registrar-cargo-descargo`,
+			`${this.endPoint}/registrar-cargo-descargo`,
 			model
 		);
 	}
 
 	generarReporte53(model: InputReporte53Dto) {
 		return this.$httpClient.post(
-			`${this._url}/generar-formulario-53`,
+			`${this.endPoint}/generar-formulario-53`,
 			model,
 			{
 				responseType: 'blob',
@@ -74,14 +73,14 @@ export class TransaccionService {
 
 	adjuntarFormulario53(adjunto: IAdjuntarFormularioDto) {
 		return this.$httpClient.post(
-			`${this._url}/adjuntar-formulario-53`,
+			`${this.endPoint}/adjuntar-formulario-53`,
 			adjunto
 		);
 	}
 
 	getDocumentosTransaccion(idTransaccion: number) {
 		return this.$httpClient.get<any[]>(
-			`${this._url}/${idTransaccion}/documentos-transaccion`
+			`${this.endPoint}/${idTransaccion}/documentos-transaccion`
 		);
 	}
 
@@ -97,8 +96,12 @@ export class TransaccionService {
 			.set('fechaFinal', filters.fechaHasta)
 			.set('adjunto53', filters.adjunto53);
 
-		return this.$httpClient.get<IPagedData<any>>(`${this._url}`, {
+		return this.$httpClient.get<IPagedData<any>>(`${this.endPoint}`, {
 			params: params,
 		});
+	}
+
+	getTransaccionById(id: number) {
+		return this.$httpClient.get<any>(`${this.endPoint}/${id}`);
 	}
 }
