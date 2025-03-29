@@ -33,37 +33,37 @@ export class AppComponent implements OnInit {
 		{
 			url: 'estadisticas',
 			name: 'Estadisticas',
-			icon: 'chevron_right',
+			icon: 'dashboard',
 		},
 		{
 			url: 'existencia',
 			name: 'Existencia',
-			icon: 'chevron_right',
+			icon: 'search',
 		},
 		{
 			url: 'transacciones',
 			name: 'Transacciones',
-			icon: 'chevron_right',
+			icon: 'compare_arrows',
 		},
 		{
 			url: 'cargar-inventario',
 			name: 'Cargar Inventario',
-			icon: 'chevron_right',
+			icon: 'cloud_upload',
 		},
 		{
 			url: 'mantenimientos',
 			name: 'Mantenimientos',
-			icon: 'chevron_right',
+			icon: 'apps',
 		},
 		{
 			url: 'empresas',
 			name: 'Empresas',
-			icon: 'chevron_right',
+			icon: 'store_mall_directory',
 		},
 		{
 			url: 'accesos',
 			name: 'Accesos',
-			icon: 'chevron_right',
+			icon: 'lock',
 		},
 	];
 
