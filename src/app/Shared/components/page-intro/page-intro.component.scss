@@ -37,7 +37,8 @@
 			flex-direction: row;
 			justify-content: flex-end;
 			align-items: center;
-			button {
+			gap: 1em;
+			.primary {
 				width: 15%;
 				background-color: rgb(64, 64, 167);
 			}

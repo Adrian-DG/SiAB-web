@@ -27,6 +27,8 @@ import { IPaginationFilter } from '../../../../Shared/dtos/ipagination-filter.dt
 import { ITransaccionPaginationFilterDto } from '../../../carga-registros/dto/itransaccion-pagination-filter.dto';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PermissionValidatorService } from '../../../../Shared/Services/permission-validator.service';
+import { AppPermissions } from '../../../../app.permissions';
 
 @Component({
 	selector: 'app-index.page',
@@ -87,13 +89,23 @@ export class IndexPageComponent
 	constructor(
 		protected override _dialog: MatDialog,
 		private _transaccionService: TransaccionService,
-		private $router: Router
+		private $router: Router,
+		private _permissionValidator: PermissionValidatorService
 	) {
 		super(_dialog);
 	}
 
 	ngOnInit(): void {
 		this.onLoadData();
+		this._permissionValidator.setPermissions([
+			AppPermissions.TRANSACCIONES_CREAR_CARGO_DESCARGO,
+		]);
+	}
+
+	canCreate(): boolean {
+		return this._permissionValidator.hasAnyPermission([
+			AppPermissions.TRANSACCIONES_CREAR_CARGO_DESCARGO,
+		]);
 	}
 
 	get isInitialDateValid(): boolean {

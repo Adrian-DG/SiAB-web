@@ -50,4 +50,8 @@ export class PageIntroComponent implements OnInit {
 	onAddClick() {
 		this.addEvent.emit();
 	}
+
+	onBackClick() {
+		window.history.back();
+	}
 }
