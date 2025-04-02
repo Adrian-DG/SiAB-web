@@ -4,5 +4,5 @@ export interface ICreateEmpresaDto {
 	nombre: string;
 	rnc: string;
 	titulares: ICreateTitularDto[];
-	contactos: string[];
+	telefonos: string[];
 }

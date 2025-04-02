@@ -13,6 +13,7 @@ import {
 	FormControl,
 	FormGroup,
 	ReactiveFormsModule,
+	Validators,
 } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -21,6 +22,7 @@ import { EmpresaService } from '../../services/empresa.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { ICreateEmpresaDto } from '../../dto/icreate-empresa.dto';
 @Component({
 	selector: 'app-proveedor-form',
 	standalone: true,
@@ -50,29 +52,29 @@ export class EmpresaFormComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.empresaForm = new FormGroup({
-			nombre: new FormControl(''),
-			rnc: new FormControl(''),
+			nombre: new FormControl('', [Validators.required]),
+			rnc: new FormControl('', [Validators.required]),
 			titulares: new FormArray([]),
-			contactos: new FormArray([]),
+			telefonos: new FormArray([]),
 		});
 
 		this.addTitular();
-		this.addContacto();
+		this.addTelefono();
 	}
 
 	get titulares(): FormArray {
 		return this.empresaForm.controls['titulares'] as unknown as FormArray;
 	}
 
-	get contactos(): FormArray {
-		return this.empresaForm.controls['contactos'] as unknown as FormArray;
+	get telefonos(): FormArray {
+		return this.empresaForm.controls['telefonos'] as unknown as FormArray;
 	}
 
 	addTitular() {
 		const titularForm = new FormGroup({
-			identificacion: new FormControl(''),
-			nombre: new FormControl(''),
-			apellido: new FormControl(''),
+			identificacion: new FormControl('', [Validators.required]),
+			nombre: new FormControl('', [Validators.required]),
+			apellido: new FormControl('', [Validators.required]),
 		});
 		this.titulares.push(titularForm);
 	}
@@ -81,17 +83,25 @@ export class EmpresaFormComponent implements OnInit {
 		this.titulares.removeAt(index);
 	}
 
-	addContacto() {
+	addTelefono() {
 		const contactoForm = new FormGroup({
-			telefono: new FormControl(''),
+			telefono: new FormControl('', [Validators.required]),
 		});
 
-		this.contactos.push(contactoForm);
+		this.telefonos.push(contactoForm);
 	}
 
-	removeContacto(index: number) {
-		this.contactos.removeAt(index);
+	removeTelefono(index: number) {
+		this.telefonos.removeAt(index);
 	}
 
-	onSave() {}
+	onSave() {
+		const empresaData = this.empresaForm.value as ICreateEmpresaDto;
+		this._empresaService
+			.createEmpresa(empresaData)
+			.subscribe((response) => {
+				console.log('Empresa creada:', response);
+				this.dialogRef.close();
+			});
+	}
 }

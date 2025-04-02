@@ -3,6 +3,7 @@ import { GenericService } from '../../../Shared/Services/Generic.service';
 import { HttpClient } from '@angular/common/http';
 import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
 import { map } from 'rxjs';
+import { ICreateEmpresaDto } from '../dto/icreate-empresa.dto';
 
 @Injectable({
 	providedIn: 'root',
@@ -16,9 +17,8 @@ export class EmpresaService extends GenericService {
 		super($http);
 	}
 
-	getLicencias(id: number) {
-		return this.$http
-			.get<IApiResponse<any>>(`${this.endPoint}/${id}/licencias`)
-			.pipe(map((response: IApiResponse<any>) => response.data));
+	// Create a new empresa
+	createEmpresa(empresa: ICreateEmpresaDto) {
+		return this.$http.post<IApiResponse<any>>(this.endPoint, empresa);
 	}
 }

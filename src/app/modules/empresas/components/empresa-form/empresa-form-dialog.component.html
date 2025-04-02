@@ -78,21 +78,21 @@
 			<mat-step>
 				<ng-template matStepLabel>Datos de Contacto</ng-template>
 
-				<ng-container formArrayName="contactos">
+				<ng-container formArrayName="telefonos">
 					<ng-container
 						*ngFor="
-							let contactoForm of contactos.controls;
+							let contactoForm of telefonos.controls;
 							let i = index
 						"
 					>
 						<div class="form-array-row" [formGroupName]="i">
 							<mat-form-field appearance="fill">
-								<mat-label>Telefono</mat-label>
+								<mat-label>Teléfono</mat-label>
 								<input matInput formControlName="telefono" />
 							</mat-form-field>
 
 							<button mat-icon-button>
-								<mat-icon (click)="removeContacto(i)"
+								<mat-icon (click)="removeTelefono(i)"
 									>delete</mat-icon
 								>
 							</button>
@@ -104,7 +104,7 @@
 					<button
 						class="add-button"
 						mat-icon-button
-						(click)="addContacto()"
+						(click)="addTelefono()"
 					>
 						<mat-icon>add</mat-icon>
 					</button>
