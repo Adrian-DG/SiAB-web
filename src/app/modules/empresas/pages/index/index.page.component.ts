@@ -17,6 +17,7 @@ import { IPagedData } from '../../../../Shared/Models/ipaged-data.model';
 import { Router } from '@angular/router';
 import { EmpresaFormComponent } from '../../components/empresa-form/empresa-form-dialog.component';
 import { EmpresaService } from '../../services/empresa.service';
+import { ITitularModel } from '../../models/ITitular.model';
 
 @Component({
 	selector: 'app-index.page',
@@ -56,6 +57,20 @@ export class IndexPageComponent
 
 	ngAfterViewInit(): void {
 		this.onLoadData();
+	}
+
+	titularFormat(data: ITitularModel[]): string {
+		if (data.length > 1) {
+			return `${data[0]?.nombre ?? ''} ${data[0]?.apellido ?? ''}...`;
+		}
+		return `${data[0]?.nombre ?? ''} ${data[0]?.apellido ?? ''}`;
+	}
+
+	telefonoFormat(data: string[]): string {
+		if (data.length > 1) {
+			return `${data[0]}...`;
+		}
+		return data[0];
 	}
 
 	override onEdit(event: IUpdateEntityDto<any>): void {

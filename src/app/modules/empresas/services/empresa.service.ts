@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
 import { map } from 'rxjs';
 import { ICreateEmpresaDto } from '../dto/icreate-empresa.dto';
+import { IPaginationFilter } from '../../../Shared/dtos/ipagination-filter.dto';
 
 @Injectable({
 	providedIn: 'root',
