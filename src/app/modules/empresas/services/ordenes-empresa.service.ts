@@ -21,12 +21,9 @@ export class OrdenesEmpresaService extends GenericService {
 	getOrdenesEmpresa(id: number, filters: IPaginationFilter) {
 		const params = this.getPaginationParams(filters);
 		return this.$http
-			.get<IApiResponse<IPagedData<any>>>(
-				`${this.endPoint}/ordenes-empresa/${id}`,
-				{
-					params: params,
-				}
-			)
+			.get<IApiResponse<IPagedData<any>>>(`${this.endPoint}/${id}`, {
+				params: params,
+			})
 			.pipe(map((response) => response.data));
 	}
 }

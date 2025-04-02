@@ -54,6 +54,7 @@ export class OrdersComponent extends BaseListResource<any> implements OnInit {
 
 	ngOnInit(): void {
 		this._id = this.$activeRoute.snapshot.params['id'] as number;
+		this.onLoadData();
 	}
 
 	override onEdit(event: IUpdateEntityDto<any>): void {
