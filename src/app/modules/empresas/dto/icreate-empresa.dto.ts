@@ -1,9 +1,8 @@
-import { IDocumentoEmpresaModel } from '../models/idocumento-empresa.model';
+import { ICreateTitularDto } from './icreate-titular.dto';
 
 export interface ICreateEmpresaDto {
 	nombre: string;
-	telefono: string;
 	rnc: string;
-	titular: string;
-	dataArchivos: IDocumentoEmpresaModel[];
+	titulares: ICreateTitularDto[];
+	contactos: string[];
 }

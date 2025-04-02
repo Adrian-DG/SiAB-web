@@ -1,71 +1,120 @@
 <h2 mat-dialog-title>Formulario Empresa</h2>
 
 <div mat-dialog-content>
-	<mat-stepper [linear]="true" #stepper>
-		<mat-step>
-			<ng-template matStepLabel>Datos empresa</ng-template>
-			<form [formGroup]="empresaForm">
-				<mat-form-field appearance="fill" style="width: 50%">
-					<mat-label>Nombre</mat-label>
-					<input matInput formControlName="nombre" />
-				</mat-form-field>
+	<form [formGroup]="empresaForm">
+		<mat-stepper [linear]="true" #stepper>
+			<mat-step>
+				<ng-template matStepLabel>Datos empresa</ng-template>
+				<div class="row">
+					<mat-form-field appearance="fill">
+						<mat-label>Nombre</mat-label>
+						<input matInput formControlName="nombre" />
+					</mat-form-field>
 
-				<mat-form-field appearance="fill" style="width: 45%">
-					<mat-label>Titular</mat-label>
-					<input matInput formControlName="titular" />
-				</mat-form-field>
+					<mat-form-field appearance="fill">
+						<mat-label>RNC</mat-label>
+						<input matInput formControlName="rnc" />
+					</mat-form-field>
+				</div>
+				<div class="actions">
+					<button mat-flat-button matStepperNext>Siguiente</button>
+				</div>
+			</mat-step>
 
-				<mat-form-field appearance="fill" style="width: 50%">
-					<mat-label>Telefono</mat-label>
-					<input matInput formControlName="telefono" />
-				</mat-form-field>
+			<mat-step>
+				<ng-template matStepLabel>Datos de Titular(es)</ng-template>
 
-				<mat-form-field appearance="fill" style="width: 45%">
-					<mat-label>RNC</mat-label>
-					<input matInput formControlName="rnc" />
-				</mat-form-field>
-			</form>
-			<div class="actions">
-				<button mat-flat-button matStepperNext>Siguiente</button>
-			</div>
-		</mat-step>
-		<mat-step>
-			<ng-template matStepLabel>Documento #1</ng-template>
-			<app-documento-empresa-form
-				[context]="'licencia'"
-				[tipo-documento]="tipoDocumento.licencia"
-				(on-info-sent)="onInfoRecieved($event)"
-			></app-documento-empresa-form>
-			<div class="actions">
-				<button mat-raised-button matStepperPrevious>Atras</button>
-				<button mat-flat-button matStepperNext>Siguiente</button>
-			</div>
-		</mat-step>
-		<mat-step>
-			<ng-template matStepLabel>Documento #2</ng-template>
-			<app-documento-empresa-form
-				[context]="'autorizacion_importacion'"
-				[tipo-documento]="tipoDocumento.autorizacion_importacion"
-				(on-info-sent)="onInfoRecieved($event)"
-			></app-documento-empresa-form>
+				<ng-container formArrayName="titulares">
+					<ng-container
+						*ngFor="
+							let titularForm of titulares.controls;
+							let i = index
+						"
+					>
+						<div class="form-array-row" [formGroupName]="i">
+							<mat-form-field appearance="fill">
+								<mat-label>Identificación / Cédula</mat-label>
+								<input
+									matInput
+									formControlName="identificacion"
+								/>
+							</mat-form-field>
 
-			<div class="actions">
-				<button mat-raised-button matStepperPrevious>Atras</button>
-				<button mat-flat-button matStepperNext>Siguiente</button>
-			</div>
-		</mat-step>
-		<mat-step>
-			<ng-template matStepLabel>Documento #3</ng-template>
-			<app-documento-empresa-form
-				[context]="'autorizacion_retiro_aduanal'"
-				[tipo-documento]="tipoDocumento.autorizacion_retiro_aduanal"
-				(on-info-sent)="onInfoRecieved($event)"
-			></app-documento-empresa-form>
+							<mat-form-field appearance="fill">
+								<mat-label>Nombre</mat-label>
+								<input matInput formControlName="nombre" />
+							</mat-form-field>
 
-			<div class="actions">
-				<button mat-raised-button matStepperPrevious>Atras</button>
-				<button mat-flat-button (click)="onSave()">Guardar</button>
-			</div>
-		</mat-step>
-	</mat-stepper>
+							<mat-form-field appearance="fill">
+								<mat-label>Apellido</mat-label>
+								<input matInput formControlName="apellido" />
+							</mat-form-field>
+
+							<button mat-icon-button>
+								<mat-icon (click)="removeTitular(i)"
+									>delete</mat-icon
+								>
+							</button>
+						</div>
+					</ng-container>
+				</ng-container>
+
+				<div class="add-btn-row">
+					<button
+						class="add-button"
+						mat-icon-button
+						(click)="addTitular()"
+					>
+						<mat-icon>add</mat-icon>
+					</button>
+				</div>
+
+				<div class="actions">
+					<button mat-raised-button matStepperPrevious>Atras</button>
+					<button mat-flat-button matStepperNext>Siguiente</button>
+				</div>
+			</mat-step>
+
+			<mat-step>
+				<ng-template matStepLabel>Datos de Contacto</ng-template>
+
+				<ng-container formArrayName="contactos">
+					<ng-container
+						*ngFor="
+							let contactoForm of contactos.controls;
+							let i = index
+						"
+					>
+						<div class="form-array-row" [formGroupName]="i">
+							<mat-form-field appearance="fill">
+								<mat-label>Telefono</mat-label>
+								<input matInput formControlName="telefono" />
+							</mat-form-field>
+
+							<button mat-icon-button>
+								<mat-icon (click)="removeContacto(i)"
+									>delete</mat-icon
+								>
+							</button>
+						</div>
+					</ng-container>
+				</ng-container>
+
+				<div class="add-btn-row">
+					<button
+						class="add-button"
+						mat-icon-button
+						(click)="addContacto()"
+					>
+						<mat-icon>add</mat-icon>
+					</button>
+				</div>
+
+				<div class="actions">
+					<button mat-raised-button matStepperPrevious>Atras</button>
+					<button mat-flat-button (click)="onSave()">Guardar</button>
+				</div>
+			</mat-step>
+		</mat-stepper>
+	</form>
 </div>
