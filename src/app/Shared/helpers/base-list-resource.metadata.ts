@@ -31,7 +31,7 @@ export abstract class BaseListResource<T> {
 		hasBackdrop: true,
 		minHeight: 200,
 		minWidth: 500,
-		maxWidth: 800,
+		maxWidth: 1500,
 		role: 'alertdialog',
 	};
 

@@ -17,6 +17,7 @@ import { PageIntroComponent } from '../../../../Shared/components/page-intro/pag
 import { ModuleIndexPageComponent } from '../../../../Shared/pages/module-index/module-index.page.component';
 import { OrdenesEmpresaService } from '../../services/ordenes-empresa.service';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
+import { OrdenEmpresaFormComponent } from '../../components/orden-empresa-form/orden-empresa-form.component';
 
 @Component({
 	selector: 'app-orders',
@@ -66,7 +67,11 @@ export class OrdersComponent extends BaseListResource<any> implements OnInit {
 	}
 
 	override onCreate(event: any): void {
-		throw new Error('Method not implemented.');
+		this._dialog.open(OrdenEmpresaFormComponent, {
+			data: { id: this._id },
+			width: '1000px',
+			...this.dialogConfig,
+		});
 	}
 
 	override onLoadData(): void {
