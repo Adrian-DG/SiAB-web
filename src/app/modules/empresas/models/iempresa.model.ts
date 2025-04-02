@@ -1,7 +1,8 @@
 import { INamedEntity } from '../../../Shared/Models/inamed-entity.model';
+import { ITitularModel } from './ITitular.model';
 
 export interface IEmpresaModel extends INamedEntity {
 	rnc: string;
-	titulares: string;
-	telefonos: string;
+	titulares: ITitularModel[];
+	telefonos: string[];
 }
