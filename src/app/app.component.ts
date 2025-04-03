@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { IUrlOption } from './Shared/Models/iurl-option.model';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -9,11 +9,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthenticationService } from './modules/authentication/services/authentication.service';
 import { routes as AppRoutes } from './app.routes';
+import { CommonModule } from '@angular/common';
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
 	imports: [
+		CommonModule,
 		RouterOutlet,
 		RouterModule,
 		MatSidenavModule,
@@ -67,9 +69,19 @@ export class AppComponent implements OnInit {
 		},
 	];
 
-	constructor(public _authService: AuthenticationService) {}
+	constructor(
+		private cdr: ChangeDetectorRef,
+		public _authService: AuthenticationService
+	) {}
 
 	ngOnInit(): void {
+		this._authService.isAuthenticated$.subscribe((isAuthenticated) => {
+			if (isAuthenticated) {
+				this.cdr.detectChanges();
+			} else {
+				this._authService.checkIfAuthenticated();
+			}
+		});
 		this.userRoles = this._authService.userData()?.Roles ?? [];
 		// throw new Error('Method not implemented.');
 	}

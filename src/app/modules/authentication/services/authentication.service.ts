@@ -8,6 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { IJwtCustomSquema } from '../models/ijwt-custom-squema.model';
 import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -17,23 +18,8 @@ export class AuthenticationService extends GenericService {
 		return 'authentication';
 	}
 
-	isAuthenticated$ = computed<boolean>(() => {
-		const token = localStorage.getItem('token');
-		if (token) {
-			const decodedToken = jwtDecode(token);
-			const expirationDate = decodedToken.exp
-				? new Date(decodedToken.exp * 1000)
-				: null;
-			if (!expirationDate || expirationDate < new Date()) {
-				localStorage.removeItem('token');
-				console.log('Token expired');
-				return false;
-			}
-			return true;
-		}
-		console.log('Token not found');
-		return false;
-	});
+	private isAuthenticatedSource = new BehaviorSubject<boolean>(false);
+	isAuthenticated$ = this.isAuthenticatedSource.asObservable();
 
 	userData = computed<IJwtCustomSquema | null>(() => {
 		const token = localStorage.getItem('token');
@@ -43,6 +29,31 @@ export class AuthenticationService extends GenericService {
 		}
 		return null;
 	});
+
+	checkIfAuthenticated() {
+		const token = localStorage.getItem('token');
+		if (token) {
+			console.log('Token found');
+			const decodedToken = jwtDecode(token);
+			const expirationDate = decodedToken.exp
+				? new Date(decodedToken.exp * 1000)
+				: null;
+			if (!expirationDate || expirationDate < new Date()) {
+				// Token is expired
+				console.log('Token expired');
+				// Optionally, you can remove the token from localStorage or perform any other action
+				localStorage.removeItem('token');
+				console.log('Token removed from localStorage');
+				this.isAuthenticatedSource.next(false);
+			}
+			// Token is valid
+			console.log('Token is valid');
+			this.isAuthenticatedSource.next(true);
+		} else {
+			console.log('Token not found');
+			this.isAuthenticatedSource.next(false);
+		}
+	}
 
 	constructor(protected override $http: HttpClient, private $router: Router) {
 		super($http);
@@ -80,6 +91,7 @@ export class AuthenticationService extends GenericService {
 
 	logout() {
 		localStorage.removeItem('token');
+		this.checkIfAuthenticated();
 		this.$router.navigateByUrl('/authentication');
 	}
 
