@@ -18,6 +18,7 @@ import { ModuleIndexPageComponent } from '../../../../Shared/pages/module-index/
 import { OrdenesEmpresaService } from '../../services/ordenes-empresa.service';
 import { PagePaginatorComponent } from '../../../../Shared/components/page-paginator/page-paginator.component';
 import { OrdenEmpresaFormComponent } from '../../components/orden-empresa-form/orden-empresa-form.component';
+import { CrudActionsComponent } from '../../../../Shared/components/crud-actions/crud-actions.component';
 
 @Component({
 	selector: 'app-orders',
@@ -31,6 +32,7 @@ import { OrdenEmpresaFormComponent } from '../../components/orden-empresa-form/o
 		CommonModule,
 		PageIntroComponent,
 		PagePaginatorComponent,
+		CrudActionsComponent,
 	],
 	templateUrl: './orders.page.html',
 	styleUrl: './orders.page.scss',
@@ -80,5 +82,9 @@ export class OrdersComponent extends BaseListResource<any> implements OnInit {
 			.subscribe((data) => {
 				this.data$.set(data);
 			});
+	}
+
+	onDetails(event: number): void {
+		throw new Error('Method not implemented.');
 	}
 }

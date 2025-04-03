@@ -1,4 +1,4 @@
 export interface ICreateDocumentoDto {
-	tipoDocumento: number;
+	tipoDocumentoId: number;
 	archivo: string;
 }

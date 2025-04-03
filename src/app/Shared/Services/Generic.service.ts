@@ -60,7 +60,7 @@ export abstract class GenericService {
 	getFilter<T>(filter: string) {
 		return this.$http
 			.get<IApiResponse<T[]>>(`${this.endPoint}/filtrar`, {
-				params: new HttpParams().set('nombre', filter),
+				params: new HttpParams().set('nombre', filter ?? ''),
 			})
 			.pipe(map((response: IApiResponse<T[]>) => response.data));
 	}
@@ -68,6 +68,12 @@ export abstract class GenericService {
 	getAll<T>() {
 		return this.$http
 			.get<IApiResponse<T[]>>(`${this.endPoint}/filtrar`)
+			.pipe(map((response: IApiResponse<T[]>) => response.data));
+	}
+
+	getAllResource<T>() {
+		return this.$http
+			.get<IApiResponse<T[]>>(`${this.endPoint}/all`)
 			.pipe(map((response: IApiResponse<T[]>) => response.data));
 	}
 

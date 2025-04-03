@@ -49,55 +49,76 @@
 						<div class="form-array-row" [formGroupName]="i">
 							<mat-form-field appearance="fill">
 								<mat-label>Categoria</mat-label>
-								<mat-select formControlName="categoria">
-									<mat-option [value]="1"
-										>categoria</mat-option
-									>
+								<mat-select
+									formControlName="categoriaId"
+									(selectionChange)="onCategoriaSelected()"
+								>
+									@for (item of categorias$(); track $index) {
+									<mat-option [value]="item.id">
+										{{ item.nombre }}
+									</mat-option>
+									}
 								</mat-select>
 							</mat-form-field>
 
 							<mat-form-field appearance="fill">
 								<mat-label>Tipo</mat-label>
-								<mat-select formControlName="tipo">
-									<mat-option [value]="1"
-										>categoria</mat-option
-									>
+								<mat-select
+									formControlName="tipoId"
+									(selectionChange)="onTipoSelected()"
+								>
+									@for (item of tipos$(); track $index) {
+									<mat-option [value]="item.id">
+										{{ item.nombre }}
+									</mat-option>
+									}
 								</mat-select>
 							</mat-form-field>
 
 							<mat-form-field appearance="fill">
 								<mat-label>SubTipo</mat-label>
-								<mat-select formControlName="subTipo">
-									<mat-option [value]="1"
-										>categoria</mat-option
-									>
+								<mat-select formControlName="subTipoId">
+									@for (item of subTipos$(); track $index) {
+									<mat-option [value]="item.id">
+										{{ item.nombre }}
+									</mat-option>
+									}
 								</mat-select>
 							</mat-form-field>
 
 							<mat-form-field appearance="fill">
 								<mat-label>Marca</mat-label>
-								<mat-select formControlName="marca">
-									<mat-option [value]="1"
-										>categoria</mat-option
-									>
+								<mat-select
+									formControlName="marcaId"
+									(selectionChange)="onMarcaSelected()"
+								>
+									@for (item of marcas$(); track $index) {
+									<mat-option [value]="item.id">
+										{{ item.nombre }}
+									</mat-option>
+									}
 								</mat-select>
 							</mat-form-field>
 
 							<mat-form-field appearance="fill">
 								<mat-label>Modelo</mat-label>
-								<mat-select formControlName="modelo">
-									<mat-option [value]="1"
-										>categoria</mat-option
-									>
+								<mat-select formControlName="modeloId">
+									@for (item of modelos$(); track $index) {
+									<mat-option [value]="item.id">
+										{{ item.nombre }}
+									</mat-option>
+									}
 								</mat-select>
 							</mat-form-field>
 
 							<mat-form-field appearance="fill">
 								<mat-label>Calibre</mat-label>
-								<mat-select formControlName="calibre">
-									<mat-option [value]="1"
-										>categoria</mat-option
-									>
+								<mat-select formControlName="calibreId">
+									@for (item of calibres$(); track $index) {
+									<mat-option [value]="item.id">
+										{{ item.nombre }}
+									</mat-option>
+									}
 								</mat-select>
 							</mat-form-field>
 
@@ -165,10 +186,13 @@
 						<div class="form-array-row" [formGroupName]="i">
 							<mat-form-field appearance="fill">
 								<mat-label>Tipo Documento</mat-label>
-								<mat-select formControlName="tipoDocumento">
-									<mat-option [value]="0"
-										>seleccionar tipo documento</mat-option
-									>
+								<mat-select formControlName="tipoDocumentoId">
+									@for (item of tipoDocumentos$(); track
+									$index) {
+									<mat-option [value]="item.id">
+										{{ item.nombre }}
+									</mat-option>
+									}
 								</mat-select>
 							</mat-form-field>
 

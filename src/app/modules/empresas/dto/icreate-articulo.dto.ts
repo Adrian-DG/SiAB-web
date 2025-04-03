@@ -1,10 +1,10 @@
 export interface ICreateArticuloDto {
-	categoria: number;
-	tipo: number;
-	subTipo: number;
-	marca: number;
-	modelo: number;
-	calibre: number;
+	categoriaId: number;
+	tipoId: number;
+	subTipoId: number;
+	marcaId: number;
+	modeloId: number;
+	calibreId: number;
 	serie: number;
 	cantidad: number;
 }

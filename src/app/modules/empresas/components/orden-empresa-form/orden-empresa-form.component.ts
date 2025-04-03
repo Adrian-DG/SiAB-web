@@ -1,10 +1,12 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import {
+	AfterViewInit,
 	ChangeDetectionStrategy,
 	Component,
 	inject,
 	LOCALE_ID,
 	OnInit,
+	signal,
 } from '@angular/core';
 import {
 	FormArray,
@@ -32,6 +34,14 @@ import { OrdenesEmpresaService } from '../../services/ordenes-empresa.service';
 import { ICreateOrdenEmpresaDto } from '../../dto/icreate-orden-empresa.dto';
 import { ICreateArticuloDto } from '../../dto/icreate-articulo.dto';
 import { ICreateDocumentoDto } from '../../dto/icreate-documento.dto';
+import { CategoriaService } from '../../../mantenimientos/services/categoria.service';
+import { TipoService } from '../../../mantenimientos/services/tipo.service';
+import { SubtipoService } from '../../../mantenimientos/services/subtipo.service';
+import { MarcaService } from '../../../mantenimientos/services/marca.service';
+import { ModelosService } from '../../../mantenimientos/services/modelos.service';
+import { CalibreService } from '../../../mantenimientos/services/calibre.service';
+import { INamedEntity } from '../../../../Shared/Models/inamed-entity.model';
+import { TiposDocumentosService } from '../../../mantenimientos/services/tipos-documentos.service';
 
 @Component({
 	selector: 'app-orden-empresa-form',
@@ -58,9 +68,24 @@ import { ICreateDocumentoDto } from '../../dto/icreate-documento.dto';
 		OrdenesEmpresaService,
 		DatePipe,
 		{ provide: LOCALE_ID, useValue: 'es-ES' },
+		CategoriaService,
+		TipoService,
+		SubtipoService,
+		MarcaService,
+		ModelosService,
+		CalibreService,
+		TiposDocumentosService,
 	],
 })
-export class OrdenEmpresaFormComponent implements OnInit {
+export class OrdenEmpresaFormComponent implements OnInit, AfterViewInit {
+	categorias$ = signal<INamedEntity[]>([]);
+	tipos$ = signal<INamedEntity[]>([]);
+	subTipos$ = signal<INamedEntity[]>([]);
+	marcas$ = signal<INamedEntity[]>([]);
+	modelos$ = signal<INamedEntity[]>([]);
+	calibres$ = signal<INamedEntity[]>([]);
+	tipoDocumentos$ = signal<INamedEntity[]>([]);
+
 	datosForm: FormGroup = new FormGroup({
 		fechaEfectividad: new FormControl(''),
 		comentario: new FormControl(''),
@@ -76,16 +101,64 @@ export class OrdenEmpresaFormComponent implements OnInit {
 
 	datePipe = inject(DatePipe);
 
-	data = inject(MAT_DIALOG_DATA);
+	data: { id: number } = inject(MAT_DIALOG_DATA);
 
 	constructor(
 		private _dialogRef: MatDialogRef<OrdenEmpresaFormComponent>,
-		private _ordenEmpresaService: OrdenesEmpresaService
+		private _ordenEmpresaService: OrdenesEmpresaService,
+		private _categoriaService: CategoriaService,
+		private _tipoService: TipoService,
+		private _subtipoService: SubtipoService,
+		private _marcaService: MarcaService,
+		private _modeloService: ModelosService,
+		private _calibreService: CalibreService,
+		private _tiposDocumentosService: TiposDocumentosService
 	) {}
 
 	ngOnInit(): void {
 		this.addArticulo();
 		this.addDocumento();
+	}
+
+	ngAfterViewInit(): void {
+		this._categoriaService
+			.getAll<INamedEntity>()
+			.subscribe((res) => this.categorias$.set(res));
+
+		this._marcaService
+			.getAllResource<INamedEntity>()
+			.subscribe((res) => this.marcas$.set(res));
+
+		this._calibreService
+			.getAllResource<INamedEntity>()
+			.subscribe((res) => this.calibres$.set(res));
+
+		this._tiposDocumentosService
+			.getAllResource<INamedEntity>()
+			.subscribe((res) => this.tipoDocumentos$.set(res));
+	}
+
+	onCategoriaSelected() {
+		const categoriaId = this.articulos.at(0).get('categoriaId')?.value;
+		this._tipoService
+			.getTiposByCategoriaId(categoriaId)
+			.subscribe((res) => {
+				this.tipos$.set(res);
+			});
+	}
+
+	onTipoSelected() {
+		const tipoId = this.articulos.at(0).get('tipoId')?.value;
+		this._subtipoService.getSubTiposByTipoId(tipoId).subscribe((res) => {
+			this.subTipos$.set(res);
+		});
+	}
+
+	onMarcaSelected() {
+		const marcaId = this.articulos.at(0).get('marcaId')?.value;
+		this._modeloService.getModelosByMarcaId(marcaId).subscribe((res) => {
+			this.modelos$.set(res);
+		});
 	}
 
 	get articulos(): FormArray {
@@ -102,12 +175,12 @@ export class OrdenEmpresaFormComponent implements OnInit {
 
 	addArticulo() {
 		const articulo = new FormGroup({
-			categoria: new FormControl(''),
-			tipo: new FormControl(''),
-			subTipo: new FormControl(''),
-			marca: new FormControl(''),
-			modelo: new FormControl(''),
-			calibre: new FormControl(''),
+			categoriaId: new FormControl(''),
+			tipoId: new FormControl(''),
+			subTipoId: new FormControl(''),
+			marcaId: new FormControl(''),
+			modeloId: new FormControl(''),
+			calibreId: new FormControl(''),
 			serie: new FormControl(''),
 			cantidad: new FormControl(''),
 		});
@@ -121,7 +194,7 @@ export class OrdenEmpresaFormComponent implements OnInit {
 
 	addDocumento() {
 		const documento = new FormGroup({
-			tipoDocumento: new FormControl(0),
+			tipoDocumentoId: new FormControl(0),
 			archivo: new FormControl(''),
 		});
 
@@ -142,6 +215,10 @@ export class OrdenEmpresaFormComponent implements OnInit {
 		this._dialogRef.close();
 	}
 
+	private formatDate(date: Date) {
+		return this.datePipe.transform(date ?? new Date(), 'yyyy-MM-dd');
+	}
+
 	onSave() {
 		if (this.datosForm.valid && this.articulosForm.valid) {
 			const datos = this.datosForm.value as {
@@ -149,20 +226,28 @@ export class OrdenEmpresaFormComponent implements OnInit {
 				comentario: string;
 			};
 
-			const formattedDate = this.datePipe.transform(
-				datos.fechaEfectividad ?? new Date(),
-				'yyyy-MM-dd'
-			);
-
 			const articulos = this.articulosForm.value
 				.articulos as ICreateArticuloDto[];
 
 			const documentos = this.documentosForm.value
 				.documentos as ICreateDocumentoDto[];
 
-			console.log('Datos:', datos);
-			console.log('Articulos:', articulos);
-			console.log('Documentos:', documentos);
+			// console.log('Datos:', datos);
+			// console.log('Articulos:', articulos);
+			// console.log('Documentos:', documentos);
+
+			const ordenEmpresa: ICreateOrdenEmpresaDto = {
+				fechaEfectividad: this.formatDate(datos.fechaEfectividad) ?? '',
+				comentario: datos.comentario,
+				articulos: articulos,
+				documentos: documentos,
+			};
+
+			this._ordenEmpresaService
+				.createOrdenEmpresa(this.data.id, ordenEmpresa)
+				.subscribe(() => {
+					this._dialogRef.close(true);
+				});
 		} else {
 			console.error('Formulario inválido');
 		}
