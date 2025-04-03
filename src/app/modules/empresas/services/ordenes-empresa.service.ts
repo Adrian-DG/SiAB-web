@@ -5,6 +5,7 @@ import { IPaginationFilter } from '../../../Shared/dtos/ipagination-filter.dto';
 import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
 import { map } from 'rxjs';
 import { IPagedData } from '../../../Shared/Models/ipaged-data.model';
+import { ICreateOrdenEmpresaDto } from '../dto/icreate-orden-empresa.dto';
 
 @Injectable({
 	providedIn: 'root',
@@ -25,5 +26,12 @@ export class OrdenesEmpresaService extends GenericService {
 				params: params,
 			})
 			.pipe(map((response) => response.data));
+	}
+
+	createOrdenEmpresa(id: number, model: ICreateOrdenEmpresaDto) {
+		return this.$http.post<IApiResponse<any>>(
+			`${this.endPoint}/${id}`,
+			model
+		);
 	}
 }

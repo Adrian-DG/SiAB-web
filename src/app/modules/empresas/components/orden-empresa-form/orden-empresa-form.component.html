@@ -6,7 +6,11 @@
 			<form [formGroup]="datosForm">
 				<mat-form-field>
 					<mat-label>Fecha Efectividad</mat-label>
-					<input matInput [matDatepicker]="picker" />
+					<input
+						matInput
+						[matDatepicker]="picker"
+						formControlName="fechaEfectividad"
+					/>
 					<mat-hint>dd/mm/yyyy</mat-hint>
 					<mat-datepicker-toggle
 						matIconSuffix
@@ -25,9 +29,12 @@
 			</form>
 			<div class="actions">
 				<!-- <button mat-button matStepperPrevious>Back</button> -->
-				<button mat-flat-button matStepperNext>Siguiente</button>
+				<button mat-flat-button matStepperNext class="primary">
+					Siguiente
+				</button>
 			</div>
 		</mat-step>
+
 		<mat-step [stepControl]="articulosForm">
 			<ng-template matStepLabel>Articulos</ng-template>
 
@@ -43,42 +50,54 @@
 							<mat-form-field appearance="fill">
 								<mat-label>Categoria</mat-label>
 								<mat-select formControlName="categoria">
-									<mat-option>categoria</mat-option>
+									<mat-option [value]="1"
+										>categoria</mat-option
+									>
 								</mat-select>
 							</mat-form-field>
 
 							<mat-form-field appearance="fill">
 								<mat-label>Tipo</mat-label>
-								<mat-select formControlName="categoria">
-									<mat-option>Tipo</mat-option>
+								<mat-select formControlName="tipo">
+									<mat-option [value]="1"
+										>categoria</mat-option
+									>
 								</mat-select>
 							</mat-form-field>
 
 							<mat-form-field appearance="fill">
 								<mat-label>SubTipo</mat-label>
-								<mat-select formControlName="categoria">
-									<mat-option>SubTipo</mat-option>
+								<mat-select formControlName="subTipo">
+									<mat-option [value]="1"
+										>categoria</mat-option
+									>
 								</mat-select>
 							</mat-form-field>
 
 							<mat-form-field appearance="fill">
 								<mat-label>Marca</mat-label>
-								<mat-select formControlName="categoria">
-									<mat-option>Marca</mat-option>
+								<mat-select formControlName="marca">
+									<mat-option [value]="1"
+										>categoria</mat-option
+									>
 								</mat-select>
 							</mat-form-field>
 
 							<mat-form-field appearance="fill">
 								<mat-label>Modelo</mat-label>
-								<mat-select formControlName="categoria">
-									<mat-option>Modelo</mat-option>
+								<mat-select formControlName="modelo">
+									<mat-option [value]="1"
+										>categoria</mat-option
+									>
 								</mat-select>
 							</mat-form-field>
 
 							<mat-form-field appearance="fill">
 								<mat-label>Calibre</mat-label>
-								<mat-select formControlName="categoria">
-									<mat-option>Calibre</mat-option>
+								<mat-select formControlName="calibre">
+									<mat-option [value]="1"
+										>categoria</mat-option
+									>
 								</mat-select>
 							</mat-form-field>
 
@@ -125,15 +144,14 @@
 			</form>
 			<div class="actions">
 				<button mat-stroked-button matStepperPrevious>Atras</button>
-				<button mat-flat-button matStepperNext>Siguiente</button>
-			</div>
-		</mat-step>
-		<mat-step [stepControl]="documentosForm">
-			<ng-template matStepLabel>Documentos</ng-template>
-			<form [formGroup]="documentosForm"></form>
-			<div class="actions">
-				<button mat-stroked-button matStepperPrevious>Atras</button>
-				<button mat-flat-button>Guardar</button>
+				<button
+					mat-flat-button
+					class="primary"
+					(click)="onSave()"
+					[disabled]="!isFormValid"
+				>
+					Guardar
+				</button>
 			</div>
 		</mat-step>
 	</mat-stepper>

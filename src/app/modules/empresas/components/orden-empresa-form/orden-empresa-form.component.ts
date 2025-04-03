@@ -1,8 +1,9 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
 	inject,
+	LOCALE_ID,
 	OnInit,
 } from '@angular/core';
 import {
@@ -10,6 +11,7 @@ import {
 	FormControl,
 	FormGroup,
 	ReactiveFormsModule,
+	Validators,
 } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +27,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
+import { FileInputComponent } from '../../../../Shared/components/file-input/file-input.component';
+import { OrdenesEmpresaService } from '../../services/ordenes-empresa.service';
+import { ICreateOrdenEmpresaDto } from '../../dto/icreate-orden-empresa.dto';
+import { ICreateArticuloDto } from '../../dto/icreate-articulo.dto';
 
 @Component({
 	selector: 'app-orden-empresa-form',
@@ -46,21 +52,30 @@ import { MatStepperModule } from '@angular/material/stepper';
 	templateUrl: './orden-empresa-form.component.html',
 	styleUrl: './orden-empresa-form.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	providers: [
+		OrdenesEmpresaService,
+		DatePipe,
+		{ provide: LOCALE_ID, useValue: 'es-ES' },
+	],
 })
 export class OrdenEmpresaFormComponent implements OnInit {
 	datosForm: FormGroup = new FormGroup({
-		fecha: new FormControl(''),
+		fechaEfectividad: new FormControl('', [Validators.required]),
 		comentario: new FormControl(''),
 	});
 
 	articulosForm: FormGroup = new FormGroup({
 		articulos: new FormArray([]),
 	});
-	documentosForm: FormGroup = new FormGroup({});
+
+	datePipe = inject(DatePipe);
 
 	data = inject(MAT_DIALOG_DATA);
 
-	constructor(private _dialogRef: MatDialogRef<OrdenEmpresaFormComponent>) {}
+	constructor(
+		private _dialogRef: MatDialogRef<OrdenEmpresaFormComponent>,
+		private _ordenEmpresaService: OrdenesEmpresaService
+	) {}
 
 	ngOnInit(): void {
 		this.addArticulo();
@@ -70,16 +85,20 @@ export class OrdenEmpresaFormComponent implements OnInit {
 		return this.articulosForm.get('articulos') as FormArray;
 	}
 
+	get isFormValid(): boolean {
+		return this.datosForm.valid && this.articulosForm.valid;
+	}
+
 	addArticulo() {
 		const articulo = new FormGroup({
-			categoria: new FormControl(''),
-			tipo: new FormControl(''),
-			subTipo: new FormControl(''),
-			marca: new FormControl(''),
-			modelo: new FormControl(''),
-			calibre: new FormControl(''),
-			serie: new FormControl(''),
-			cantidad: new FormControl(''),
+			categoria: new FormControl('', [Validators.required]),
+			tipo: new FormControl('', [Validators.required]),
+			subTipo: new FormControl('', [Validators.required]),
+			marca: new FormControl('', [Validators.required]),
+			modelo: new FormControl('', [Validators.required]),
+			calibre: new FormControl('', [Validators.required]),
+			serie: new FormControl('', [Validators.required]),
+			cantidad: new FormControl('', [Validators.required]),
 		});
 
 		this.articulos.push(articulo);
@@ -94,6 +113,32 @@ export class OrdenEmpresaFormComponent implements OnInit {
 	}
 
 	onSave() {
-		this._dialogRef.close();
+		if (this.datosForm.valid && this.articulosForm.valid) {
+			const datos = this.datosForm.value as {
+				fechaEfectividad: Date;
+				comentario: string;
+			};
+
+			const formattedDate = this.datePipe.transform(
+				datos.fechaEfectividad ?? new Date(),
+				'yyyy-MM-dd'
+			);
+
+			const articulos = this.articulosForm.value
+				.articulos as ICreateArticuloDto[];
+
+			console.log('Datos:', datos);
+			console.log('Articulos:', articulos);
+
+			// this._ordenEmpresaService
+			// 	.createOrdenEmpresa(this.data.id, formData)
+			// 	.subscribe((response) => {
+			// 		response.status
+			// 			? this._dialogRef.close()
+			// 			: console.error('Error al crear la orden');
+			// 	});
+		} else {
+			console.error('Formulario inválido');
+		}
 	}
 }
