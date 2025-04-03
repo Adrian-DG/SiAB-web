@@ -31,6 +31,7 @@ import { FileInputComponent } from '../../../../Shared/components/file-input/fil
 import { OrdenesEmpresaService } from '../../services/ordenes-empresa.service';
 import { ICreateOrdenEmpresaDto } from '../../dto/icreate-orden-empresa.dto';
 import { ICreateArticuloDto } from '../../dto/icreate-articulo.dto';
+import { ICreateDocumentoDto } from '../../dto/icreate-documento.dto';
 
 @Component({
 	selector: 'app-orden-empresa-form',
@@ -48,6 +49,7 @@ import { ICreateArticuloDto } from '../../dto/icreate-articulo.dto';
 		MatAutocompleteModule,
 		MatDividerModule,
 		ReactiveFormsModule,
+		FileInputComponent,
 	],
 	templateUrl: './orden-empresa-form.component.html',
 	styleUrl: './orden-empresa-form.component.scss',
@@ -60,12 +62,16 @@ import { ICreateArticuloDto } from '../../dto/icreate-articulo.dto';
 })
 export class OrdenEmpresaFormComponent implements OnInit {
 	datosForm: FormGroup = new FormGroup({
-		fechaEfectividad: new FormControl('', [Validators.required]),
+		fechaEfectividad: new FormControl(''),
 		comentario: new FormControl(''),
 	});
 
 	articulosForm: FormGroup = new FormGroup({
 		articulos: new FormArray([]),
+	});
+
+	documentosForm: FormGroup = new FormGroup({
+		documentos: new FormArray([]),
 	});
 
 	datePipe = inject(DatePipe);
@@ -79,10 +85,15 @@ export class OrdenEmpresaFormComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.addArticulo();
+		this.addDocumento();
 	}
 
 	get articulos(): FormArray {
 		return this.articulosForm.get('articulos') as FormArray;
+	}
+
+	get documentos(): FormArray {
+		return this.documentosForm.get('documentos') as FormArray;
 	}
 
 	get isFormValid(): boolean {
@@ -91,14 +102,14 @@ export class OrdenEmpresaFormComponent implements OnInit {
 
 	addArticulo() {
 		const articulo = new FormGroup({
-			categoria: new FormControl('', [Validators.required]),
-			tipo: new FormControl('', [Validators.required]),
-			subTipo: new FormControl('', [Validators.required]),
-			marca: new FormControl('', [Validators.required]),
-			modelo: new FormControl('', [Validators.required]),
-			calibre: new FormControl('', [Validators.required]),
-			serie: new FormControl('', [Validators.required]),
-			cantidad: new FormControl('', [Validators.required]),
+			categoria: new FormControl(''),
+			tipo: new FormControl(''),
+			subTipo: new FormControl(''),
+			marca: new FormControl(''),
+			modelo: new FormControl(''),
+			calibre: new FormControl(''),
+			serie: new FormControl(''),
+			cantidad: new FormControl(''),
 		});
 
 		this.articulos.push(articulo);
@@ -106,6 +117,25 @@ export class OrdenEmpresaFormComponent implements OnInit {
 
 	removeArticulo(index: number) {
 		this.articulos.removeAt(index);
+	}
+
+	addDocumento() {
+		const documento = new FormGroup({
+			tipoDocumento: new FormControl(0),
+			archivo: new FormControl(''),
+		});
+
+		this.documentos.push(documento);
+	}
+
+	removeDocumento(index: number) {
+		this.documentos.removeAt(index);
+	}
+
+	onFileSelected(event: string, index: number) {
+		this.documentos.at(index).patchValue({
+			archivo: event,
+		});
 	}
 
 	onClose() {
@@ -127,16 +157,12 @@ export class OrdenEmpresaFormComponent implements OnInit {
 			const articulos = this.articulosForm.value
 				.articulos as ICreateArticuloDto[];
 
+			const documentos = this.documentosForm.value
+				.documentos as ICreateDocumentoDto[];
+
 			console.log('Datos:', datos);
 			console.log('Articulos:', articulos);
-
-			// this._ordenEmpresaService
-			// 	.createOrdenEmpresa(this.data.id, formData)
-			// 	.subscribe((response) => {
-			// 		response.status
-			// 			? this._dialogRef.close()
-			// 			: console.error('Error al crear la orden');
-			// 	});
+			console.log('Documentos:', documentos);
 		} else {
 			console.error('Formulario inválido');
 		}

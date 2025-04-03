@@ -142,6 +142,65 @@
 					</button>
 				</div>
 			</form>
+
+			<div class="actions">
+				<button mat-button matStepperPrevious>Atras</button>
+				<button mat-flat-button matStepperNext class="primary">
+					Siguiente
+				</button>
+			</div>
+		</mat-step>
+
+		<mat-step [stepControl]="documentosForm">
+			<ng-template matStepLabel>Documentos</ng-template>
+
+			<form [formGroup]="documentosForm">
+				<ng-container formArrayName="documentos">
+					<ng-container
+						*ngFor="
+							let documento of documentos.controls;
+							let i = index
+						"
+					>
+						<div class="form-array-row" [formGroupName]="i">
+							<mat-form-field appearance="fill">
+								<mat-label>Tipo Documento</mat-label>
+								<mat-select formControlName="tipoDocumento">
+									<mat-option [value]="0"
+										>seleccionar tipo documento</mat-option
+									>
+								</mat-select>
+							</mat-form-field>
+
+							<app-file-input
+								[title]="'Adjuntar Documento'"
+								[fileType]="'application/pdf'"
+								(on-file-upluoded)="onFileSelected($event, i)"
+							></app-file-input>
+
+							<button
+								mat-icon-button
+								(click)="removeDocumento(i)"
+								style="margin: auto"
+							>
+								<mat-icon>delete</mat-icon>
+							</button>
+						</div>
+					</ng-container>
+				</ng-container>
+
+				<mat-divider></mat-divider>
+
+				<div class="add-btn-row">
+					<button
+						class="add-button"
+						mat-icon-button
+						(click)="addDocumento()"
+					>
+						<mat-icon>add</mat-icon>
+					</button>
+				</div>
+			</form>
 			<div class="actions">
 				<button mat-stroked-button matStepperPrevious>Atras</button>
 				<button
