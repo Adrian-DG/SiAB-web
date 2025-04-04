@@ -1,3 +1,32 @@
 :host {
-  display: block;
+	display: block;
+}
+
+.row-start {
+	justify-content: flex-start;
+}
+
+.row-between {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+}
+
+.row {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 1rem;
+	.col {
+		flex-grow: 1;
+	}
+}
+
+.primary-color {
+	background-color: rgb(64, 64, 167) !important;
 }

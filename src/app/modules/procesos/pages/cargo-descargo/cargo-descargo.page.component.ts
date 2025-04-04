@@ -472,12 +472,4 @@ export class CargoDescargoPageComponent implements OnInit, AfterViewInit {
 			},
 		});
 	}
-
-	guardarReporte53(adjunto: IAdjuntarFormularioDto) {
-		this._transaccionService.adjuntarFormulario53(adjunto).subscribe(() => {
-			this._secuenciasService
-				.create({})
-				.subscribe(() => console.log('Secuencia creada'));
-		});
-	}
 }

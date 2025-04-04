@@ -9,6 +9,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 import { IUpdateEntityDto } from '../../modules/mantenimientos/dtos/iupdate-entity.dto';
 import { IPagedData } from '../Models/ipaged-data.model';
+import { BaseDialogDimensions } from './base-dialog-dimmensions.metadata';
 
 export abstract class BaseListResource<T> {
 	abstract title: string;
@@ -27,13 +28,7 @@ export abstract class BaseListResource<T> {
 		rows: [],
 	});
 
-	protected dialogConfig: MatDialogConfig = {
-		hasBackdrop: true,
-		minHeight: 200,
-		minWidth: 500,
-		maxWidth: 1500,
-		role: 'alertdialog',
-	};
+	protected dialogConfig: MatDialogConfig = { ...BaseDialogDimensions };
 
 	protected confirmDialogRef!: MatDialogRef<ConfirmDialogComponent>;
 
@@ -41,7 +36,7 @@ export abstract class BaseListResource<T> {
 
 	protected showConfirmDialog(info: string): void {
 		this.confirmDialogRef = this._dialog.open(ConfirmDialogComponent, {
-			...this.dialogConfig,
+			...BaseDialogDimensions,
 			data: { action: info },
 		});
 	}

@@ -8,6 +8,7 @@ import { ITransaccionPaginationFilterDto } from '../dto/itransaccion-pagination-
 import { IPagedData } from '../../../Shared/Models/ipaged-data.model';
 import { map } from 'rxjs';
 import { GenericService } from '../../../Shared/Services/Generic.service';
+import { TransactionDetailModel } from '../../procesos/models/transaction-detail.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -71,9 +72,9 @@ export class TransaccionService extends GenericService {
 		);
 	}
 
-	adjuntarFormulario53(adjunto: IAdjuntarFormularioDto) {
+	adjuntarDocumento(adjunto: IAdjuntarFormularioDto) {
 		return this.$httpClient.post(
-			`${this.endPoint}/adjuntar-formulario-53`,
+			`${this.endPoint}/adjuntar-documento`,
 			adjunto
 		);
 	}
@@ -102,6 +103,8 @@ export class TransaccionService extends GenericService {
 	}
 
 	getTransaccionById(id: number) {
-		return this.$httpClient.get<any>(`${this.endPoint}/${id}`);
+		return this.$httpClient.get<TransactionDetailModel | null>(
+			`${this.endPoint}/${id}`
+		);
 	}
 }

@@ -29,6 +29,10 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PermissionValidatorService } from '../../../../Shared/Services/permission-validator.service';
 import { AppPermissions } from '../../../../app.permissions';
+import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-dialog/confirm-dialog.component';
+import { AdjuntarDocumentoDialogComponent } from '../../components/adjuntar-documento-dialog/adjuntar-documento-dialog.component';
+import { BaseDialogDimensions } from '../../../../Shared/helpers/base-dialog-dimmensions.metadata';
+import { IAdjuntarFormularioDto } from '../../../carga-registros/dto/iadjuntar-formulario.dto';
 
 @Component({
 	selector: 'app-index.page',
@@ -123,7 +127,32 @@ export class IndexPageComponent
 	}
 
 	override onDelete(event: number): void {
-		throw new Error('Method not implemented.');
+		this._dialog
+			.open(ConfirmDialogComponent)
+			.afterClosed()
+			.subscribe((result: boolean) => {
+				if (result) {
+					this._transaccionService
+						.delete(event)
+						.subscribe(() => this.onLoadData());
+				}
+			});
+	}
+
+	onUploadFile(event: number): void {
+		this._dialog
+			.open(AdjuntarDocumentoDialogComponent, {
+				data: {
+					id: event,
+				},
+				...BaseDialogDimensions,
+			})
+			.afterClosed()
+			.subscribe((result: IAdjuntarFormularioDto) => {
+				this._transaccionService
+					.adjuntarDocumento(result)
+					.subscribe(() => console.log('Formulario 53 adjuntado'));
+			});
 	}
 
 	override onCreate(event: any): void {
