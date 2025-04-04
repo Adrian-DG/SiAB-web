@@ -2,6 +2,7 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	CUSTOM_ELEMENTS_SCHEMA,
+	inject,
 	OnInit,
 	signal,
 	WritableSignal,
@@ -25,7 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { IPaginationFilter } from '../../../../Shared/dtos/ipagination-filter.dto';
 import { ITransaccionPaginationFilterDto } from '../../../carga-registros/dto/itransaccion-pagination-filter.dto';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PermissionValidatorService } from '../../../../Shared/Services/permission-validator.service';
 import { AppPermissions } from '../../../../app.permissions';
@@ -55,7 +56,7 @@ import { IAdjuntarFormularioDto } from '../../../carga-registros/dto/iadjuntar-f
 	templateUrl: './index.page.component.html',
 	styleUrl: './index.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [TransaccionService],
+	providers: [TransaccionService, DatePipe],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class IndexPageComponent
@@ -71,6 +72,8 @@ export class IndexPageComponent
 		'documento',
 		'acciones',
 	];
+
+	datePipe = inject(DatePipe);
 
 	formulario53Ctrl = new FormControl('');
 	origenCtrl = new FormControl('');
@@ -160,11 +163,36 @@ export class IndexPageComponent
 	}
 
 	override onLoadData(): void {
-		this._transaccionService
-			.getTransacciones(this.transactionFilter$())
-			.subscribe((response) => {
-				this.data$.set(response);
-			});
+		if (
+			this.transactionFilter$().fechaDesde !== '' &&
+			this.transactionFilter$().fechaHasta !== ''
+		) {
+			const formattedInitialDate = this.datePipe.transform(
+				this.transactionFilter$().fechaDesde ?? new Date(),
+				'yyyy-MM-dd'
+			);
+
+			const formattedFinalDate = this.datePipe.transform(
+				this.transactionFilter$().fechaHasta ?? new Date(),
+				'yyyy-MM-dd'
+			);
+
+			this._transaccionService
+				.getTransacciones({
+					...this.transactionFilter$(),
+					fechaDesde: formattedInitialDate ?? '',
+					fechaHasta: formattedFinalDate ?? '',
+				})
+				.subscribe((response) => {
+					this.data$.set(response);
+				});
+		} else {
+			this._transaccionService
+				.getTransacciones(this.transactionFilter$())
+				.subscribe((response) => {
+					this.data$.set(response);
+				});
+		}
 	}
 
 	onDetails(event: number): void {

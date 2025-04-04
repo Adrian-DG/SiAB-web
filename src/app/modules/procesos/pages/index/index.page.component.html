@@ -100,7 +100,16 @@
 			<ng-container matColumnDef="documento">
 				<th mat-header-cell *matHeaderCellDef>Datos Documento</th>
 				<td mat-cell *matCellDef="let element">
-					<span><b>Form. #53: </b>{{ element.formulario }}</span>
+					<span
+						><b>Form. #53: </b>{{ element.formulario }}
+						@if(!element.tiene53){
+						<mat-icon
+							style="vertical-align: middle"
+							class="attention-color"
+							>info</mat-icon
+						>
+						}
+					</span>
 					<br />
 					<span><b>Usuario: </b>{{ element.usuario }}</span>
 					<br />
