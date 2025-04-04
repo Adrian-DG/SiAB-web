@@ -1,19 +1,21 @@
 import { Route } from '@angular/router';
+import { RolesGuard } from '../../Guards/roles.guard';
+import { AppPermissions } from '../../app.permissions';
 
 export const mantenimientosRoutes: Route[] = [
-	// {
-	// 	path: 'estado-armas',
-	// 	loadComponent: () =>
-	// 		import('./pages/estado-armas/estado-armas.page.component').then(
-	// 			(c) => c.EstadoArmasPageComponent
-	// 		),
-	// },
 	{
 		path: 'instituciones',
 		loadComponent: () =>
 			import('./pages/dependencias/dependencias.page.component').then(
 				(c) => c.DependenciasPageComponent
 			),
+		canActivate: [RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.MANTENIMIENTO_INSTITUCIONES,
+			],
+		},
 	},
 	{
 		path: 'dependencias',
@@ -21,6 +23,13 @@ export const mantenimientosRoutes: Route[] = [
 			import('./pages/depositos/depositos.page.component').then(
 				(c) => c.DepositosPageComponent
 			),
+		canActivate: [RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.MANTENIMIENTO_DEPENDENCIAS,
+			],
+		},
 	},
 	{
 		path: 'propiedades',
@@ -28,6 +37,13 @@ export const mantenimientosRoutes: Route[] = [
 			import('./pages/propiedades/propiedades.page.component').then(
 				(c) => c.PropiedadesPageComponent
 			),
+		canActivate: [RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.MANTENIMIENTO_PROPIEDADES,
+			],
+		},
 	},
 	{
 		path: 'calibres',
@@ -35,6 +51,13 @@ export const mantenimientosRoutes: Route[] = [
 			import('./pages/calibres/calibres.page.component').then(
 				(c) => c.CalibresPageComponent
 			),
+		canActivate: [RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.MANTENIMIENTO_CALIBRES,
+			],
+		},
 	},
 	{
 		path: 'categorias',
@@ -42,13 +65,13 @@ export const mantenimientosRoutes: Route[] = [
 			import('./pages/categorias/categorias.page.component').then(
 				(c) => c.CategoriasPageComponent
 			),
-	},
-	{
-		path: 'series',
-		loadComponent: () =>
-			import('./pages/series/series.page.component').then(
-				(c) => c.SeriePageComponent
-			),
+		canActivate: [RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.MANTENIMIENTO_CATEGORIAS,
+			],
+		},
 	},
 	{
 		path: 'subtipos',
@@ -56,6 +79,13 @@ export const mantenimientosRoutes: Route[] = [
 			import('./pages/subtipos/subtipos.page.component').then(
 				(c) => c.SubtiposPageComponent
 			),
+		canActivate: [RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.MANTENIMIENTO_SUBTIPOS,
+			],
+		},
 	},
 	{
 		path: 'tipos',
@@ -63,13 +93,28 @@ export const mantenimientosRoutes: Route[] = [
 			import('./pages/tipos/tipos.page.component').then(
 				(c) => c.TiposPageComponent
 			),
+		canActivate: [RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.MANTENIMIENTO_TIPOS,
+			],
+		},
 	},
+
 	{
 		path: 'marcas',
 		loadComponent: () =>
 			import('./pages/marcas/marcas.page.component').then(
 				(c) => c.MarcasPageComponent
 			),
+		canActivate: [RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.MANTENIMIENTO_MARCAS,
+			],
+		},
 	},
 	{
 		path: 'modelos',
@@ -77,6 +122,13 @@ export const mantenimientosRoutes: Route[] = [
 			import('./pages/modelos/modelos.page.component').then(
 				(c) => c.ModelosPageComponent
 			),
+		canActivate: [RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.MANTENIMIENTO_MODELOS,
+			],
+		},
 	},
 	{
 		path: '',

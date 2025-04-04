@@ -93,7 +93,10 @@ export const routes: Routes = [
 			),
 		canActivate: [authGuard, RolesGuard],
 		data: {
-			expectedRoles: [AppPermissions.ADMINISTRADOR],
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR,
+				AppPermissions.MODULO_MANTENIMIENTOS,
+			],
 		},
 	},
 	{

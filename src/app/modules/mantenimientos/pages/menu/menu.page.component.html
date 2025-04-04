@@ -1,7 +1,7 @@
 <div class="modules-box">
-	@for (item of modules; track $index) {
+	@for (item of modules; track $index) { @if(hasPermission(item.url)) {
 	<div class="module-item">
 		<a [routerLink]="item.url">{{ item.name }}</a>
 	</div>
-	}
+	} }
 </div>
