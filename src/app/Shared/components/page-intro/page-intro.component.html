@@ -11,12 +11,12 @@
 			</mat-card-title-group>
 		</div>
 		<div class="right">
+			@if (showBackButton) {
 			<button mat-stroked-button (click)="onBackClick()">
 				<mat-icon>keyboard_arrow_left</mat-icon>
 				Regresar
 			</button>
-
-			@if (showCreateButton) {
+			} @if (showCreateButton) {
 			<button mat-flat-button class="primary" (click)="onAddClick()">
 				<mat-icon>add</mat-icon>
 				<span>Agregar</span>

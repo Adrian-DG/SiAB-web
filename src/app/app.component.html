@@ -1,35 +1,31 @@
 <div id="main">
 	<mat-toolbar class="toolbar">
 		<mat-toolbar-row>
-			<ng-container *ngIf="_authService.isAuthenticated$ | async">
-				<button mat-icon-button (click)="sidenav.toggle()">
-					<mat-icon style="color: white">menu</mat-icon>
-				</button>
-			</ng-container>
+			@if(_authService.isAuthenticated$()) {
+			<button mat-icon-button (click)="sidenav.toggle()">
+				<mat-icon style="color: white">menu</mat-icon>
+			</button>
+			}
 
 			<span>SiAB</span>
 			<span style="width: 90%"></span>
 
-			<ng-container *ngIf="_authService.isAuthenticated$ | async">
-				<button
-					mat-button
-					[matMenuTriggerFor]="menu"
-					style="color: white"
-				>
-					<span
-						>{{ _authService.userData()?.Username }}
-						<mat-icon
-							[fontIcon]="'keyboard_arrow_down'"
-							style="vertical-align: middle"
-						></mat-icon
-					></span>
+			@if (_authService.isAuthenticated$()) {
+			<button mat-button [matMenuTriggerFor]="menu" style="color: white">
+				<span
+					>{{ _authService.userData()?.Username }}
+					<mat-icon
+						[fontIcon]="'keyboard_arrow_down'"
+						style="vertical-align: middle"
+					></mat-icon
+				></span>
+			</button>
+			<mat-menu #menu="matMenu" yPosition="below">
+				<button mat-menu-item (click)="onLogout()">
+					Cerrar Sesión
 				</button>
-				<mat-menu #menu="matMenu" yPosition="below">
-					<button mat-menu-item (click)="onLogout()">
-						Cerrar Sesión
-					</button>
-				</mat-menu>
-			</ng-container>
+			</mat-menu>
+			}
 		</mat-toolbar-row>
 	</mat-toolbar>
 	<mat-sidenav-container

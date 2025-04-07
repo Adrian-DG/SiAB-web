@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	OnInit,
+} from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { IUrlOption } from './Shared/Models/iurl-option.model';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -28,6 +33,7 @@ import { CommonModule } from '@angular/common';
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 	providers: [AuthenticationService],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
 	userRoles: string | string[] = [];
@@ -75,13 +81,10 @@ export class AppComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this._authService.isAuthenticated$.subscribe((isAuthenticated) => {
-			if (isAuthenticated) {
-				this.cdr.detectChanges();
-			} else {
-				this._authService.checkIfAuthenticated();
-			}
-		});
+		this._authService.isAuthenticated$()
+			? this.cdr.detectChanges()
+			: this._authService.checkIfAuthenticated();
+
 		this.userRoles = this._authService.userData()?.Roles ?? [];
 		// throw new Error('Method not implemented.');
 	}

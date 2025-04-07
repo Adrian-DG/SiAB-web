@@ -104,9 +104,9 @@ export class IndexPageComponent
 
 	ngOnInit(): void {
 		this.onLoadData();
-		this._permissionValidator.setPermissions([
-			AppPermissions.TRANSACCIONES_CREAR_CARGO_DESCARGO,
-		]);
+		// this._permissionValidator.setPermissions([
+		// 	AppPermissions.TRANSACCIONES_CREAR_CARGO_DESCARGO,
+		// ]);
 	}
 
 	canCreate(): boolean {
