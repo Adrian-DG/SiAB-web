@@ -18,8 +18,7 @@ export class AuthenticationService extends GenericService {
 		return 'authentication';
 	}
 
-	private isAuthenticatedSource = new BehaviorSubject<boolean>(false);
-	isAuthenticated$ = this.isAuthenticatedSource.asObservable();
+	isAuthenticated$ = signal<boolean>(false);
 
 	userData = computed<IJwtCustomSquema | null>(() => {
 		const token = localStorage.getItem('token');
@@ -41,17 +40,15 @@ export class AuthenticationService extends GenericService {
 			if (!expirationDate || expirationDate < new Date()) {
 				// Token is expired
 				console.log('Token expired');
-				// Optionally, you can remove the token from localStorage or perform any other action
-				localStorage.removeItem('token');
-				console.log('Token removed from localStorage');
-				this.isAuthenticatedSource.next(false);
+				this.isAuthenticated$.update(() => false);
+				this.logout();
 			}
 			// Token is valid
 			console.log('Token is valid');
-			this.isAuthenticatedSource.next(true);
+			this.isAuthenticated$.update(() => true);
 		} else {
 			console.log('Token not found');
-			this.isAuthenticatedSource.next(false);
+			this.isAuthenticated$.update(() => false);
 		}
 	}
 
@@ -85,18 +82,19 @@ export class AuthenticationService extends GenericService {
 				localStorage.setItem('token', response.token);
 				this.checkRoles('MODULO EMPRESAS')
 					? this.$router.navigateByUrl('/empresas')
-					: this.$router.navigateByUrl('/existencia');
+					: this.$router.navigateByUrl('/transacciones');
+				this.isAuthenticated$.update(() => true);
 			});
 	}
 
 	logout() {
 		localStorage.removeItem('token');
-		this.checkIfAuthenticated();
 		this.$router.navigateByUrl('/authentication');
 	}
 
 	private checkRoles(requiredRole: string): boolean {
 		const token = this.userData();
+		console.log(token);
 		if (token) {
 			const roles = token.Roles;
 			if (Array.isArray(roles)) {

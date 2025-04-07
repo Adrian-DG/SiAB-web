@@ -13,25 +13,24 @@ export const authGuard: CanActivateFn = (route, state) => {
 	// Check if the user is authenticated
 	authService.checkIfAuthenticated();
 
-	return authService.isAuthenticated$.pipe(
-		tap((isAuthenticated: boolean) => {
-			if (!isAuthenticated) {
-				console.log('User is not authenticated');
-				dialog
-					.open(ErrorDialogComponent, {
-						width: '300px',
-						height: '200px',
-						hasBackdrop: true,
-						role: 'dialog',
-						data: { message: 'El usuario no ha sido validado' },
-					})
-					.afterClosed()
-					.subscribe(() => {
-						localStorage.clear();
-						router.navigate(['authentication']);
-					});
-			}
-			console.log('User is authenticated');
-		})
-	);
+	if (!authService.isAuthenticated$()) {
+		console.log('User is not authenticated, redirecting to login page...');
+		dialog
+			.open(ErrorDialogComponent, {
+				width: '300px',
+				height: '200px',
+				hasBackdrop: true,
+				role: 'dialog',
+				data: { message: 'El usuario no ha sido validado' },
+			})
+			.afterClosed()
+			.subscribe(() => {
+				localStorage.clear();
+				router.navigate(['authentication']);
+			});
+		return false;
+	}
+
+	console.log('User is authenticated, allowing access to the route...');
+	return true;
 };

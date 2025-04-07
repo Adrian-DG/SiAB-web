@@ -20,14 +20,16 @@ export class PermissionValidatorService {
 		return permissions.some(
 			(permission) =>
 				this.userPermissions.includes(permission) ||
-				this.userPermissions.includes(AppPermissions.ADMINISTRADOR)
+				this.userPermissions.includes(
+					AppPermissions.ADMINISTRADOR_GENERAL
+				)
 		);
 	}
 
-	setPermissions(permissions: string[]): void {
-		// Clear the existing permissions
-		this.userPermissions = [];
-		// Set the new permissions
-		this.userPermissions.push(...permissions);
-	}
+	// setPermissions(permissions: string[]): void {
+	// 	// Clear the existing permissions
+	// 	this.userPermissions = [];
+	// 	// Set the new permissions
+	// 	this.userPermissions.push(...permissions);
+	// }
 }

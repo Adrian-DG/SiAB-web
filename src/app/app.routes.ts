@@ -13,8 +13,8 @@ export const routes: Routes = [
 		canActivate: [authGuard, RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
-				AppPermissions.EMPRESAS,
+				AppPermissions.ADMINISTRADOR_GENERAL,
+				AppPermissions.MODULO_EMPRESAS,
 			],
 		},
 	},
@@ -27,7 +27,7 @@ export const routes: Routes = [
 		canActivate: [authGuard, RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.TRANSACCIONES_CARGAR_INVENTARIO_EXCEL,
 			],
 		},
@@ -41,8 +41,8 @@ export const routes: Routes = [
 		canActivate: [authGuard, RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
-				AppPermissions.USUARIOS,
+				AppPermissions.ADMINISTRADOR_GENERAL,
+				AppPermissions.MODULO_USUARIOS,
 			],
 		},
 	},
@@ -55,8 +55,8 @@ export const routes: Routes = [
 		canActivate: [authGuard, RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
-				AppPermissions.TRANSACCIONES,
+				AppPermissions.ADMINISTRADOR_GENERAL,
+				AppPermissions.MODULO_TRANSACCIONES,
 			],
 		},
 	},
@@ -69,8 +69,8 @@ export const routes: Routes = [
 		canActivate: [authGuard, RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
-				AppPermissions.EXISTENCIA,
+				AppPermissions.ADMINISTRADOR_GENERAL,
+				AppPermissions.MODULO_EXISTENCIAS,
 			],
 		},
 	},
@@ -82,7 +82,7 @@ export const routes: Routes = [
 			),
 		canActivate: [authGuard, RolesGuard],
 		data: {
-			expectedRoles: [AppPermissions.ADMINISTRADOR],
+			expectedRoles: [AppPermissions.ADMINISTRADOR_GENERAL],
 		},
 	},
 	{
@@ -94,8 +94,8 @@ export const routes: Routes = [
 		canActivate: [authGuard, RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
-				AppPermissions.MODULO_MANTENIMIENTOS,
+				AppPermissions.ADMINISTRADOR_GENERAL,
+				AppPermissions.MODULO_MANTENIMIENTO,
 			],
 		},
 	},

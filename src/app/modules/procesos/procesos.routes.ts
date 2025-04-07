@@ -12,7 +12,7 @@ export const procesosRoutes: Routes = [
 		canActivate: [RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.TRANSACCIONES_VISUALIZAR_DETALLES,
 			],
 		},
@@ -26,7 +26,7 @@ export const procesosRoutes: Routes = [
 		canActivate: [RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.TRANSACCIONES_CREAR_CARGO_DESCARGO,
 			],
 		},

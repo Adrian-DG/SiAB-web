@@ -12,7 +12,7 @@ export const mantenimientosRoutes: Route[] = [
 		canActivate: [RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.MANTENIMIENTO_INSTITUCIONES,
 			],
 		},
@@ -26,7 +26,7 @@ export const mantenimientosRoutes: Route[] = [
 		canActivate: [RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.MANTENIMIENTO_DEPENDENCIAS,
 			],
 		},
@@ -40,7 +40,7 @@ export const mantenimientosRoutes: Route[] = [
 		canActivate: [RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.MANTENIMIENTO_PROPIEDADES,
 			],
 		},
@@ -54,7 +54,7 @@ export const mantenimientosRoutes: Route[] = [
 		canActivate: [RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.MANTENIMIENTO_CALIBRES,
 			],
 		},
@@ -68,7 +68,7 @@ export const mantenimientosRoutes: Route[] = [
 		canActivate: [RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.MANTENIMIENTO_CATEGORIAS,
 			],
 		},
@@ -82,7 +82,7 @@ export const mantenimientosRoutes: Route[] = [
 		canActivate: [RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.MANTENIMIENTO_SUBTIPOS,
 			],
 		},
@@ -96,7 +96,7 @@ export const mantenimientosRoutes: Route[] = [
 		canActivate: [RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.MANTENIMIENTO_TIPOS,
 			],
 		},
@@ -111,7 +111,7 @@ export const mantenimientosRoutes: Route[] = [
 		canActivate: [RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.MANTENIMIENTO_MARCAS,
 			],
 		},
@@ -125,7 +125,7 @@ export const mantenimientosRoutes: Route[] = [
 		canActivate: [RolesGuard],
 		data: {
 			expectedRoles: [
-				AppPermissions.ADMINISTRADOR,
+				AppPermissions.ADMINISTRADOR_GENERAL,
 				AppPermissions.MANTENIMIENTO_MODELOS,
 			],
 		},
