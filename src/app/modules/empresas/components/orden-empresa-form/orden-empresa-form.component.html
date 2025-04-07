@@ -183,18 +183,10 @@
 							let i = index
 						"
 					>
-						<div class="form-array-row" [formGroupName]="i">
-							<mat-form-field appearance="fill">
-								<mat-label>Tipo Documento</mat-label>
-								<mat-select formControlName="tipoDocumentoId">
-									@for (item of tipoDocumentos$(); track
-									$index) {
-									<mat-option [value]="item.id">
-										{{ item.nombre }}
-									</mat-option>
-									}
-								</mat-select>
-							</mat-form-field>
+						<div class="column" [formGroupName]="i">
+							<mat-divider></mat-divider>
+
+							<h4>Documento No.{{ i + 1 }}</h4>
 
 							<app-file-input
 								[title]="'Adjuntar Documento'"
@@ -202,13 +194,89 @@
 								(on-file-upluoded)="onFileSelected($event, i)"
 							></app-file-input>
 
-							<button
-								mat-icon-button
-								(click)="removeDocumento(i)"
-								style="margin: auto"
-							>
-								<mat-icon>delete</mat-icon>
-							</button>
+							<div class="row">
+								<mat-form-field appearance="fill">
+									<mat-label>Nombre</mat-label>
+									<input
+										matInput
+										formControlName="nombre"
+										placeholder="Nombre"
+									/>
+								</mat-form-field>
+
+								<mat-form-field appearance="fill">
+									<mat-label>Tipo Documento</mat-label>
+									<mat-select
+										formControlName="tipoDocumentoId"
+									>
+										@for (item of tipoDocumentos$(); track
+										$index) {
+										<mat-option [value]="item.id">
+											{{ item.nombre }}
+										</mat-option>
+										}
+									</mat-select>
+								</mat-form-field>
+
+								<mat-form-field appearance="fill">
+									<mat-label>Fecha Emisión</mat-label>
+									<input
+										matInput
+										[matDatepicker]="pickerEmision"
+										formControlName="fechaEmision"
+									/>
+									<mat-hint>DD/MM/YYYY</mat-hint>
+									<mat-datepicker-toggle
+										matIconSuffix
+										[for]="pickerEmision"
+									></mat-datepicker-toggle>
+									<mat-datepicker
+										#pickerEmision
+									></mat-datepicker>
+								</mat-form-field>
+
+								<mat-form-field appearance="fill">
+									<mat-label>Fecha Recepción</mat-label>
+									<input
+										matInput
+										[matDatepicker]="pickerRecepcion"
+										formControlName="fechaRecepcion"
+									/>
+									<mat-hint>DD/MM/YYYY</mat-hint>
+									<mat-datepicker-toggle
+										matIconSuffix
+										[for]="pickerRecepcion"
+									></mat-datepicker-toggle>
+									<mat-datepicker
+										#pickerRecepcion
+									></mat-datepicker>
+								</mat-form-field>
+
+								<mat-form-field appearance="fill">
+									<mat-label>Fecha Expiración</mat-label>
+									<input
+										matInput
+										[matDatepicker]="pickerExpiracion"
+										formControlName="fechaExpiracion"
+									/>
+									<mat-hint>DD/MM/YYYY</mat-hint>
+									<mat-datepicker-toggle
+										matIconSuffix
+										[for]="pickerExpiracion"
+									></mat-datepicker-toggle>
+									<mat-datepicker
+										#pickerExpiracion
+									></mat-datepicker>
+								</mat-form-field>
+
+								<button
+									mat-icon-button
+									(click)="removeDocumento(i)"
+									style="margin: auto"
+								>
+									<mat-icon>delete</mat-icon>
+								</button>
+							</div>
 						</div>
 					</ng-container>
 				</ng-container>

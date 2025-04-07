@@ -19,7 +19,7 @@
 			</ng-container>
 
 			<ng-container matColumnDef="nombre">
-				<th mat-header-cell *matHeaderCellDef>Proveedor</th>
+				<th mat-header-cell *matHeaderCellDef>Empresa</th>
 				<td mat-cell *matCellDef="let element">
 					<span><b>RNC: </b>{{ element.rnc }}</span>
 					<br />
@@ -48,6 +48,7 @@
 					<app-crud-actions
 						[id]="element.id"
 						[entity]="element"
+						[showEdit]="false"
 						[showDetails]="true"
 						(on-edit)="onEdit($event)"
 						(on-details)="onDetails($event)"

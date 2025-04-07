@@ -175,14 +175,14 @@ export class OrdenEmpresaFormComponent implements OnInit, AfterViewInit {
 
 	addArticulo() {
 		const articulo = new FormGroup({
-			categoriaId: new FormControl(''),
-			tipoId: new FormControl(''),
-			subTipoId: new FormControl(''),
-			marcaId: new FormControl(''),
-			modeloId: new FormControl(''),
-			calibreId: new FormControl(''),
-			serie: new FormControl(''),
-			cantidad: new FormControl(''),
+			categoriaId: new FormControl('', Validators.required),
+			tipoId: new FormControl('', Validators.required),
+			subTipoId: new FormControl('', Validators.required),
+			marcaId: new FormControl('', Validators.required),
+			modeloId: new FormControl('', Validators.required),
+			calibreId: new FormControl('', Validators.required),
+			serie: new FormControl('', Validators.required),
+			cantidad: new FormControl('', Validators.required),
 		});
 
 		this.articulos.push(articulo);
@@ -196,6 +196,10 @@ export class OrdenEmpresaFormComponent implements OnInit, AfterViewInit {
 		const documento = new FormGroup({
 			tipoDocumentoId: new FormControl(0),
 			archivo: new FormControl(''),
+			nombre: new FormControl(''),
+			fechaEmision: new FormControl('', Validators.required),
+			fechaRecepcion: new FormControl('', Validators.required),
+			fechaExpiracion: new FormControl('', Validators.required),
 		});
 
 		this.documentos.push(documento);
@@ -215,8 +219,13 @@ export class OrdenEmpresaFormComponent implements OnInit, AfterViewInit {
 		this._dialogRef.close();
 	}
 
+	private formatDateString(date: string) {
+		let stringToDate = new Date(date);
+		return this.datePipe.transform(stringToDate, 'yyyy-MM-dd');
+	}
+
 	private formatDate(date: Date) {
-		return this.datePipe.transform(date ?? new Date(), 'yyyy-MM-dd');
+		return date ? this.datePipe.transform(date, 'yyyy-MM-dd') : null;
 	}
 
 	onSave() {
@@ -229,8 +238,20 @@ export class OrdenEmpresaFormComponent implements OnInit, AfterViewInit {
 			const articulos = this.articulosForm.value
 				.articulos as ICreateArticuloDto[];
 
-			const documentos = this.documentosForm.value
+			let documentos = this.documentosForm.value
 				.documentos as ICreateDocumentoDto[];
+
+			documentos = documentos.map((documento) => {
+				return {
+					...documento,
+					fechaEmision:
+						this.formatDateString(documento.fechaEmision) ?? '',
+					fechaRecepcion:
+						this.formatDateString(documento.fechaRecepcion) ?? '',
+					fechaExpiracion:
+						this.formatDateString(documento.fechaExpiracion) ?? '',
+				};
+			});
 
 			// console.log('Datos:', datos);
 			// console.log('Articulos:', articulos);

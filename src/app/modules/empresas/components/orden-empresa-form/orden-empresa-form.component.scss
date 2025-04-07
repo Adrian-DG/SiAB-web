@@ -19,6 +19,12 @@ form {
 	}
 }
 
+.column {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
+}
+
 .row,
 .form-array-row {
 	display: flex;
