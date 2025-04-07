@@ -32,7 +32,11 @@
 
 				<mat-form-field class="col">
 					<mat-label>Rango</mat-label>
-					<mat-select placeholder="rango" formControlName="rangoId">
+					<mat-select
+						placeholder="rango"
+						formControlName="rangoId"
+						[value]="usuarioData$()?.rangoId"
+					>
 						@for(rango of rangos$(); track $index){
 						<mat-option [value]="rango.id">{{
 							rango.nombre
