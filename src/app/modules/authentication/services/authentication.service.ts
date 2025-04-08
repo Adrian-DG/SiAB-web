@@ -8,7 +8,6 @@ import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { IJwtCustomSquema } from '../models/ijwt-custom-squema.model';
 import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -94,7 +93,6 @@ export class AuthenticationService extends GenericService {
 
 	private checkRoles(requiredRole: string): boolean {
 		const token = this.userData();
-		console.log(token);
 		if (token) {
 			const roles = token.Roles;
 			if (Array.isArray(roles)) {

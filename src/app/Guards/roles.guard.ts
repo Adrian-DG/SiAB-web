@@ -13,18 +13,9 @@ export const RolesGuard: CanActivateFn = (route, state) => {
 
 	const roles = token.Roles;
 
-	console.log('Expected Roles:', expectedRoles);
-	console.log('Roles:', roles);
-
 	if (Array.isArray(roles)) {
-		return roles.some((role) => {
-			console.log(expectedRoles.includes(role));
-			return expectedRoles.includes(role);
-		});
+		return roles.some((role) => expectedRoles.includes(role));
 	} else {
-		return roles.split(',').some((role) => {
-			console.log(expectedRoles.includes(role));
-			return expectedRoles.includes(role);
-		});
+		return roles.split(',').some((role) => expectedRoles.includes(role));
 	}
 };
