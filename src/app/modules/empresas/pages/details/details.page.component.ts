@@ -30,30 +30,4 @@ import { EmpresaService } from '../../services/empresa.service';
 	styleUrl: './details.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DetailsPageComponent implements AfterViewInit {
-	private _id: number = 0;
-	displayedColumns: string[] = ['fechas', 'data', 'acciones'];
-	dataSource: MatTableDataSource<any> = new MatTableDataSource<any>([]);
-
-	constructor(
-		private $activeRoute: ActivatedRoute,
-		private _empresaService: EmpresaService,
-		private _sanitizer: DomSanitizer
-	) {
-		this._id = this.$activeRoute.snapshot.params['id'] as number;
-	}
-
-	ngAfterViewInit(): void {
-		this._empresaService.getLicencias(this._id).subscribe((data) => {
-			this.dataSource.data = data;
-		});
-	}
-
-	showLicencia(archivo: string) {
-		console.log(archivo);
-		const filePath = (
-			this._sanitizer.bypassSecurityTrustResourceUrl(archivo) as any
-		).changingThisBreaksApplicationSecurity;
-		document.getElementById('pdfViewer')!.setAttribute('src', filePath);
-	}
-}
+export class DetailsPageComponent {}
