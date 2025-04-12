@@ -110,9 +110,7 @@ export class IndexPageComponent
 	}
 
 	canCreate(): boolean {
-		return this._permissionValidator.hasAnyPermission([
-			AppPermissions.TRANSACCIONES_CREAR_CARGO_DESCARGO,
-		]);
+		return true;
 	}
 
 	get isInitialDateValid(): boolean {

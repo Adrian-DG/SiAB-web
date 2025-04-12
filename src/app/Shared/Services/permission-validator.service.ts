@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from '../../modules/authentication/services/authentication.service';
 import { AppPermissions } from '../../app.permissions';
+import { routes as app_routes } from '../../app.routes';
 
 @Injectable({
 	providedIn: 'root',
@@ -16,20 +17,15 @@ export class PermissionValidatorService {
 		}
 	}
 
-	hasAnyPermission(permissions: string[]): boolean {
-		return permissions.some(
-			(permission) =>
-				this.userPermissions.includes(permission) ||
-				this.userPermissions.includes(
-					AppPermissions.ADMINISTRADOR_GENERAL
-				)
-		);
-	}
+	hasRoutePermission(route: string): boolean {
+		const routePermissions = app_routes.find((r) => r.path === route)
+			?.data?.['expectedRoles'];
+		if (routePermissions) {
+			return this.userPermissions.some((permission) =>
+				routePermissions.includes(permission)
+			);
+		}
 
-	// setPermissions(permissions: string[]): void {
-	// 	// Clear the existing permissions
-	// 	this.userPermissions = [];
-	// 	// Set the new permissions
-	// 	this.userPermissions.push(...permissions);
-	// }
+		return false;
+	}
 }

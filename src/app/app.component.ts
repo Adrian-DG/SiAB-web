@@ -15,6 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AuthenticationService } from './modules/authentication/services/authentication.service';
 import { routes as AppRoutes } from './app.routes';
 import { CommonModule } from '@angular/common';
+import { PermissionValidatorService } from './Shared/Services/permission-validator.service';
 
 @Component({
 	selector: 'app-root',
@@ -32,7 +33,7 @@ import { CommonModule } from '@angular/common';
 	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
-	providers: [AuthenticationService],
+	providers: [AuthenticationService, PermissionValidatorService],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
@@ -77,32 +78,14 @@ export class AppComponent implements OnInit {
 
 	constructor(
 		private cdr: ChangeDetectorRef,
-		public _authService: AuthenticationService
+		public _authService: AuthenticationService,
+		public _permissionValidatorService: PermissionValidatorService
 	) {}
 
 	ngOnInit(): void {
 		this._authService.isAuthenticated$()
 			? this.cdr.detectChanges()
 			: this._authService.checkIfAuthenticated();
-
-		this.userRoles = this._authService.userData()?.Roles ?? [];
-		// throw new Error('Method not implemented.');
-	}
-
-	hasPermission(url: string): boolean {
-		const routeData = AppRoutes.find((route) => route.path === url)
-			?.data as { expectedRoles: string[] };
-		const permissions = routeData?.expectedRoles ?? [];
-
-		if (permissions.length === 0) return true;
-
-		const hasPermission = Array.isArray(this.userRoles)
-			? this.userRoles.some((role) => permissions.includes(role))
-			: this.userRoles
-					.split(',')
-					.some((role) => permissions.includes(role));
-
-		return hasPermission;
 	}
 
 	onLogout() {

@@ -41,7 +41,7 @@
 		>
 			<mat-list>
 				@for (item of modules; track $index) {
-				@if(hasPermission(item.url)) {
+				@if(_permissionValidatorService.hasRoutePermission(item.url)) {
 				<mat-list-item class="link-item">
 					<a
 						[routerLink]="item.url"
