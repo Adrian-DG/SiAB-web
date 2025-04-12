@@ -1,5 +1,6 @@
 <div class="modules-box">
-	@for (item of modules; track $index) { @if(hasPermission(item.url)) {
+	@for (item of modules; track $index) {
+	@if(_permissionValidatorService.hasRoutePermission(item.url)) {
 	<div class="module-item">
 		<a [routerLink]="item.url">{{ item.name }}</a>
 	</div>
