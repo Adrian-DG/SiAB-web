@@ -82,7 +82,6 @@ export class OrdenEmpresaFormComponent implements OnInit, AfterViewInit {
 	tipos$ = signal<INamedEntity[]>([]);
 	subTipos$ = signal<INamedEntity[]>([]);
 	marcas$ = signal<INamedEntity[]>([]);
-	modelos$ = signal<INamedEntity[]>([]);
 	calibres$ = signal<INamedEntity[]>([]);
 	tipoDocumentos$ = signal<INamedEntity[]>([]);
 
@@ -154,13 +153,6 @@ export class OrdenEmpresaFormComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	onMarcaSelected() {
-		const marcaId = this.articulos.at(0).get('marcaId')?.value;
-		this._modeloService.getModelosByMarcaId(marcaId).subscribe((res) => {
-			this.modelos$.set(res);
-		});
-	}
-
 	get articulos(): FormArray {
 		return this.articulosForm.get('articulos') as FormArray;
 	}
@@ -179,9 +171,9 @@ export class OrdenEmpresaFormComponent implements OnInit, AfterViewInit {
 			tipoId: new FormControl('', Validators.required),
 			subTipoId: new FormControl('', Validators.required),
 			marcaId: new FormControl('', Validators.required),
-			modeloId: new FormControl('', Validators.required),
+			modeloId: new FormControl(1),
 			calibreId: new FormControl('', Validators.required),
-			serie: new FormControl('', Validators.required),
+			serie: new FormControl(''),
 			cantidad: new FormControl('', Validators.required),
 		});
 

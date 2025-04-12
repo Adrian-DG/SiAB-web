@@ -88,22 +88,8 @@
 
 							<mat-form-field appearance="fill">
 								<mat-label>Marca</mat-label>
-								<mat-select
-									formControlName="marcaId"
-									(selectionChange)="onMarcaSelected()"
-								>
+								<mat-select formControlName="marcaId">
 									@for (item of marcas$(); track $index) {
-									<mat-option [value]="item.id">
-										{{ item.nombre }}
-									</mat-option>
-									}
-								</mat-select>
-							</mat-form-field>
-
-							<mat-form-field appearance="fill">
-								<mat-label>Modelo</mat-label>
-								<mat-select formControlName="modeloId">
-									@for (item of modelos$(); track $index) {
 									<mat-option [value]="item.id">
 										{{ item.nombre }}
 									</mat-option>
@@ -128,15 +114,6 @@
 									matInput
 									formControlName="cantidad"
 									placeholder="cantidad"
-								/>
-							</mat-form-field>
-
-							<mat-form-field appearance="fill">
-								<mat-label>Serie</mat-label>
-								<input
-									matInput
-									formControlName="serie"
-									placeholder="serie"
 								/>
 							</mat-form-field>
 
