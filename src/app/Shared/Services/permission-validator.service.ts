@@ -38,4 +38,8 @@ export class PermissionValidatorService {
 
 		return false;
 	}
+
+	hasActionPermission(permission: string): boolean {
+		return this.userPermissions.includes(permission);
+	}
 }

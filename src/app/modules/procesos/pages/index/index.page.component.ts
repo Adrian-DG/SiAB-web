@@ -56,7 +56,7 @@ import { IAdjuntarFormularioDto } from '../../../carga-registros/dto/iadjuntar-f
 	templateUrl: './index.page.component.html',
 	styleUrl: './index.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [TransaccionService, DatePipe],
+	providers: [TransaccionService, DatePipe, PermissionValidatorService],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class IndexPageComponent
@@ -104,13 +104,12 @@ export class IndexPageComponent
 
 	ngOnInit(): void {
 		this.onLoadData();
-		// this._permissionValidator.setPermissions([
-		// 	AppPermissions.TRANSACCIONES_CREAR_CARGO_DESCARGO,
-		// ]);
 	}
 
-	canCreate(): boolean {
-		return true;
+	get canCreate(): boolean {
+		return this._permissionValidator.hasActionPermission(
+			AppPermissions.TRANSACCIONES_CREAR_CARGO_DESCARGO
+		);
 	}
 
 	get isInitialDateValid(): boolean {
