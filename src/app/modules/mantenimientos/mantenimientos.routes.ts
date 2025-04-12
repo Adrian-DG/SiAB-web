@@ -46,6 +46,20 @@ export const mantenimientosRoutes: Route[] = [
 		},
 	},
 	{
+		path: 'tipos-documentos',
+		loadComponent: () =>
+			import(
+				'./pages/tipo-documentos/tipos-documentos.page.component'
+			).then((c) => c.TiposDocumentosPageComponent),
+		canActivate: [RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR_GENERAL,
+				AppPermissions.MANTENIMIENTO_TIPOS_DOCUMENTOS,
+			],
+		},
+	},
+	{
 		path: 'calibres',
 		loadComponent: () =>
 			import('./pages/calibres/calibres.page.component').then(

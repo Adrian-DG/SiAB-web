@@ -34,6 +34,7 @@ export class MenuPageComponent {
 		{ url: 'subtipos', name: 'Subtipos', icon: '' },
 		{ url: 'marcas', name: 'Marcas', icon: '' },
 		{ url: 'modelos', name: 'Modelos', icon: '' },
+		{ url: 'tipos-documentos', name: 'Tipos Documentos', icon: '' },
 		{ url: 'calibres', name: 'Calibres', icon: '' },
 		{ url: 'dependencias', name: 'Dependencias', icon: '' },
 		{ url: 'instituciones', name: 'Instituciones', icon: '' },
