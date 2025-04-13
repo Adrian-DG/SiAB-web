@@ -2,19 +2,9 @@
 	display: block;
 }
 
-.row {
-	height: 72vh;
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	grid-template-rows: 2fr 1fr;
 	gap: 1em;
-	.table {
-		width: 50%;
-		overflow-y: auto;
-	}
-	iframe {
-		height: 100%;
-		border: 2px solid gray;
-		border-radius: 0.5em;
-	}
 }

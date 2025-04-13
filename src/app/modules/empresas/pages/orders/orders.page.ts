@@ -50,7 +50,8 @@ export class OrdersComponent extends BaseListResource<any> implements OnInit {
 	constructor(
 		protected override _dialog: MatDialog,
 		private $activeRoute: ActivatedRoute,
-		private _ordenesEmpresaService: OrdenesEmpresaService
+		private _ordenesEmpresaService: OrdenesEmpresaService,
+		private $router: Router
 	) {
 		super(_dialog);
 	}
@@ -85,6 +86,6 @@ export class OrdersComponent extends BaseListResource<any> implements OnInit {
 	}
 
 	onDetails(event: number): void {
-		throw new Error('Method not implemented.');
+		this.$router.navigate([`${this._id}/ordenes/${event}/detalles`]);
 	}
 }

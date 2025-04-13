@@ -34,4 +34,10 @@ export class OrdenesEmpresaService extends GenericService {
 			model
 		);
 	}
+
+	getDetalleOrdenEmpresa(id: number) {
+		return this.$http
+			.get<IApiResponse<any>>(`${this.endPoint}/${id}/detalle`)
+			.pipe(map((response) => response.data));
+	}
 }

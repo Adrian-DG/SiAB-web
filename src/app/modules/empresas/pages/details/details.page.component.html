@@ -1,0 +1,100 @@
+<div class="grid">
+	<div class="iframe">
+		<mat-card>
+			<iframe id="iframe" width="100%" height="100%"></iframe>
+		</mat-card>
+	</div>
+	<div class="documents">
+		<mat-card>
+			<table mat-table [dataSource]="detalleOrden$().documentos">
+				<ng-container matColumnDef="info">
+					<th mat-header-cell *matHeaderCellDef>Archivo</th>
+					<td mat-cell *matCellDef="let element; let i = index">
+						<span>{{ element.nombreArchivo }}</span>
+						<br />
+						<span>{{ element.tipoDocumento }}</span>
+					</td>
+				</ng-container>
+				<ng-container matColumnDef="fecha">
+					<th mat-header-cell *matHeaderCellDef>Fecha</th>
+					<td mat-cell *matCellDef="let element; let i = index">
+						<span>{{
+							element.fechaEmision | date : 'dd/MM/yyyy'
+						}}</span>
+						<br />
+						<span>{{
+							element.fechaRecepcion | date : 'dd/MM/yyyy'
+						}}</span>
+						<br />
+						<span>{{
+							element.fechaExpiracion | date : 'dd/MM/yyyy'
+						}}</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="acciones">
+					<th mat-header-cell *matHeaderCellDef>Acciones</th>
+					<td mat-cell *matCellDef="let element; let i = index">
+						<button mat-icon-button>
+							<mat-icon>remove_red_eye</mat-icon>
+						</button>
+					</td>
+				</ng-container>
+
+				<tr
+					mat-header-row
+					*matHeaderRowDef="displayedDocumentsColumns"
+				></tr>
+				<tr
+					mat-row
+					*matRowDef="let element; columns: displayedDocumentsColumns"
+				></tr>
+
+				<tr class="mat-row" *matNoDataRow>
+					<td class="mat-cell" colspan="3">
+						<h4 style="text-align: center">No hay datos</h4>
+					</td>
+				</tr>
+			</table>
+		</mat-card>
+	</div>
+	<div class="articles">
+		<mat-card>
+			<table mat-table [dataSource]="detalleOrden$().articulos">
+				<ng-container matColumnDef="info">
+					<th mat-header-cell *matHeaderCellDef>Articulo</th>
+					<td mat-cell *matCellDef="let element; let i = index">
+						<span>{{ element.categoria }}</span>
+						<br />
+						<span>{{ element.tipo }}</span>
+						<br />
+						<span>{{ element.subTipo }}</span>
+					</td>
+				</ng-container>
+
+				<ng-container matColumnDef="info">
+					<th mat-header-cell *matHeaderCellDef>Articulo</th>
+					<td mat-cell *matCellDef="let element; let i = index">
+						<span>{{ element.categoria }}</span>
+						<br />
+					</td>
+				</ng-container>
+
+				<tr
+					mat-header-row
+					*matHeaderRowDef="displayedArticlesColumns"
+				></tr>
+				<tr
+					mat-row
+					*matRowDef="let element; columns: displayedArticlesColumns"
+				></tr>
+
+				<tr class="mat-row" *matNoDataRow>
+					<td class="mat-cell" colspan="3">
+						<h4 style="text-align: center">No hay datos</h4>
+					</td>
+				</tr>
+			</table>
+		</mat-card>
+	</div>
+</div>
