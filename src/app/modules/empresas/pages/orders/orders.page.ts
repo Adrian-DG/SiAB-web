@@ -45,7 +45,7 @@ export class OrdersComponent extends BaseListResource<any> implements OnInit {
 	override description: string = 'Listado de ordenes';
 	override displayedColumns: string[] = ['id', 'fecha', 'acciones'];
 
-	private _id: number = 0;
+	private empresaId: number = 0;
 
 	constructor(
 		protected override _dialog: MatDialog,
@@ -57,7 +57,7 @@ export class OrdersComponent extends BaseListResource<any> implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this._id = this.$activeRoute.snapshot.params['id'] as number;
+		this.empresaId = this.$activeRoute.snapshot.params['id'] as number;
 		this.onLoadData();
 	}
 
@@ -70,22 +70,31 @@ export class OrdersComponent extends BaseListResource<any> implements OnInit {
 	}
 
 	override onCreate(event: any): void {
-		this._dialog.open(OrdenEmpresaFormComponent, {
-			data: { id: this._id },
-			width: '1000px',
-			...this.dialogConfig,
-		});
+		this._dialog
+			.open(OrdenEmpresaFormComponent, {
+				data: { id: this.empresaId },
+				width: '1000px',
+				...this.dialogConfig,
+			})
+			.afterClosed()
+			.subscribe(() => this.onLoadData());
 	}
 
 	override onLoadData(): void {
 		this._ordenesEmpresaService
-			.getOrdenesEmpresa(this._id, this.filters$())
+			.getOrdenesEmpresa(this.empresaId, this.filters$())
 			.subscribe((data) => {
 				this.data$.set(data);
 			});
 	}
 
-	onDetails(event: number): void {
-		this.$router.navigate([`${this._id}/ordenes/${event}/detalles`]);
+	onDetails(ordenId: number): void {
+		this.$router.navigate([
+			'/empresas',
+			this.empresaId,
+			'ordenes',
+			ordenId,
+			'detalles',
+		]);
 	}
 }

@@ -37,7 +37,7 @@ export class OrdenesEmpresaService extends GenericService {
 
 	getDetalleOrdenEmpresa(id: number) {
 		return this.$http
-			.get<IApiResponse<any>>(`${this.endPoint}/${id}/detalle`)
+			.get<IApiResponse<any>>(`${this.endPoint}/${id}/detalles`)
 			.pipe(map((response) => response.data));
 	}
 }

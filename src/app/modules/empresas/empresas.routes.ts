@@ -2,16 +2,16 @@ import { Routes } from '@angular/router';
 
 export const empresasRoutes: Routes = [
 	{
-		path: ':id/ordenes/:id/detalles',
+		path: ':id/ordenes',
+		loadComponent: () =>
+			import('./pages/orders/orders.page').then((m) => m.OrdersComponent),
+	},
+	{
+		path: ':empresaId/ordenes/:ordenId/detalles',
 		loadComponent: () =>
 			import('./pages/details/details.page.component').then(
 				(m) => m.DetailsPageComponent
 			),
-	},
-	{
-		path: ':id/ordenes',
-		loadComponent: () =>
-			import('./pages/orders/orders.page').then((m) => m.OrdersComponent),
 	},
 	{
 		path: '',
