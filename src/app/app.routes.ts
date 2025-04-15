@@ -19,6 +19,14 @@ export const routes: Routes = [
 		},
 	},
 	{
+		path: 'estadisticas',
+		loadChildren: () =>
+			import('./modules/estadisticas/estadisticas.routes').then(
+				(m) => m.estadisticasRoutes
+			),
+		canActivate: [authGuard, RolesGuard],
+	},
+	{
 		path: 'cargar-inventario',
 		loadChildren: () =>
 			import('./modules/carga-registros/carga-registros.routes').then(
