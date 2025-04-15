@@ -12,6 +12,7 @@ import {
 	Validators,
 } from '@angular/forms';
 import { IUsuarioLoginDto } from '../../dto/iusuario-login.dto';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
 	selector: 'app-authentication.page',
@@ -21,6 +22,7 @@ import { IUsuarioLoginDto } from '../../dto/iusuario-login.dto';
 		MatInputModule,
 		MatFormFieldModule,
 		MatButtonModule,
+		MatDividerModule,
 		ReactiveFormsModule,
 	],
 	templateUrl: './authentication.page.component.html',
@@ -33,6 +35,8 @@ export class AuthenticationPageComponent {
 		username: new FormControl('', [Validators.required]),
 		password: new FormControl('', [Validators.required]),
 	});
+
+	slidder_image = 'src/assets/slidder_mide.jpg';
 
 	constructor(private _authService: AuthenticationService) {}
 

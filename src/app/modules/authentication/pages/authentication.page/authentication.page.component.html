@@ -1,36 +1,70 @@
 <div class="auth-box">
-	<mat-card>
-		<mat-card-header class="header">
-			<mat-card-title-group>
-				<mat-card-title>Bienvenido</mat-card-title>
-				<mat-card-subtitle>Sistema de Explosivos</mat-card-subtitle>
-			</mat-card-title-group>
-		</mat-card-header>
-		<mat-card-content>
-			<form [formGroup]="loginForm">
-				<mat-form-field class="input">
-					<mat-label>Usuario</mat-label>
-					<input matInput formControlName="username" />
-				</mat-form-field>
-				<mat-form-field class="input">
-					<mat-label>Contraseña</mat-label>
-					<input
-						matInput
-						type="password"
-						formControlName="password"
-					/>
-				</mat-form-field>
-			</form>
-		</mat-card-content>
-		<mat-card-footer style="padding: 1em">
-			<button
-				mat-raised-button
-				style="width: 100%"
-				(click)="login()"
-				[disabled]="!loginForm.valid"
-			>
-				Ingresar
-			</button>
-		</mat-card-footer>
-	</mat-card>
+	<div class="slider">
+		<img src="slidder.png" alt="" />
+	</div>
+
+	<div class="login">
+		<mat-card class="card">
+			<mat-card-header class="header">
+				<mat-card-title>
+					<h3 style="text-align: center; color: rgb(90, 89, 89)">
+						Bienvenido
+					</h3>
+				</mat-card-title>
+			</mat-card-header>
+
+			<mat-card-content class="content">
+				<form [formGroup]="loginForm">
+					<mat-form-field class="input">
+						<mat-label>Usuario</mat-label>
+						<input matInput formControlName="username" />
+					</mat-form-field>
+					<mat-form-field class="input">
+						<mat-label>Contraseña</mat-label>
+						<input
+							matInput
+							type="password"
+							formControlName="password"
+						/>
+					</mat-form-field>
+				</form>
+			</mat-card-content>
+			<mat-card-footer style="padding: 1em">
+				<button
+					mat-raised-button
+					style="width: 100%"
+					(click)="login()"
+					[disabled]="!loginForm.valid"
+				>
+					Ingresar
+				</button>
+			</mat-card-footer>
+		</mat-card>
+	</div>
 </div>
+
+<!-- <form [formGroup]="loginForm">
+	<mat-form-field class="input">
+		<mat-label>Usuario</mat-label>
+		<input matInput formControlName="username" />
+	</mat-form-field>
+	<mat-form-field class="input">
+		<mat-label>Contraseña</mat-label>
+		<input
+			matInput
+			type="password"
+			formControlName="password"
+		/>
+	</mat-form-field>
+</form> 
+
+<button
+					mat-raised-button
+					style="width: 100%"
+					(click)="login()"
+					[disabled]="!loginForm.valid"
+				>
+					Ingresar
+				</button>
+
+-->
