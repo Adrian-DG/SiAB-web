@@ -16,6 +16,7 @@ import { AuthenticationService } from './modules/authentication/services/authent
 import { routes as AppRoutes } from './app.routes';
 import { CommonModule } from '@angular/common';
 import { PermissionValidatorService } from './Shared/Services/permission-validator.service';
+import { AppPermissions } from './app.permissions';
 
 @Component({
 	selector: 'app-root',
@@ -86,6 +87,14 @@ export class AppComponent implements OnInit {
 		this._authService.isAuthenticated$()
 			? this.cdr.detectChanges()
 			: this._authService.checkIfAuthenticated();
+	}
+
+	get nombre_sistema() {
+		return this._permissionValidatorService.hasActionPermission(
+			AppPermissions.MODULO_EMPRESAS
+		)
+			? 'Sistema Depto. Explosivos'
+			: 'Sistema Armamento Bélico';
 	}
 
 	onLogout() {
