@@ -25,6 +25,12 @@ export const routes: Routes = [
 				(m) => m.estadisticasRoutes
 			),
 		canActivate: [authGuard, RolesGuard],
+		data: {
+			expectedRoles: [
+				AppPermissions.ADMINISTRADOR_GENERAL,
+				AppPermissions.MODULO_ESTADISTICAS,
+			],
+		},
 	},
 	{
 		path: 'cargar-inventario',
