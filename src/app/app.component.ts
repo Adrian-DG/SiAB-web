@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
 		return this._permissionValidatorService.hasActionPermission(
 			AppPermissions.MODULO_EMPRESAS
 		)
-			? 'Sistema Depto. Explosivos'
+			? 'Sistema Dpto. Explosivos'
 			: 'Sistema Armamento Bélico';
 	}
 
