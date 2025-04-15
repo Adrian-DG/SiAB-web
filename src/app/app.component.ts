@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
 			AppPermissions.MODULO_EMPRESAS
 		)
 			? 'Sistema Dpto. Explosivos'
-			: 'Sistema Armamento Bélico';
+			: 'Sistema Armamento Bélico (SiAB)';
 	}
 
 	onLogout() {
