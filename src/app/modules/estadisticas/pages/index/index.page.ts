@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../authentication/services/authentication.service';
 import { AppPermissions } from '../../../../app.permissions';
+import { PermissionValidatorService } from '../../../../Shared/Services/permission-validator.service';
 
 @Component({
 	selector: 'app-index.page',
 	standalone: true,
 	imports: [],
 	template: `
-		@if(isUsuarioBelico) {
+		@if(isBelicoUser) {
 		<iframe
 			title="informe_departamento_explosivos"
 			width="100%"
@@ -31,16 +32,16 @@ import { AppPermissions } from '../../../../app.permissions';
 	`,
 	styleUrl: './index.page.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [AuthenticationService],
+	providers: [PermissionValidatorService],
 })
 export class IndexPageComponent {
-	constructor(private _authService: AuthenticationService) {
+	constructor(private _permissionValidator: PermissionValidatorService) {
 		// Constructor logic can be added here if needed
 	}
 
-	get isUsuarioBelico() {
-		return this._authService
-			.userData()
-			?.Roles.includes(AppPermissions.MODULO_EMPRESAS);
+	get isBelicoUser(): boolean {
+		return this._permissionValidator.hasActionPermission(
+			AppPermissions.MODULO_EMPRESAS
+		);
 	}
 }
