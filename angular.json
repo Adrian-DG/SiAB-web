@@ -29,7 +29,8 @@
 								"input": "public",
 								"ignore": ["src/web.config"]
 							},
-							"src/web.config"
+							"src/web.config",
+							"src/assets"
 						],
 						"styles": ["src/styles.scss"],
 						"scripts": []
@@ -83,7 +84,9 @@
 							{
 								"glob": "**/*",
 								"input": "public"
-							}
+							},
+							"src/web.config",
+							"src/assets"
 						],
 						"styles": ["src/styles.scss"],
 						"scripts": []
