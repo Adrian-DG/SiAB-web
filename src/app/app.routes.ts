@@ -42,7 +42,7 @@ export const routes: Routes = [
 		data: {
 			expectedRoles: [
 				AppPermissions.ADMINISTRADOR_GENERAL,
-				AppPermissions.TRANSACCIONES_CARGAR_INVENTARIO_EXCEL,
+				AppPermissions.INVENTARIO_BELICO_CARGAR_EXCEL,
 			],
 		},
 	},
@@ -84,7 +84,7 @@ export const routes: Routes = [
 		data: {
 			expectedRoles: [
 				AppPermissions.ADMINISTRADOR_GENERAL,
-				AppPermissions.MODULO_EXISTENCIAS,
+				AppPermissions.CONSULTAR_HISTORIAL_PERSONA_FUNCION,
 			],
 		},
 	},
