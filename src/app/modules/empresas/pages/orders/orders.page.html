@@ -16,13 +16,41 @@
 				</td>
 			</ng-container>
 
-			<ng-container matColumnDef="fecha">
+			<ng-container matColumnDef="info">
 				<th mat-header-cell *matHeaderCellDef>Datos</th>
 				<td mat-cell *matCellDef="let element">
 					<span
 						><b>Fecha: </b>{{ element.fechaEfectividad | date:
 						'dd/MM/yyyy' }}</span
 					>
+					<br />
+					<span
+						><b>Cantidad: </b>{{ element.cantidadRecibida
+						}}/{{element.cantidadEntregada}}</span
+					>
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="articulos">
+				<th mat-header-cell *matHeaderCellDef>Articulos</th>
+				<td mat-cell *matCellDef="let element">
+					<span
+						><b>Cantidad Recibida: </b>{{ element.cantidadRecibida
+						}}</span
+					>
+					<br />
+					<span
+						><b>Cantidad Entregada: </b
+						>{{element.cantidadEntregada}}</span
+					>
+					<br />
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="documentos">
+				<th mat-header-cell *matHeaderCellDef>Documentos</th>
+				<td mat-cell *matCellDef="let element">
+					<span><b>Doc. Adjuntos: </b>{{ element.documentos }}</span>
 				</td>
 			</ng-container>
 

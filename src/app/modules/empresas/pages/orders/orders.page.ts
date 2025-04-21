@@ -43,7 +43,13 @@ import { CrudActionsComponent } from '../../../../Shared/components/crud-actions
 export class OrdersComponent extends BaseListResource<any> implements OnInit {
 	override title: string = 'Ordenes';
 	override description: string = 'Listado de ordenes';
-	override displayedColumns: string[] = ['id', 'fecha', 'acciones'];
+	override displayedColumns: string[] = [
+		'id',
+		'info',
+		'articulos',
+		'documentos',
+		'acciones',
+	];
 
 	private empresaId: number = 0;
 
