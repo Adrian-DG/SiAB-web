@@ -35,9 +35,15 @@
 									mat-cell
 									*matCellDef="let element; let i = index"
 								>
-									<span>{{ element.nombreArchivo }}</span>
+									<span
+										><b>Nombre:</b
+										>{{ element.nombreArchivo }}</span
+									>
 									<br />
-									<span>{{ element.tipoDocumento }}</span>
+									<span
+										><b>Tipo:</b
+										>{{ element.tipoDocumento }}</span
+									>
 								</td>
 							</ng-container>
 							<ng-container matColumnDef="fecha">
@@ -46,20 +52,29 @@
 									mat-cell
 									*matCellDef="let element; let i = index"
 								>
-									<span>{{
-										element.fechaEmision
-											| date : 'dd/MM/yyyy'
-									}}</span>
+									<span
+										><b>Emisión: </b
+										>{{
+											element.fechaEmision
+												| date : 'dd/MM/yyyy'
+										}}</span
+									>
 									<br />
-									<span>{{
-										element.fechaRecepcion
-											| date : 'dd/MM/yyyy'
-									}}</span>
+									<span
+										><b>Recepción: </b
+										>{{
+											element.fechaRecepcion
+												| date : 'dd/MM/yyyy'
+										}}</span
+									>
 									<br />
-									<span>{{
-										element.fechaExpiracion
-											| date : 'dd/MM/yyyy'
-									}}</span>
+									<span
+										><b>Expiración: </b
+										>{{
+											element.fechaExpiracion
+												| date : 'dd/MM/yyyy'
+										}}</span
+									>
 								</td>
 							</ng-container>
 
@@ -126,17 +141,32 @@
 									mat-cell
 									*matCellDef="let element; let i = index"
 								>
-									<span>Cat.: {{ element.categoria }}</span>
+									<span
+										><b>Cat.:</b>
+										{{ element.categoria }}</span
+									>
 									<br />
-									<span>Tipo: {{ element.tipo }}</span>
+									<span
+										><b>SubTipo:</b>
+										{{ element.subTipo }}</span
+									>
 									<br />
-									<span>SubTipo: {{ element.subTipo }}</span>
+									<span
+										><b>Marca:</b> {{ element.marca }}</span
+									>
 									<br />
-									<span>Marca: {{ element.marca }}</span>
+
+									@if(element.serie !== null && element.serie
+									!== ''){
+									<span
+										><b>Calibre:</b>
+										{{ element.calibre }}</span
+									>
 									<br />
-									<span>Calibre: {{ element.calibre }}</span>
-									<br />
-									<span>Serie: {{ element.serie }}</span>
+									<span
+										><b>Serie:</b> {{ element.serie }}</span
+									>
+									}
 								</td>
 							</ng-container>
 
@@ -147,12 +177,12 @@
 									*matCellDef="let element; let i = index"
 								>
 									<span
-										>Cantd. Recibida:
+										><b>Cantd. Recibida:</b>
 										{{ element.cantidadRecibida }}</span
 									>
 									<br />
 									<span
-										>Cantd. Entregada:
+										><b>Cantd. Entregada:</b>
 										{{ element.cantidadEntregada }}</span
 									>
 								</td>
