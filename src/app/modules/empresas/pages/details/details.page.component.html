@@ -16,11 +16,21 @@
 			</div>
 			<div class="documents">
 				<mat-card>
-					<mat-card-header>
-						<mat-card-title>Documentos</mat-card-title>
-						<mat-card-subtitle
-							>Documentos asociados a la orden</mat-card-subtitle
+					<mat-card-header class="header">
+						<div class="col">
+							<mat-card-title>Orden de compra</mat-card-title>
+							<mat-card-subtitle
+								>Detalles de la orden de
+								compra</mat-card-subtitle
+							>
+						</div>
+						<button
+							mat-icon-button
+							title="Subir documento"
+							(click)="displayDocumentAttacthmentDialog()"
 						>
+							<mat-icon>attachment</mat-icon>
+						</button>
 					</mat-card-header>
 					<mat-card-content>
 						<table

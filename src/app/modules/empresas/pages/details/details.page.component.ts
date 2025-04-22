@@ -19,6 +19,8 @@ import { PageIntroComponent } from '../../../../Shared/components/page-intro/pag
 import { ModuleIndexPageComponent } from '../../../../Shared/pages/module-index/module-index.page.component';
 import { IOrdenEmpresaDocumentoDetail } from '../../models/iorden-empresa-documento-detail.model';
 import { IOrdenEmpresaDetail } from '../../models/iorden-empresa-detail-model';
+import { MatDialog } from '@angular/material/dialog';
+import { DocumentoUploadDialogComponent } from '../../components/documento-upload-dialog/documento-upload-dialog.component';
 
 @Component({
 	selector: 'app-details.page',
@@ -47,18 +49,23 @@ export class DetailsPageComponent implements OnInit {
 	constructor(
 		private route: ActivatedRoute,
 		private _ordenesEmpresaService: OrdenesEmpresaService,
-		private sanitizer: DomSanitizer
+		private sanitizer: DomSanitizer,
+		private _dialog: MatDialog
 	) {}
 
 	ngOnInit(): void {
 		this.route.params.subscribe((params) => {
 			this.ordenId = params['ordenId'] as number;
-			this._ordenesEmpresaService
-				.getDetalleOrdenEmpresa(this.ordenId)
-				.subscribe((data) => {
-					this.detalleOrden$.update(() => data);
-				});
+			this.getDetails();
 		});
+	}
+
+	getDetails() {
+		this._ordenesEmpresaService
+			.getDetalleOrdenEmpresa(this.ordenId)
+			.subscribe((data) => {
+				this.detalleOrden$.update(() => data);
+			});
 	}
 
 	// Method to sanitize the URL for the iframe
@@ -70,6 +77,19 @@ export class DetailsPageComponent implements OnInit {
 		console.log('File Path:', filePath);
 
 		document.getElementById('iframe')?.setAttribute('src', filePath);
+	}
+
+	displayDocumentAttacthmentDialog() {
+		this._dialog
+			.open(DocumentoUploadDialogComponent, {
+				data: {
+					ordenId: this.ordenId,
+					tipoDocumento: 1,
+					context: 'adjunto',
+				},
+			})
+			.afterClosed()
+			.subscribe(() => this.getDetails());
 	}
 
 	increment_articulo_entregado(element: any) {
