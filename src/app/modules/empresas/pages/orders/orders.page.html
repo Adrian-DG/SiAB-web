@@ -20,14 +20,10 @@
 				<th mat-header-cell *matHeaderCellDef>Datos</th>
 				<td mat-cell *matCellDef="let element">
 					<span
-						><b>Fecha: </b>{{ element.fechaEfectividad | date:
-						'dd/MM/yyyy' }}</span
+						><b>Fecha Efect.: </b>{{ element.fechaEfectividad |
+						date: 'dd/MM/yyyy' }}</span
 					>
 					<br />
-					<span
-						><b>Cantidad: </b>{{ element.cantidadRecibida
-						}}/{{element.cantidadEntregada}}</span
-					>
 				</td>
 			</ng-container>
 
@@ -35,15 +31,9 @@
 				<th mat-header-cell *matHeaderCellDef>Articulos</th>
 				<td mat-cell *matCellDef="let element">
 					<span
-						><b>Cantidad Recibida: </b>{{ element.cantidadRecibida
-						}}</span
+						><b>Cantidad: </b>{{element.cantidadEntregada}}/{{
+						element.cantidadRecibida }}</span
 					>
-					<br />
-					<span
-						><b>Cantidad Entregada: </b
-						>{{element.cantidadEntregada}}</span
-					>
-					<br />
 				</td>
 			</ng-container>
 
