@@ -3,6 +3,7 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	CUSTOM_ELEMENTS_SCHEMA,
+	OnInit,
 } from '@angular/core';
 import { BaseListResource } from '../../../../Shared/helpers/base-list-resource.metadata';
 import { IUpdateEntityDto } from '../../../mantenimientos/dtos/iupdate-entity.dto';
@@ -36,7 +37,7 @@ import { ITitularModel } from '../../models/ITitular.model';
 })
 export class IndexPageComponent
 	extends BaseListResource<IEmpresaModel>
-	implements AfterViewInit
+	implements OnInit, AfterViewInit
 {
 	override title: string = 'Empresas';
 	override description: string = 'Listado de empresas';
@@ -55,8 +56,12 @@ export class IndexPageComponent
 		super(_dialog);
 	}
 
-	ngAfterViewInit(): void {
+	ngOnInit(): void {
 		this.onLoadData();
+	}
+
+	ngAfterViewInit(): void {
+		this.triggerSingleReload();
 	}
 
 	titularFormat(data: ITitularModel[]): string {
