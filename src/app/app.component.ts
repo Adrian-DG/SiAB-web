@@ -84,9 +84,11 @@ export class AppComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		this._authService.isAuthenticated$()
-			? this.cdr.detectChanges()
-			: this._authService.checkIfAuthenticated();
+		this._authService.checkIfAuthenticated();
+
+		if (this._authService.isAuthenticated$()) {
+			this.cdr.detectChanges();
+		}
 	}
 
 	get nombre_sistema() {

@@ -34,6 +34,7 @@ import { ConfirmDialogComponent } from '../../../../Shared/components/confirm-di
 import { AdjuntarDocumentoDialogComponent } from '../../components/adjuntar-documento-dialog/adjuntar-documento-dialog.component';
 import { BaseDialogDimensions } from '../../../../Shared/helpers/base-dialog-dimmensions.metadata';
 import { IAdjuntarFormularioDto } from '../../../carga-registros/dto/iadjuntar-formulario.dto';
+import { AuthenticationService } from '../../../authentication/services/authentication.service';
 
 @Component({
 	selector: 'app-index.page',
@@ -56,7 +57,12 @@ import { IAdjuntarFormularioDto } from '../../../carga-registros/dto/iadjuntar-f
 	templateUrl: './index.page.component.html',
 	styleUrl: './index.page.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [TransaccionService, DatePipe, PermissionValidatorService],
+	providers: [
+		TransaccionService,
+		DatePipe,
+		PermissionValidatorService,
+		AuthenticationService,
+	],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class IndexPageComponent
