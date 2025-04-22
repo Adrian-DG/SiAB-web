@@ -6,6 +6,8 @@ import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
 import { map } from 'rxjs';
 import { IPagedData } from '../../../Shared/Models/ipaged-data.model';
 import { ICreateOrdenEmpresaDto } from '../dto/icreate-orden-empresa.dto';
+import { IOrdenEmpresaArticulo } from '../models/iorden-empresa-articulo.model';
+import { ICreateDocumentoDto } from '../dto/icreate-documento.dto';
 
 @Injectable({
 	providedIn: 'root',
@@ -39,5 +41,25 @@ export class OrdenesEmpresaService extends GenericService {
 		return this.$http
 			.get<IApiResponse<any>>(`${this.endPoint}/${id}/detalles`)
 			.pipe(map((response) => response.data));
+	}
+
+	updateOrdenAdjuntarDocumento(
+		id: number,
+		ordenDocumento: ICreateDocumentoDto
+	) {
+		return this.$http.post<IApiResponse<any>>(
+			`${this.endPoint}/${id}/adjuntar-documento`,
+			ordenDocumento
+		);
+	}
+
+	updateOrdenArticulosEntregados(
+		id: number,
+		articulos: IOrdenEmpresaArticulo[]
+	) {
+		return this.$http.put<IApiResponse<any>>(
+			`${this.endPoint}/${id}/articulos-entregados`,
+			articulos
+		);
 	}
 }

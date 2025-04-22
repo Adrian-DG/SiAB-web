@@ -17,6 +17,8 @@ import { OrdenesEmpresaService } from '../../services/ordenes-empresa.service';
 import { MatDividerModule } from '@angular/material/divider';
 import { PageIntroComponent } from '../../../../Shared/components/page-intro/page-intro.component';
 import { ModuleIndexPageComponent } from '../../../../Shared/pages/module-index/module-index.page.component';
+import { IOrdenEmpresaDocumentoDetail } from '../../models/iorden-empresa-documento-detail.model';
+import { IOrdenEmpresaDetail } from '../../models/iorden-empresa-detail-model';
 
 @Component({
 	selector: 'app-details.page',
@@ -38,7 +40,7 @@ import { ModuleIndexPageComponent } from '../../../../Shared/pages/module-index/
 })
 export class DetailsPageComponent implements OnInit {
 	ordenId: number = 0;
-	detalleOrden$ = signal<any>(null);
+	detalleOrden$ = signal<IOrdenEmpresaDetail | null>(null);
 	displayedDocumentsColumns: string[] = ['info', 'fecha', 'acciones'];
 	displayedArticlesColumns: string[] = ['info', 'datos', 'acciones'];
 
@@ -53,7 +55,9 @@ export class DetailsPageComponent implements OnInit {
 			this.ordenId = params['ordenId'] as number;
 			this._ordenesEmpresaService
 				.getDetalleOrdenEmpresa(this.ordenId)
-				.subscribe((data) => this.detalleOrden$.update(() => data));
+				.subscribe((data) => {
+					this.detalleOrden$.update(() => data);
+				});
 		});
 	}
 
@@ -62,6 +66,32 @@ export class DetailsPageComponent implements OnInit {
 		const filePath = (
 			this.sanitizer.bypassSecurityTrustResourceUrl(dataUrl) as any
 		).changingThisBreaksApplicationSecurity;
+
+		console.log('File Path:', filePath);
+
 		document.getElementById('iframe')?.setAttribute('src', filePath);
+	}
+
+	increment_articulo_entregado(element: any) {
+		element.cantidadEntregada += 1;
+	}
+
+	decrease_articulo_entregado(element: any) {
+		element.cantidadEntregada -= 1;
+	}
+
+	complete_articulo_entregado(element: any) {
+		element.cantidadEntregada = element.cantidadRecibida;
+	}
+
+	update_articulos_entregado() {
+		this._ordenesEmpresaService
+			.updateOrdenArticulosEntregados(
+				this.ordenId,
+				this.detalleOrden$()?.articulos || []
+			)
+			.subscribe((data) => {
+				console.log('Articulos actualizados', data);
+			});
 	}
 }

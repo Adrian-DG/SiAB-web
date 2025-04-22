@@ -25,7 +25,7 @@
 					<mat-card-content>
 						<table
 							mat-table
-							[dataSource]="detalleOrden$().documentos"
+							[dataSource]="detalleOrden$()?.documentos || []"
 						>
 							<ng-container matColumnDef="info">
 								<th mat-header-cell *matHeaderCellDef>
@@ -87,6 +87,7 @@
 									*matCellDef="let element; let i = index"
 								>
 									<button
+										title="Ver documento"
 										mat-icon-button
 										(click)="
 											onDocumentView(element.dataUrl)
@@ -122,16 +123,27 @@
 			</div>
 			<div class="articles">
 				<mat-card>
-					<mat-card-header>
-						<mat-card-title>Articulos</mat-card-title>
-						<mat-card-subtitle
-							>Articulos asociados a la orden</mat-card-subtitle
+					<mat-card-header class="header">
+						<div class="col">
+							<mat-card-title>Articulos</mat-card-title>
+							<mat-card-subtitle
+								>Articulos asociados a la
+								orden</mat-card-subtitle
+							>
+						</div>
+
+						<button
+							mat-icon-button
+							title="Guardar Cambios"
+							(click)="update_articulos_entregado()"
 						>
+							<mat-icon>save</mat-icon>
+						</button>
 					</mat-card-header>
 					<mat-card-content>
 						<table
 							mat-table
-							[dataSource]="detalleOrden$().articulos"
+							[dataSource]="detalleOrden$()?.articulos || []"
 						>
 							<ng-container matColumnDef="info">
 								<th mat-header-cell *matHeaderCellDef>
@@ -196,9 +208,37 @@
 									mat-cell
 									*matCellDef="let element; let i = index"
 								>
-									<button mat-icon-button>
+									<button
+										title="Quitar"
+										mat-icon-button
+										(click)="
+											decrease_articulo_entregado(element)
+										"
+									>
 										<mat-icon
 											>remove_circle_outline</mat-icon
+										>
+									</button>
+									<button
+										title="Agregar"
+										mat-icon-button
+										(click)="
+											increment_articulo_entregado(
+												element
+											)
+										"
+									>
+										<mat-icon>add_circle_outline</mat-icon>
+									</button>
+									<button
+										title="Completar"
+										mat-icon-button
+										(click)="
+											complete_articulo_entregado(element)
+										"
+									>
+										<mat-icon
+											>check_circle_outline</mat-icon
 										>
 									</button>
 								</td>

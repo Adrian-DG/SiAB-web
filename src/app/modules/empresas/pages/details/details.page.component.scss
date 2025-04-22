@@ -29,3 +29,13 @@
 		overflow-y: auto;
 	}
 }
+
+.header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	.col {
+		flex-grow: 2;
+	}
+}
