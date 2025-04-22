@@ -1,4 +1,8 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+	ApplicationConfig,
+	importProvidersFrom,
+	provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -13,6 +17,7 @@ import { jwtInterceptor } from './interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { loadingInterceptor } from './interceptors/loading.interceptor';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -35,5 +40,10 @@ export const appConfig: ApplicationConfig = {
 				monthYearA11yLabel: 'MMMM YYYY',
 			},
 		}),
+		importProvidersFrom([
+			JwtModule.forRoot({
+				config: { tokenGetter: () => localStorage.getItem('token') },
+			}),
+		]),
 	],
 };

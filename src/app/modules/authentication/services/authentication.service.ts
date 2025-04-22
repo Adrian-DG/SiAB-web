@@ -4,10 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { IAuthenticatedResponse } from '../models/iauthenticated-response.model';
 import { map } from 'rxjs/operators';
 import { IUsuarioLoginDto } from '../dto/iusuario-login.dto';
-import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { IJwtCustomSquema } from '../models/ijwt-custom-squema.model';
 import { IApiResponse } from '../../../Shared/Models/iapi-response.model';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
 	providedIn: 'root',
@@ -22,7 +22,8 @@ export class AuthenticationService extends GenericService {
 	userData = computed<IJwtCustomSquema | null>(() => {
 		const token = localStorage.getItem('token');
 		if (token) {
-			const decodedToken = jwtDecode<IJwtCustomSquema>(token);
+			const decodedToken =
+				this.jwtHelper.decodeToken<IJwtCustomSquema>(token);
 			return decodedToken;
 		}
 		return null;
@@ -30,28 +31,16 @@ export class AuthenticationService extends GenericService {
 
 	checkIfAuthenticated() {
 		const token = localStorage.getItem('token');
-		if (token) {
-			console.log('Token found');
-			const decodedToken = jwtDecode(token);
-			const expirationDate = decodedToken.exp
-				? new Date(decodedToken.exp * 1000)
-				: null;
-			if (!expirationDate || expirationDate < new Date()) {
-				// Token is expired
-				console.log('Token expired');
-				this.isAuthenticated$.update(() => false);
-				this.logout();
-			}
-			// Token is valid
-			console.log('Token is valid');
-			this.isAuthenticated$.update(() => true);
-		} else {
-			console.log('Token not found');
-			this.isAuthenticated$.update(() => false);
-		}
+		this.isAuthenticated$.update(
+			() => token !== null && !this.jwtHelper.isTokenExpired(token)
+		);
 	}
 
-	constructor(protected override $http: HttpClient, private $router: Router) {
+	constructor(
+		protected override $http: HttpClient,
+		private $router: Router,
+		private jwtHelper: JwtHelperService
+	) {
 		super($http);
 	}
 
@@ -78,7 +67,7 @@ export class AuthenticationService extends GenericService {
 				)
 			)
 			.subscribe((response: IAuthenticatedResponse) => {
-				localStorage.setItem('token', JSON.stringify(response.token));
+				localStorage.setItem('token', response.token);
 				this.checkRoles('MODULO EMPRESAS')
 					? this.$router.navigateByUrl('/empresas')
 					: this.$router.navigateByUrl('/transacciones');
