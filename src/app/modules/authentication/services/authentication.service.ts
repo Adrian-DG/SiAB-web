@@ -67,9 +67,21 @@ export class AuthenticationService extends GenericService {
 			});
 	}
 
+	triggerSingleReload() {
+		if (!localStorage.getItem('reloaded')) {
+			localStorage.setItem('reloaded', 'true');
+			window.location.reload();
+		} else {
+			// Optional: Clear the flag after the single reload if needed
+			localStorage.removeItem('reloaded');
+			console.log('Page reloaded once.');
+		}
+	}
+
 	logout() {
 		localStorage.removeItem('token');
 		this.$router.navigateByUrl('/authentication');
+		this.triggerSingleReload();
 	}
 
 	private checkRoles(requiredRole: string): boolean {
