@@ -1,4 +1,5 @@
 import {
+	AfterViewInit,
 	ChangeDetectionStrategy,
 	Component,
 	CUSTOM_ELEMENTS_SCHEMA,
@@ -67,7 +68,7 @@ import { AuthenticationService } from '../../../authentication/services/authenti
 })
 export class IndexPageComponent
 	extends BaseListResource<any>
-	implements OnInit
+	implements OnInit, AfterViewInit
 {
 	override title: string = 'Transacciones';
 	override description: string =
@@ -110,6 +111,10 @@ export class IndexPageComponent
 
 	ngOnInit(): void {
 		this.onLoadData();
+	}
+
+	ngAfterViewInit(): void {
+		this.triggerSingleReload();
 	}
 
 	get canCreate(): boolean {

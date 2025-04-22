@@ -34,6 +34,17 @@ export abstract class BaseListResource<T> {
 
 	constructor(protected _dialog: MatDialog) {}
 
+	triggerSingleReload() {
+		if (!localStorage.getItem('reloaded')) {
+			localStorage.setItem('reloaded', 'true');
+			window.location.reload();
+		} else {
+			// Optional: Clear the flag after the single reload if needed
+			localStorage.removeItem('reloaded');
+			console.log('Page reloaded once.');
+		}
+	}
+
 	protected showConfirmDialog(info: string): void {
 		this.confirmDialogRef = this._dialog.open(ConfirmDialogComponent, {
 			...BaseDialogDimensions,
