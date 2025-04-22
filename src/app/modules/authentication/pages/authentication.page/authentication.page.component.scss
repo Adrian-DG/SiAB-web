@@ -35,10 +35,11 @@
 			}
 			.content {
 				margin-top: 2em;
-				height: 50%;
+				height: 60%;
 				form {
 					display: flex;
 					flex-direction: column;
+					justify-content: space-between;
 					gap: 2em;
 				}
 			}
