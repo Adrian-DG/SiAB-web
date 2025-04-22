@@ -78,7 +78,7 @@ export class AuthenticationService extends GenericService {
 				)
 			)
 			.subscribe((response: IAuthenticatedResponse) => {
-				localStorage.setItem('token', response.token);
+				localStorage.setItem('token', JSON.stringify(response.token));
 				this.checkRoles('MODULO EMPRESAS')
 					? this.$router.navigateByUrl('/empresas')
 					: this.$router.navigateByUrl('/transacciones');
