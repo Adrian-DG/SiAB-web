@@ -11,7 +11,6 @@ export const authGuard: CanActivateFn = (route, state) => {
 	const dialog = inject(MatDialog);
 
 	// Check if the user is authenticated
-	authService.checkIfAuthenticated();
 
 	if (!authService.isAuthenticated$()) {
 		console.log('User is not authenticated, redirecting to login page...');

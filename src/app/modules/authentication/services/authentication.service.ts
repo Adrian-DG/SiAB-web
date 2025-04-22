@@ -17,24 +17,17 @@ export class AuthenticationService extends GenericService {
 		return 'authentication';
 	}
 
-	isAuthenticated$ = signal<boolean>(false);
-
-	userData = computed<IJwtCustomSquema | null>(() => {
+	isAuthenticated$ = computed<boolean>(() => {
 		const token = localStorage.getItem('token');
-		if (token) {
-			const decodedToken =
-				this.jwtHelper.decodeToken<IJwtCustomSquema>(token);
-			return decodedToken;
-		}
-		return null;
+		return token ? !this.jwtHelper.isTokenExpired(token) : false;
 	});
 
-	checkIfAuthenticated() {
+	userData$ = computed<IJwtCustomSquema | null>(() => {
 		const token = localStorage.getItem('token');
-		this.isAuthenticated$.update(
-			() => token !== null && !this.jwtHelper.isTokenExpired(token)
-		);
-	}
+		return token
+			? this.jwtHelper.decodeToken<IJwtCustomSquema>(token)
+			: null;
+	});
 
 	constructor(
 		protected override $http: HttpClient,
@@ -71,18 +64,16 @@ export class AuthenticationService extends GenericService {
 				this.checkRoles('MODULO EMPRESAS')
 					? this.$router.navigateByUrl('/empresas')
 					: this.$router.navigateByUrl('/transacciones');
-				this.isAuthenticated$.update(() => true);
 			});
 	}
 
 	logout() {
 		localStorage.removeItem('token');
 		this.$router.navigateByUrl('/authentication');
-		this.checkIfAuthenticated();
 	}
 
 	private checkRoles(requiredRole: string): boolean {
-		const token = this.userData();
+		const token = this.userData$();
 		if (token) {
 			const roles = token.Roles;
 			if (Array.isArray(roles)) {

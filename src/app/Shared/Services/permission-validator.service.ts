@@ -13,7 +13,7 @@ export class PermissionValidatorService {
 	private userPermissions: string[] = [];
 	private routes_array: Route[] = [];
 	constructor(private _authService: AuthenticationService) {
-		const userData = this._authService.userData();
+		const userData = this._authService.userData$();
 		if (userData) {
 			this.userPermissions = Array.isArray(userData.Roles)
 				? userData.Roles

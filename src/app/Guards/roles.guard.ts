@@ -5,7 +5,7 @@ import { inject } from '@angular/core';
 export const RolesGuard: CanActivateFn = (route, state) => {
 	const _authService = inject(AuthenticationService);
 	const expectedRoles: string[] = route.data['expectedRoles'] || [];
-	const token = _authService.userData();
+	const token = _authService.userData$();
 
 	if (!token) return false;
 
