@@ -14,7 +14,7 @@ export class PermissionValidatorService {
 	private routes_array: Route[] = [];
 	constructor(private _authService: AuthenticationService) {
 		const userData = this._authService.userData$();
-		if (userData) {
+		if (userData && userData.Roles) {
 			this.userPermissions = Array.isArray(userData.Roles)
 				? userData.Roles
 				: userData.Roles.split(',');
