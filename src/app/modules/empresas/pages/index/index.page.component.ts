@@ -83,7 +83,7 @@ export class IndexPageComponent
 	}
 
 	override onDelete(event: number): void {
-		throw new Error('Method not implemented.');
+		this._empresaService.delete(event).subscribe(() => this.onLoadData());
 	}
 
 	override onCreate(event: any): void {
