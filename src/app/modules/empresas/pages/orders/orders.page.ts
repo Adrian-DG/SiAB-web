@@ -72,7 +72,9 @@ export class OrdersComponent extends BaseListResource<any> implements OnInit {
 	}
 
 	override onDelete(event: number): void {
-		throw new Error('Method not implemented.');
+		this._ordenesEmpresaService.delete(event).subscribe(() => {
+			this.onLoadData();
+		});
 	}
 
 	override onCreate(event: any): void {
