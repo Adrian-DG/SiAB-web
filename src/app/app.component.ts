@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
 	}
 
 	get nombre_sistema() {
-		return this._permissionValidatorService.hasActionPermission(
+		return this._permissionValidatorService.hasModulePermission(
 			AppPermissions.MODULO_EMPRESAS
 		)
 			? 'Sistema Dpto. Explosivos'

@@ -40,7 +40,7 @@ export class IndexPageComponent {
 	}
 
 	get isBelicoUser(): boolean {
-		return this._permissionValidator.hasActionPermission(
+		return this._permissionValidator.hasModulePermission(
 			AppPermissions.MODULO_EMPRESAS
 		);
 	}

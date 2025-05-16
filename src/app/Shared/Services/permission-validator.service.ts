@@ -39,6 +39,10 @@ export class PermissionValidatorService {
 		return false;
 	}
 
+	hasModulePermission(module: string): boolean {
+		return this.userPermissions.includes(module);
+	}
+
 	hasActionPermission(permission: string): boolean {
 		return (
 			this.userPermissions.includes(permission) ||
