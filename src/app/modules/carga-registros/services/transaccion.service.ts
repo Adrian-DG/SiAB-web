@@ -6,7 +6,6 @@ import { InputReporte53Dto } from '../../procesos/dto/InputReporte53.dto';
 import { IAdjuntarFormularioDto } from '../dto/iadjuntar-formulario.dto';
 import { ITransaccionPaginationFilterDto } from '../dto/itransaccion-pagination-filter.dto';
 import { IPagedData } from '../../../Shared/Models/ipaged-data.model';
-import { map } from 'rxjs';
 import { GenericService } from '../../../Shared/Services/Generic.service';
 import { TransactionDetailModel } from '../../procesos/models/transaction-detail.model';
 
