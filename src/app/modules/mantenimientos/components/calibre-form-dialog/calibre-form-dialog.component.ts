@@ -46,7 +46,7 @@ export class CalibreFormDialogComponent extends FormularyMetadata<
 	}
 
 	override onSave(event: any): void {
-		this._calibreService.create(this.calibre).subscribe(() => {
+		this._calibreService.create({ nombre: this.calibre }).subscribe(() => {
 			this.calibre = '';
 			this._dialoRef.close();
 		});
